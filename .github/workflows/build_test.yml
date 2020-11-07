@@ -1,0 +1,15 @@
+name: Build and test workflow
+on:
+  push: [ development ]
+  pul_request: [ development ]
+
+jobs:
+  build:
+    - name: Setup Bazel
+      uses: abhinavsingh/setup-bazel@v3
+    - name: Use Bazel (Windows only)
+      if: matrix.os == 'windows'
+      run: ./bazel.exe -h
+    - name: Use Bazel
+      if: matrix.os != 'windows'
+      run: bazel -h
