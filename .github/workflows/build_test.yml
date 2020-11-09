@@ -1,7 +1,9 @@
 name: Build and test workflow
 on:
-  push: [ development ]
-  pull_request: [ development ]
+  push: 
+    branches: [ development ]
+  pull_request: 
+    branches: [ development ]
 
 jobs:
   build:
