@@ -1,2 +1,2 @@
 # rebosdk
-Rebol Open SDK
+REBol Open SDK
