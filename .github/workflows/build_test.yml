@@ -1,13 +1,16 @@
 name: Build and test workflow
 on:
   push: 
-    branches: [ development ]
+    branches: [ main, development ]
   pull_request: 
-    branches: [ development ]
+    branches: [ main, development ]
 
 jobs:
   build:
     runs-on: ubuntu-latest    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Setup Bazel
         uses: abhinavsingh/setup-bazel@v3
