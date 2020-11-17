@@ -1,0 +1,65 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+        {
+            "label": "bazel_run",
+            "type": "shell",
+            "command": "/home/iosif/stash/rebolview",
+            "args": [
+                "-qsv",
+                "src/tests/test1.r"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "bazel_build",
+            "type": "shell",
+            "command": "bazel build :rosdk",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "bazel_debug_build",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                ":rosdk",
+                "--compilation_mode=dbg"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        /*
+        {
+            "label": "boing_debug_build",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "//modules/platform/CLib/external/glfw:boing",
+                "--compilation_mode=dbg"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+        */
+    ]
+}
