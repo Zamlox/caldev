@@ -1,1 +1,7 @@
 
+[submodule "src/extern/glfw"]
+	path = src/extern/glfw
+	url = https://github.com/Zamlox/glfw.git
+[submodule "src/extern/imgui"]
+	path = src/extern/imgui
+	url = https://github.com/Zamlox/imgui.git
