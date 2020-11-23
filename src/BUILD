@@ -4,6 +4,7 @@ cc_binary(
     name = "rebosdk",
     deps = [
         "//extern/glfw:glfw",
+        "//extern/imgui:imgui",
     ],
     visibility = ["//visibility:public"],
     linkopts = select({
