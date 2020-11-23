@@ -79,6 +79,7 @@
         "typeindex": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "internal.h": "c"
+        "internal.h": "c",
+        "glfw3.h": "c"
     }
 }
