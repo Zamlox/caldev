@@ -10,6 +10,25 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v2
+
+      - name: Checkout glfw repo
+        uses: actions/checkout@v2
+          with:
+            repository: Zamlox/glfw
+            path: "glfw"
+            token: ${{secrets.GLFW_CHECKOUT}}
+            fetch-depth: 0
+
+      - name: Checkout glfw name
+        uses: jtmullen/submodule-branch-check-action@v0.6.0-beta
+          with:
+            path: "src/extern/glfw"
+            branch: "master"
+            pass_if_unchanged: true
+            require_head: true
+
       - name: Setup Bazel
         uses: abhinavsingh/setup-bazel@v3
       - name: Use Bazel (Windows only)
