@@ -10,11 +10,25 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     steps:
-      - name: Setup Bazel
-        uses: abhinavsingh/setup-bazel@v3
-      - name: Use Bazel (Windows only)
+      - name: Checkout this repo
+        uses: actions/checkout@v2
+        with:
+          token: ${{secrets.GLFW_CHECKOUT}}
+          submodules: recursive
+          run: |
+            cd src/extern/glfw
+            git checkout master
+            cd ../imgui
+            git checkout master
+            cd ../../..
+      - name: Use bazel (Windows only)
         if: matrix.os == 'windows'
-        run: ./bazel.exe -h
+        run: |
+          cd src
+          ./bazel.exe build :rebosdk
       - name: Use Bazel
         if: matrix.os != 'windows'
-        run: bazel -h
+        run: |
+          apt-get install --no-install-recommends --no-install-suggests -y libmesa-dev
+          cd src
+          bazel build :rebosdk
