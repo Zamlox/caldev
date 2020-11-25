@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest    
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest windows-latest]
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v2
@@ -24,11 +24,11 @@ jobs:
       - name: Use Bazel (Windows only)
         if: matrix.os == 'windows'
         run: |
+          dir "C:\Program Files (x86)"
           cd src
           ./bazel.exe build :rebosdk
       - name: Use Bazel
         if: matrix.os != 'windows'
         run: |
-          apt-get install --no-install-recommends --no-install-suggests -y libmesa-dev
           cd src
           bazel build :rebosdk
