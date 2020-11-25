@@ -21,7 +21,7 @@ jobs:
             cd ../imgui
             git checkout master
             cd ../../..
-      - name: Use bazel (Windows only)
+      - name: Use Bazel (Windows only)
         if: matrix.os == 'windows'
         run: |
           cd src
