@@ -5,10 +5,10 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: [ windows ubuntu ]
     strategy:
       matrix:
-        os: [ windows-2019 ubuntu-20.04 ]
+        os: [ windows-latest ubuntu-latest ]
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v2
