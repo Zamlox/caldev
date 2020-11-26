@@ -16,12 +16,12 @@ jobs:
           token: ${{secrets.GLFW_CHECKOUT}}
           submodules: recursive
       - name: Checkout submodules
-          run: |
-            cd src/extern/glfw
-            git checkout master
-            cd ../imgui
-            git checkout master
-            cd ../../..
+        run: |
+          cd src/extern/glfw
+          git checkout master
+          cd ../imgui
+          git checkout master
+          cd ../../..
       - name: Use Bazel (Windows only)
         if: matrix.os == 'windows'
         run: |
