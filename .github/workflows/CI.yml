@@ -15,6 +15,7 @@ jobs:
         with:
           token: ${{secrets.GLFW_CHECKOUT}}
           submodules: recursive
+      - name: Checkout submodules
           run: |
             cd src/extern/glfw
             git checkout master
