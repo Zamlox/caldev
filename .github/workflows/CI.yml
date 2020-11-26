@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest, windows-latest ]
+        os: [ windows-latest, self-hosted ]
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v2
