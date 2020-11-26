@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: [ windows ubuntu ]
+    runs-on: windows-latest
     strategy:
       matrix:
         os: [ windows-latest ubuntu-latest ]
