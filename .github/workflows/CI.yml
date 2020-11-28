@@ -22,6 +22,20 @@ jobs:
           cd ../imgui
           git checkout master
           cd ../../..
+      - name: Check gtest existence
+        id: check_gtest
+        uses: andstor/file-existence-action@v1.0.1
+        with:
+          files: "src/extern/googletest/.bazel-bin/libgtest.so"
+      - name: Build gtest
+        if: steps.check_gtest.outputs.files_exists == 'false'
+        # Only run when file does not exist
+        run: |
+          echo Building gtest ...
+          cd src/extern/googletest
+          bazel build :gtest
+          cd ../../..
+          echo "Done !"
       - name: Use Bazel (Windows only)
         if: matrix.os == 'windows'
         run: |
