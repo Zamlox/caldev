@@ -26,12 +26,12 @@ jobs:
 
       - name: Check gtest existence (windows)
         id: check_gtest_windows
+        if: matrix.os == 'windows-latest'
         uses: andstor/file-existence-action@v1.0.1
         with:
           files: "src/extern/googletest/bazel-bin/gtest.lib"
       - name: Build gtest (windows)
         if: steps.check_gtest_windows.outputs.files_exists == 'false' && matrix.os == 'windows-latest'
-        # Only run when file does not exist
         run: |
           echo Building gtest ...
           cd src/extern/googletest
@@ -40,12 +40,12 @@ jobs:
           echo "Done !"
       - name: Check gtest existence (other)
         id: check_gtest_other
+        if: matrix.os != 'windows-latest'
         uses: andstor/file-existence-action@v1.0.1
         with:
           files: "src/extern/googletest/bazel-bin/libgtest.so"
       - name: Build gtest (other)
         if: steps.check_gtest_other.outputs.files_exists == 'false' && matrix.os != 'windows-latest'
-        # Only run when file does not exist
         run: |
           echo Building gtest ...
           cd src/extern/googletest
