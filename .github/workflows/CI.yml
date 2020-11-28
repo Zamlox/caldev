@@ -22,6 +22,7 @@ jobs:
           cd ../imgui
           git checkout master
           cd ../../..
+          echo OS: ${{matrix.os}}
 
       - name: Check gtest existence (windows)
         id: check_gtest_windows
@@ -29,9 +30,8 @@ jobs:
         with:
           files: "src/extern/googletest/bazel-bin/gtest.lib"
       - name: Build gtest (windows)
-        if: steps.check_gtest_windows.outputs.files_exists == 'false'
+        if: steps.check_gtest_windows.outputs.files_exists == 'false' && matrix.os == 'windows-latest'
         # Only run when file does not exist
-        if: matrix.os == 'windows-latest'
         run: |
           echo Building gtest ...
           cd src/extern/googletest
@@ -44,16 +44,15 @@ jobs:
         with:
           files: "src/extern/googletest/bazel-bin/libgtest.so"
       - name: Build gtest (other)
-        if: steps.check_gtest_other.outputs.files_exists == 'false'
+        if: steps.check_gtest_other.outputs.files_exists == 'false' && matrix.os != 'windows-latest'
         # Only run when file does not exist
-        if: matrix.os != 'windows-latest'
         run: |
           echo Building gtest ...
           cd src/extern/googletest
           bazel build :gtest
           cd ../../..
           echo "Done !"
-          
+
       - name: Build product
         run: |
           cd src
