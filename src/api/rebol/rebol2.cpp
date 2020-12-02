@@ -4,7 +4,7 @@
 
 #include "rebol2.h"
 
-extern "C" EXPORT int rebInitGUI (int guiTypeP)
+EXPORT int rebInitGUI (int guiTypeP)
 {
     return 0;
 }

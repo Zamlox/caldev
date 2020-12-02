@@ -12,4 +12,4 @@
  * @param  {int} guiTypeP : type of GUI
  * @return {int}          : 0 if succeeded
  */
-extern "C" EXPORT int rebInitGUI (int guiTypeP);
+EXPORT int rebInitGUI (int guiTypeP);
