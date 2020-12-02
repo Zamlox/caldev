@@ -1,0 +1,47 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+
+cc_binary(
+    name = "rebosdk",
+    srcs = glob([
+        "api/**"
+    ]),
+    deps = [
+        "//extern/glfw:glfw",
+        "//extern/imgui:imgui",
+    ],
+    visibility = ["//visibility:public"],
+    linkopts = select({
+        "@bazel_tools//src/conditions:windows": [
+            "user32.lib", "gdi32.lib", "shell32.lib"
+        ],
+        "//conditions:default": [
+            "-ldl", "-lpthread", "-lGL"
+        ]
+    }),
+    linkshared = True,
+)
+
+cc_import(
+    name = "rebosdklib",
+    hdrs = ["api/rebol/rebol2.h"],
+    static_library = "bazel-bin/librebosdk.a",
+    shared_library = "bazel-bin/librebosdk.so",
+)
+
+cc_test(
+    name = "unittests",
+    srcs = [
+        "api/rebol/rebol2.h"
+    ] + glob([
+        "tests/**/*.cpp",
+        "tests/**/*.h",
+    ]),
+    copts = [
+        "-Iextern/googletest/googletest/include",
+        "-Iapi/rebol",
+    ],
+    deps = [
+        "//extern/googletest:gtest_main",
+        ":rebosdklib",
+    ],
+)
