@@ -62,4 +62,4 @@ jobs:
         run: |
           cd src
           bazel build :unittests
-          ./baze-bin/unittests
+          ./bazel-bin/unittests
