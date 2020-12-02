@@ -7,6 +7,7 @@ cc_library(
     ]),
     copts = [
         "-Iapi",
+        "-Iapi/rebol/imp",
     ],
     deps = [
         "//extern/glfw:glfw",
@@ -29,15 +30,19 @@ cc_binary(
     srcs = glob([
         "api/**"
     ]),
+    copts = [
+        "-Iapi",
+        "-Iapi/rebol/imp",
+    ],
     deps = [ ":rebosdklib" ],
     linkshared = True,
 )
 
 cc_test(
     name = "unittests",
-    srcs = [
-        "api/rebol/rebol2.h"
-    ] + glob([
+    srcs = glob([
+        "api/**/*.h"
+    ]) + glob([
         "tests/**/*.cpp",
         "tests/**/*.h",
     ]),
@@ -45,6 +50,7 @@ cc_test(
         "-Iextern/googletest/googletest/include",
         "-Iapi",
         "-Iapi/rebol",
+        "-Iapi/rebol/imp",
     ],
     deps = [
         "//extern/googletest:gtest_main",

@@ -3,8 +3,14 @@
  */
 
 #include "rebol2.h"
+#include "rebol2imp.h"
+#include <assert.h>
+#include <memory>
+
+std::unique_ptr<Api::Rebol2Imp> pRebol2API{new Api::Rebol2Imp};
 
 EXPORT int rebInitGUI (int guiTypeP)
 {
-    return 0;
+    assert(pRebol2API != nullptr);
+    return pRebol2API->initGUI(guiTypeP);
 }
