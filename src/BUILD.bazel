@@ -5,6 +5,9 @@ cc_binary(
     srcs = glob([
         "api/**"
     ]),
+    copts = [
+        "-Iapi",
+    ],
     deps = [
         "//extern/glfw:glfw",
         "//extern/imgui:imgui",
@@ -23,7 +26,9 @@ cc_binary(
 
 cc_import(
     name = "rebosdklib",
-    hdrs = ["api/rebol/rebol2.h"],
+    hdrs = glob([
+        "api/**/*.h"
+    ]),
     static_library = "bazel-bin/librebosdk.a",
     shared_library = "bazel-bin/librebosdk.so",
 )
@@ -38,6 +43,7 @@ cc_test(
     ]),
     copts = [
         "-Iextern/googletest/googletest/include",
+        "-Iapi",
         "-Iapi/rebol",
     ],
     deps = [
