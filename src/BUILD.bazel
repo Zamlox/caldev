@@ -1,7 +1,7 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
-cc_binary(
-    name = "rebosdk",
+cc_library(
+    name = "rebosdklib",
     srcs = glob([
         "api/**"
     ]),
@@ -21,16 +21,16 @@ cc_binary(
             "-ldl", "-lpthread", "-lGL"
         ]
     }),
-    linkshared = True,
+#    linkshared = True,
 )
 
-cc_import(
-    name = "rebosdklib",
-    hdrs = glob([
-        "api/**/*.h"
+cc_binary(
+    name = "rebosdk",
+    srcs = glob([
+        "api/**"
     ]),
-    static_library = "bazel-bin/librebosdk.a",
-    shared_library = "bazel-bin/librebosdk.so",
+    deps = [ ":rebosdklib" ],
+    linkshared = True,
 )
 
 cc_test(
