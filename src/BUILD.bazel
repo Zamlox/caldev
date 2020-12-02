@@ -29,6 +29,9 @@ cc_binary(
     srcs = glob([
         "api/**"
     ]),
+    copts = [
+        "-Iapi",
+    ],
     deps = [ ":rebosdklib" ],
     linkshared = True,
 )
