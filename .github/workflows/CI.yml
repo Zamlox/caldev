@@ -57,3 +57,9 @@ jobs:
         run: |
           cd src
           bazel build :rebosdk
+
+      - name: Test product
+        run: |
+          cd src
+          bazel build :unittests
+          ./unittests
