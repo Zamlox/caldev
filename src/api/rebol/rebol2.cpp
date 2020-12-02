@@ -4,8 +4,7 @@
 
 #include "rebol2.h"
 
-extern "C" __attribute__ ((visibility ("default"))) 
-int rebInitGUI (int guiTypeP)
+extern "C" EXPORT int rebInitGUI (int guiTypeP)
 {
     return 0;
 }
