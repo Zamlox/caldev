@@ -14,7 +14,7 @@ namespace Api
      * Same values must be used from Rebol when initializing GUI
      */
     using GuiType = enum {
-        GUI_GLFW,
+        GUI_OPENGL2,
         GUI_DIRECTX
     };
 

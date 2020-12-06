@@ -1,6 +1,6 @@
 /**
  * Author: 		Iosif Haidu
- * Description: GUI engine implementation based on Glfw 
+ * Description: GUI engine implementation based on OpenGL 
  *
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
@@ -10,7 +10,7 @@
 namespace GUI
 {
 
-class GlfwGUI : public IGui
+class OpenGL : public IGui
 {
 public:
 
