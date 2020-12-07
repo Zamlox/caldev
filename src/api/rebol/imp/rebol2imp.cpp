@@ -11,7 +11,7 @@ int Rebol2Imp::initGUI(int guiTypeP)
 {
     switch(guiTypeP)
     {
-        case GUI_GLFW:
+        case GUI_OPENGL2:
             return 0;
         case GUI_DIRECTX:
             return 0;

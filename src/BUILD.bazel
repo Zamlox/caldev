@@ -8,7 +8,14 @@ cc_library(
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
-    ],
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [
+            "-DOS_WINDOWS",
+        ],
+        "//conditions:default": [
+            "-DOS_LINUX"
+        ]
+    }),
     deps = [
         "//extern/glfw:glfw",
         "//extern/imgui:imgui",
