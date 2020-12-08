@@ -40,7 +40,14 @@ cc_binary(
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
-    ],
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [
+            "-DOS_WINDOWS",
+        ],
+        "//conditions:default": [
+            "-DOS_LINUX"
+        ]
+    }),
     deps = [ ":rebosdklib" ],
     linkshared = True,
 )
@@ -48,7 +55,10 @@ cc_binary(
 cc_test(
     name = "unittests",
     srcs = glob([
-        "api/**/*.h"
+        "api/**/*.h",
+        "api/**/*.cpp",
+        "internal/**/*.h",
+        "internal/**/*.cpp",
     ]) + glob([
         "tests/**/*.cpp",
         "tests/**/*.h",
@@ -58,7 +68,15 @@ cc_test(
         "-Iapi",
         "-Iapi/rebol",
         "-Iapi/rebol/imp",
-    ],
+        "-Iinternal/os",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [
+            "-DOS_WINDOWS",
+        ],
+        "//conditions:default": [
+            "-DOS_LINUX"
+        ]
+    }),
     deps = [
         "//extern/googletest:gtest_main",
         ":rebosdklib",
