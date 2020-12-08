@@ -13,10 +13,11 @@
 namespace 
 {
 
+static constexpr int THREADS_COUNT{100};
+
 class ThreadTest : public ::testing::Test
 {
 protected:
-    static constexpr int THREADS_COUNT = 100;
 
     void SetUp() override
     {
@@ -37,66 +38,64 @@ protected:
 
     std::vector<Os::IThread*> threadsM;
     int countM;
+    Os::Mutex mutexM;
 };
 
 TEST_F(ThreadTest, MutexOn) {
-    Os::Mutex mutex;
     for(int i = 0; i < THREADS_COUNT; i++)
     {
         std::ostringstream oss;
         oss << "thread" << i;
         ASSERT_TRUE(
-            threadsM[i]->create(oss.str().c_str(), 
-            [=](void* pParamP) {
-                return nullptr;
-            }, 
-            [=](void* pParamP) {
-                Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
-                pMutex->lock();
-                int temp = countM;
-                Os::Util::instance().msleep(0);
-                temp++;
-                countM = temp;
-                pMutex->unlock();
-                return nullptr;
-            }, 
-            (void*)&mutex)
+            threadsM[i]->create(
+                oss.str().c_str(), 
+                nullptr, 
+                [=](void* pParamP) {
+                    Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
+                    pMutex->lock();
+                    int temp = countM;
+                    Os::Util::instance().msleep(0);
+                    temp++;
+                    countM = temp;
+                    pMutex->unlock();
+                    return nullptr;
+                }, 
+                &mutexM
+            )
         );
     }
     for(auto thread : threadsM)
     {
         thread->join();
     }
-    ASSERT_EQ(countM, 100);
+    ASSERT_EQ(countM, THREADS_COUNT);
 }
 
 TEST_F(ThreadTest, MutexOff) {
-    Os::Mutex mutex;
     for(int i = 0; i < THREADS_COUNT; i++)
     {
         std::ostringstream oss;
         oss << "thread" << i;
         ASSERT_TRUE(
-            threadsM[i]->create(oss.str().c_str(), 
-            [=](void* pParamP) {
-                return nullptr;
-            }, 
-            [=](void* pParamP) {
-                Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
-                int temp = countM;
-                Os::Util::instance().msleep(0);
-                temp++;
-                countM = temp;
-                return nullptr;
-            }, 
-            (void*)&mutex)
+            threadsM[i]->create(
+                oss.str().c_str(), 
+                nullptr, 
+                [=](void* pParamP) {
+                    int temp = countM;
+                    Os::Util::instance().msleep(0);
+                    temp++;
+                    countM = temp;
+                    return nullptr;
+                }, 
+                nullptr
+            )
         );
     }
     for(auto thread : threadsM)
     {
         thread->join();
     }
-    ASSERT_NE(countM, 100);
+    ASSERT_NE(countM, THREADS_COUNT);
 }
 
 } // namespace anonymous
