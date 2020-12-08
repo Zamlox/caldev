@@ -12,14 +12,16 @@ namespace Linux
 Thread::Thread()
     : nameM{""}
     , threadIdM{0}
+    , funcInitM{nullptr}
     , funcM{nullptr}
     , paramM{nullptr}
 {
 }
 
-bool Thread::create(const char* nameP, ThreadFunc funcP, void* pParamP)
+bool Thread::create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP)
 {
     nameM = nameP;
+    funcInitM = funcInitP;
     funcM = funcP;
     paramM = pParamP;
     if (pthread_create(&threadIdM, NULL, &Thread::run, this) == 0)
@@ -50,8 +52,15 @@ void* Thread::run(void* pParamP)
     Thread* pThread = static_cast<Thread*>(pParamP);
     if (pThread)
     {
+        if (pThread->funcInitM)
+        {
+            pThread->funcInitM(pThread->paramM);
+        }
         pThread->barrierM.signal();
-        pThread->funcM(pThread->paramM);
+        if (pThread->funcM)
+        {
+            pThread->funcM(pThread->paramM);
+        }
     }
     return nullptr;
 }

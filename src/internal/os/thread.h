@@ -22,7 +22,7 @@ class Thread : public IThread
 {
 public:
     /** see IThread::create() */
-    bool create(const char* nameP, ThreadFunc funcP, void* pParamP) override;
+    bool create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP) override;
     /** see IThread::join() */
     void join() override;
     /** see IThread::getId() */

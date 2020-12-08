@@ -26,7 +26,7 @@ class Thread : public IThread
 public:
     Thread();
     /** see IThread::create() */
-    bool create(const char* nameP, ThreadFunc funcP, void* pParamP) override;
+    bool create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP) override;
     /** see IThread::join() */
     void join() override;
     /** see IThread::getId() */
@@ -46,7 +46,9 @@ private:
     std::string nameM;
     /** Thread identification data */
     pthread_t threadIdM;
-    /** User function to be executed */
+    /** User function to be executed before signaling caller */
+    ThreadFunc funcInitM;
+    /** User function to be executed after signaling caller */
     ThreadFunc funcM;
     /** Parameter to pas to funcM */
     void* paramM;

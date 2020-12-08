@@ -26,11 +26,13 @@ public:
      * Create a thread which will execute function 'funcP'.
      * When this method returns the thread is already running.
      * 
-     * @param  {char*} nameP       : thread name.
-     * @param  {ThreadFunc} funcP  : thread function to be executed.
-     * @return {bool}              : true if succeeded, false otherwise.
+     * @param  {char*} nameP          : thread name
+     * @param  {ThreadFunc} funcInitP : function to be executed in thread before signaling caller
+     * @param  {ThreadFunc} funcP     : function to be executed in thread after signaling caller
+     * @param  {void*} pParamP        : parameter to be passed to funcInitP and funcP
+     * @return {bool}                 : true if succeeded, false otherwise
      */
-    virtual bool create(const char* nameP, ThreadFunc funcP, void* pParamP) = 0;
+    virtual bool create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP) = 0;
     /**
      * Wait until thread is done
      */

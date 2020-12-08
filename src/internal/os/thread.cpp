@@ -7,9 +7,9 @@
 namespace Os
 {
 
-bool Thread::create(const char* nameP, ThreadFunc funcP, void* pParamP)
+bool Thread::create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP)
 {
-    return implM.create(nameP, funcP, pParamP);
+    return implM.create(nameP, funcInitP, funcP, pParamP);
 }
 
 void Thread::join()

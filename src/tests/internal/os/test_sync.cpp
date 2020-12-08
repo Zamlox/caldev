@@ -44,18 +44,26 @@ TEST_F(ThreadTest, Mutex) {
     {
         std::ostringstream oss;
         oss << "thread" << i;
-        ASSERT_TRUE(threadsM[i]->create(oss.str().c_str(), [=](void* pParamP) {
-            Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
-            pMutex->lock();
-            countM++;
-            pMutex->unlock();
-            return nullptr;
-        }, (void*)&mutex));
+        ASSERT_TRUE(
+            threadsM[i]->create(oss.str().c_str(), 
+            [=](void* pParamP) {
+                return nullptr;
+            }, 
+            [=](void* pParamP) {
+                Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
+                pMutex->lock();
+                countM++;
+                pMutex->unlock();
+                return nullptr;
+            }, 
+            (void*)&mutex)
+        );
     }
     for(auto thread : threadsM)
     {
         thread->join();
     }
+    ASSERT_EQ(countM, 100);
     ASSERT_EQ(countM, 100);
 }
 
