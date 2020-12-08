@@ -6,6 +6,7 @@
 #include "mutex.h"
 #include "semaphore.h"
 #include "thread.h"
+#include "util.h"
 #include <vector>
 #include <sstream>
 
@@ -38,7 +39,7 @@ protected:
     int countM;
 };
 
-TEST_F(ThreadTest, Mutex) {
+TEST_F(ThreadTest, MutexOn) {
     Os::Mutex mutex;
     for(int i = 0; i < THREADS_COUNT; i++)
     {
@@ -52,7 +53,10 @@ TEST_F(ThreadTest, Mutex) {
             [=](void* pParamP) {
                 Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
                 pMutex->lock();
-                countM++;
+                int temp = countM;
+                Os::Util::instance().msleep(0);
+                temp++;
+                countM = temp;
                 pMutex->unlock();
                 return nullptr;
             }, 
@@ -64,7 +68,35 @@ TEST_F(ThreadTest, Mutex) {
         thread->join();
     }
     ASSERT_EQ(countM, 100);
-    ASSERT_EQ(countM, 100);
+}
+
+TEST_F(ThreadTest, MutexOff) {
+    Os::Mutex mutex;
+    for(int i = 0; i < THREADS_COUNT; i++)
+    {
+        std::ostringstream oss;
+        oss << "thread" << i;
+        ASSERT_TRUE(
+            threadsM[i]->create(oss.str().c_str(), 
+            [=](void* pParamP) {
+                return nullptr;
+            }, 
+            [=](void* pParamP) {
+                Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
+                int temp = countM;
+                Os::Util::instance().msleep(0);
+                temp++;
+                countM = temp;
+                return nullptr;
+            }, 
+            (void*)&mutex)
+        );
+    }
+    for(auto thread : threadsM)
+    {
+        thread->join();
+    }
+    ASSERT_NE(countM, 100);
 }
 
 } // namespace anonymous
