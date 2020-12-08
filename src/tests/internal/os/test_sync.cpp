@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "mutex.h"
-#include "semaphore.h"
+#include "barrier.h"
 #include "thread.h"
 #include "util.h"
 #include <vector>
@@ -39,6 +39,7 @@ protected:
     std::vector<Os::IThread*> threadsM;
     int countM;
     Os::Mutex mutexM;
+    Os::Barrier barrierM;
 };
 
 TEST_F(ThreadTest, MutexOn) {
@@ -96,6 +97,58 @@ TEST_F(ThreadTest, MutexOff) {
         thread->join();
     }
     ASSERT_NE(countM, THREADS_COUNT);
+}
+
+TEST_F(ThreadTest, BarrierOn) {
+    threadsM[0]->create(
+        "thread0", 
+        nullptr, 
+        [=](void* pParamP) {
+            Os::Barrier* pBarrier = static_cast<Os::Barrier*>(pParamP);
+            countM++;
+            pBarrier->wait();
+            return nullptr;
+        }, 
+        &barrierM
+    );
+    threadsM[1]->create(
+        "thread1", 
+        nullptr, 
+        [=](void* pParamP) {
+            Os::Barrier* pBarrier = static_cast<Os::Barrier*>(pParamP);
+            pBarrier->signal();
+            Os::Util::instance().msleep(100);
+            return nullptr;
+        }, 
+        &barrierM
+    );
+    threadsM[1]->join();
+    ASSERT_EQ(countM, 1);
+}
+
+TEST_F(ThreadTest, BarrierOff) {
+    threadsM[0]->create(
+        "thread0", 
+        nullptr, 
+        [=](void* pParamP) {
+            Os::Barrier* pBarrier = static_cast<Os::Barrier*>(pParamP);
+            pBarrier->wait();
+            countM++;
+            return nullptr;
+        }, 
+        &barrierM
+    );
+    threadsM[1]->create(
+        "thread1", 
+        nullptr, 
+        [=](void* pParamP) {
+            Os::Util::instance().msleep(100);
+            return nullptr;
+        }, 
+        nullptr
+    );
+    threadsM[1]->join();
+    ASSERT_EQ(countM, 0);
 }
 
 } // namespace anonymous
