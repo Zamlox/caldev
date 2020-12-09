@@ -4,7 +4,16 @@ cc_library(
     name = "rebosdklib",
     srcs = glob([
         "api/**"
-    ]),
+    ]) + select({
+        "@bazel_tools//src/conditions:windows": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/linux/**"]),
+        "//conditions:default": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/windows/**"])
+    }),
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
@@ -29,14 +38,22 @@ cc_library(
             "-ldl", "-lpthread", "-lGL"
         ]
     }),
-#    linkshared = True,
 )
 
 cc_binary(
     name = "rebosdk",
     srcs = glob([
         "api/**"
-    ]),
+    ]) + select({
+        "@bazel_tools//src/conditions:windows": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/linux/**"]),
+        "//conditions:default": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/windows/**"])
+    }),
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
@@ -57,9 +74,16 @@ cc_test(
     srcs = glob([
         "api/**/*.h",
         "api/**/*.cpp",
-        "internal/**/*.h",
-        "internal/**/*.cpp",
-    ]) + glob([
+    ]) + select({
+        "@bazel_tools//src/conditions:windows": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/linux/**"]),
+        "//conditions:default": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/windows/**"])
+    }) + glob([
         "tests/**/*.cpp",
         "tests/**/*.h",
     ]),
