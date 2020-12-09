@@ -17,6 +17,7 @@ cc_library(
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
+        "-Iinternal/os",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
@@ -57,6 +58,7 @@ cc_binary(
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
+        "-Iinternal/os",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
