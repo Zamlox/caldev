@@ -9,7 +9,9 @@
 #define __OS_UTIL_H__
 
 #include "iutil.h"
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+#include "windows/util.h"
+#else
 #include "linux/util.h"
 #endif
 
@@ -39,7 +41,9 @@ public:
 private:
     Util() = default;
 
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+    Os::Windows::Util implM;
+#else
     Os::Linux::Util implM;
 #endif
     static Util* pInstanceM;
