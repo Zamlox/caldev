@@ -149,4 +149,26 @@ TEST_F(ThreadTest, BarrierOff) {
     ASSERT_EQ(countM, 0);
 }
 
+TEST_F(ThreadTest, ThreadExecution) {
+    threadsM.push_back(new Os::Thread{
+        "thread0", 
+        [=](void* pParamP) {
+            Os::Util::instance().msleep(100);
+            countM++;
+            return nullptr;
+        }, 
+        [=](void* pParamP) {
+            Os::Util::instance().msleep(100);
+            countM++;
+            return nullptr;
+        }, 
+        &barrierM
+    });
+    ASSERT_TRUE(threadsM[0]->start());
+    countM++;
+    ASSERT_EQ(countM, 2);
+    threadsM[0]->join();
+    ASSERT_EQ(countM, 3);
+}
+
 } // namespace anonymous
