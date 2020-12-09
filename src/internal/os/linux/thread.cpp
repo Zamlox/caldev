@@ -9,21 +9,17 @@ namespace Os
 namespace Linux
 {
 
-Thread::Thread()
-    : nameM{""}
+Thread::Thread(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP)
+    : nameM{nameP}
     , threadIdM{0}
-    , funcInitM{nullptr}
-    , funcM{nullptr}
-    , paramM{nullptr}
+    , funcInitM{funcInitP}
+    , funcM{funcP}
+    , paramM{pParamP}
 {
 }
 
-bool Thread::create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP)
+bool Thread::start()
 {
-    nameM = nameP;
-    funcInitM = funcInitP;
-    funcM = funcP;
-    paramM = pParamP;
     if (pthread_create(&threadIdM, NULL, &Thread::run, this) == 0)
     {
         barrierM.wait();

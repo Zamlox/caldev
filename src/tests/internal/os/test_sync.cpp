@@ -21,11 +21,6 @@ protected:
 
     void SetUp() override
     {
-        for(int i = 0; i < THREADS_COUNT; i++)
-        {
-            threadsM.push_back(new Os::Thread);
-            ASSERT_NE(threadsM[i], nullptr);
-        }
         countM = 0;
     }
     void TearDown() override
@@ -47,23 +42,23 @@ TEST_F(ThreadTest, MutexOn) {
     {
         std::ostringstream oss;
         oss << "thread" << i;
-        ASSERT_TRUE(
-            threadsM[i]->create(
-                oss.str().c_str(), 
-                nullptr, 
-                [=](void* pParamP) {
-                    Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
-                    pMutex->lock();
-                    int temp = countM;
-                    Os::Util::instance().msleep(0);
-                    temp++;
-                    countM = temp;
-                    pMutex->unlock();
-                    return nullptr;
-                }, 
-                &mutexM
-            )
-        );
+        threadsM.push_back(new Os::Thread{
+            oss.str().c_str(),
+            nullptr,
+            [=](void* pParamP) {
+                Os::Mutex* pMutex = static_cast<Os::Mutex*>(pParamP);
+                pMutex->lock();
+                int temp = countM;
+                Os::Util::instance().msleep(0);
+                temp++;
+                countM = temp;
+                pMutex->unlock();
+                return nullptr;
+            }, 
+            &mutexM
+        });
+        ASSERT_NE(threadsM[i], nullptr);
+        ASSERT_TRUE(threadsM[i]->start());
     }
     for(auto thread : threadsM)
     {
@@ -77,20 +72,19 @@ TEST_F(ThreadTest, MutexOff) {
     {
         std::ostringstream oss;
         oss << "thread" << i;
-        ASSERT_TRUE(
-            threadsM[i]->create(
-                oss.str().c_str(), 
-                nullptr, 
-                [=](void* pParamP) {
-                    int temp = countM;
-                    Os::Util::instance().msleep(0);
-                    temp++;
-                    countM = temp;
-                    return nullptr;
-                }, 
-                nullptr
-            )
-        );
+        threadsM.push_back(new Os::Thread{
+            oss.str().c_str(), 
+            nullptr, 
+            [=](void* pParamP) {
+                int temp = countM;
+                Os::Util::instance().msleep(0);
+                temp++;
+                countM = temp;
+                return nullptr;
+            }, 
+            nullptr
+        });
+        ASSERT_TRUE(threadsM[i]->start());
     }
     for(auto thread : threadsM)
     {
@@ -100,7 +94,7 @@ TEST_F(ThreadTest, MutexOff) {
 }
 
 TEST_F(ThreadTest, BarrierOn) {
-    threadsM[0]->create(
+    threadsM.push_back(new Os::Thread{
         "thread0", 
         nullptr, 
         [=](void* pParamP) {
@@ -110,8 +104,8 @@ TEST_F(ThreadTest, BarrierOn) {
             return nullptr;
         }, 
         &barrierM
-    );
-    threadsM[1]->create(
+    });
+    threadsM.push_back(new Os::Thread{
         "thread1", 
         nullptr, 
         [=](void* pParamP) {
@@ -121,13 +115,15 @@ TEST_F(ThreadTest, BarrierOn) {
             return nullptr;
         }, 
         &barrierM
-    );
+    });
+    ASSERT_TRUE(threadsM[0]->start());
+    ASSERT_TRUE(threadsM[1]->start());
     threadsM[1]->join();
     ASSERT_EQ(countM, 1);
 }
 
 TEST_F(ThreadTest, BarrierOff) {
-    threadsM[0]->create(
+    threadsM.push_back(new Os::Thread{
         "thread0", 
         nullptr, 
         [=](void* pParamP) {
@@ -137,8 +133,8 @@ TEST_F(ThreadTest, BarrierOff) {
             return nullptr;
         }, 
         &barrierM
-    );
-    threadsM[1]->create(
+    });
+    threadsM.push_back(new Os::Thread{
         "thread1", 
         nullptr, 
         [=](void* pParamP) {
@@ -146,7 +142,9 @@ TEST_F(ThreadTest, BarrierOff) {
             return nullptr;
         }, 
         nullptr
-    );
+    });
+    ASSERT_TRUE(threadsM[0]->start());
+    ASSERT_TRUE(threadsM[1]->start());
     threadsM[1]->join();
     ASSERT_EQ(countM, 0);
 }

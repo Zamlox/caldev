@@ -21,8 +21,17 @@ namespace Os
 class Thread : public IThread
 {
 public:
-    /** see IThread::create() */
-    bool create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP) override;
+    /**
+     * Initialize thread data.
+     * 
+     * @param  {char*} nameP          : thread name
+     * @param  {ThreadFunc} funcInitP : function to be executed in thread before signaling caller
+     * @param  {ThreadFunc} funcP     : function to be executed in thread after signaling caller
+     * @param  {void*} pParamP        : parameter to be passed to funcInitP and funcP
+     */
+    Thread(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP);
+    /** see IThread::start() */
+    bool start() override;
     /** see IThread::join() */
     void join() override;
     /** see IThread::getId() */

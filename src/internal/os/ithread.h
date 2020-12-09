@@ -23,16 +23,11 @@ class IThread
 public:
     virtual ~IThread() = default;
     /**
-     * Create a thread which will execute function 'funcP'.
-     * When this method returns the thread is already running.
+     * Start thread.
      * 
-     * @param  {char*} nameP          : thread name
-     * @param  {ThreadFunc} funcInitP : function to be executed in thread before signaling caller
-     * @param  {ThreadFunc} funcP     : function to be executed in thread after signaling caller
-     * @param  {void*} pParamP        : parameter to be passed to funcInitP and funcP
-     * @return {bool}                 : true if succeeded, false otherwise
+     * @return {bool}  : true if succeded, false otherwise
      */
-    virtual bool create(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP) = 0;
+    virtual bool start() = 0;
     /**
      * Wait until thread is done
      */
