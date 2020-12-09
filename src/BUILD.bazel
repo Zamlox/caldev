@@ -4,10 +4,20 @@ cc_library(
     name = "rebosdklib",
     srcs = glob([
         "api/**"
-    ]),
+    ]) + select({
+        "@bazel_tools//src/conditions:windows": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/linux/**"]),
+        "//conditions:default": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/windows/**"])
+    }),
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
+        "-Iinternal/os",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
@@ -29,18 +39,34 @@ cc_library(
             "-ldl", "-lpthread", "-lGL"
         ]
     }),
-#    linkshared = True,
 )
 
 cc_binary(
     name = "rebosdk",
     srcs = glob([
         "api/**"
-    ]),
+    ]) + select({
+        "@bazel_tools//src/conditions:windows": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/linux/**"]),
+        "//conditions:default": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/windows/**"])
+    }),
     copts = [
         "-Iapi",
         "-Iapi/rebol/imp",
-    ],
+        "-Iinternal/os",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [
+            "-DOS_WINDOWS",
+        ],
+        "//conditions:default": [
+            "-DOS_LINUX"
+        ]
+    }),
     deps = [ ":rebosdklib" ],
     linkshared = True,
 )
@@ -48,8 +74,18 @@ cc_binary(
 cc_test(
     name = "unittests",
     srcs = glob([
-        "api/**/*.h"
-    ]) + glob([
+        "api/**/*.h",
+        "api/**/*.cpp",
+    ]) + select({
+        "@bazel_tools//src/conditions:windows": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/linux/**"]),
+        "//conditions:default": glob([
+            "internal/**/*.h",
+            "internal/**/*.cpp",
+        ], exclude=["internal/os/windows/**"])
+    }) + glob([
         "tests/**/*.cpp",
         "tests/**/*.h",
     ]),
@@ -58,7 +94,15 @@ cc_test(
         "-Iapi",
         "-Iapi/rebol",
         "-Iapi/rebol/imp",
-    ],
+        "-Iinternal/os",
+    ] + select({
+        "@bazel_tools//src/conditions:windows": [
+            "-DOS_WINDOWS",
+        ],
+        "//conditions:default": [
+            "-DOS_LINUX"
+        ]
+    }),
     deps = [
         "//extern/googletest:gtest_main",
         ":rebosdklib",
