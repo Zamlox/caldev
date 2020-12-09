@@ -77,7 +77,7 @@ TEST_F(ThreadTest, MutexOff) {
             nullptr, 
             [=](void* pParamP) {
                 int temp = countM;
-                Os::Util::instance().msleep(0);
+                Os::Util::instance().msleep(10);
                 temp++;
                 countM = temp;
                 return nullptr;

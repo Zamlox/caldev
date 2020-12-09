@@ -1,5 +1,5 @@
 /**
- * Author: 		Iosif Haidu
+ * Author:      Iosif Haidu
  * Description: IMutex implementation for Linux OS
  *
  * Copyright 2020 Iosif Haidu - All rights reserved.

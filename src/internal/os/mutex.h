@@ -9,7 +9,9 @@
 #define __OS_MUTEX_H__
 
 #include "imutex.h"
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+#include "windows/mutex.h"
+#else
 #include "linux/mutex.h"
 #endif
 
@@ -27,7 +29,9 @@ public:
     void unlock() override;
     
 private:
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+    Os::Windows::Mutex implM;
+#else
     Os::Linux::Mutex implM;
 #endif
 };
