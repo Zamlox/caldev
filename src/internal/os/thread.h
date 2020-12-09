@@ -9,7 +9,9 @@
 #define __OS_THREAD_H__
 
 #include "ithread.h"
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+#include "windows/thread.h"
+#else
 #include "linux/thread.h"
 #endif
 
@@ -40,7 +42,9 @@ public:
     const char* getName() const override;
 
 private:
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+    Os::Windows::Thread implM;
+#else
     Os::Linux::Thread implM;
 #endif
 };
