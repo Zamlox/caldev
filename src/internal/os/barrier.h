@@ -9,7 +9,9 @@
 #define __OS_BARRIER_H__
 
 #include "ibarrier.h"
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+#include "windows/barrier.h"
+#else
 #include "linux/barrier.h"
 #endif
 
@@ -27,7 +29,9 @@ public:
     virtual void wait() override;
 
 private:
-#ifdef OS_LINUX
+#ifdef OS_WINDOWS
+    Os::Windows::Barrier implM;
+#else
     Os::Linux::Barrier implM;
 #endif
 };
