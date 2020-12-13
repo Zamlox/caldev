@@ -3,7 +3,9 @@ load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 cc_library(
     name = "rebosdklib",
     srcs = glob([
-        "api/**"
+        "api/**",
+        "modules/**/*.h",
+        "modules/**/*.cpp",
     ]) + select({
         "@bazel_tools//src/conditions:windows": glob([
             "internal/**/*.h",
@@ -44,7 +46,9 @@ cc_library(
 cc_binary(
     name = "rebosdk",
     srcs = glob([
-        "api/**"
+        "api/**",
+        "modules/**/*.h",
+        "modules/**/*.cpp",
     ]) + select({
         "@bazel_tools//src/conditions:windows": glob([
             "internal/**/*.h",
@@ -76,6 +80,8 @@ cc_test(
     srcs = glob([
         "api/**/*.h",
         "api/**/*.cpp",
+        "modules/**/*.h",
+        "modules/**/*.cpp",
     ]) + select({
         "@bazel_tools//src/conditions:windows": glob([
             "internal/**/*.h",
