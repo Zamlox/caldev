@@ -14,6 +14,16 @@ class IGui
 {
 public:
     virtual ~IGui() = default;
+    /**
+     * Starts GUI engine
+     * @return {bool}  :  true if succeeded, false otherwise
+     */
+    virtual bool start() = 0;
+    /**
+     * Stops GUI engine
+     * @return {bool}  : true if succeeded, false otherwise
+     */
+    virtual bool stop() = 0;
 };
 
 } // namespace GUI
