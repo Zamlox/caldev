@@ -38,4 +38,4 @@ public:
 
 } // namespace GUI
 
-#endif /7 __GUI_IWIDGET_H__
+#endif // __GUI_IWIDGET_H__
