@@ -8,7 +8,7 @@
 #ifndef __GUI_IWIDGET_H__
 #define __GUI_IWIDGET_H__
 
-#include "imgui.h"
+#include "imgui/common.h"
 
 namespace GUI
 {
@@ -22,14 +22,14 @@ public:
     
     /**
      * Get id of widget.
-     * @return {ImGuiID}  : widget id
+     * @return {Id}  : widget id
      */
-    virtual ImGuiID getId() const = 0;
+    virtual Id getId() const = 0;
     /**
      * Set widget it.
-     * @param  {ImGuiID} idP : widget id
+     * @param  {Id} idP : widget id
      */
-    virtual void setId(ImGuiID idP) = 0;
+    virtual void setId(Id idP) = 0;
     /**
      * Render widget.
      */
