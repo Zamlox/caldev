@@ -13,6 +13,17 @@
 namespace GUI
 {
 
+/** Type for id */
+using Id = ImGuiID;
+
+/** Used for invalid widgets id */
+constexpr Id INVALID_WIDGET_ID{-1};
+
+/** Color type */
+using Color = ImVec4;
+/** Align type */
+using Align = ImVec2;
+
 /**
  * Windows creation flags
  */
