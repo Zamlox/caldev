@@ -9,6 +9,7 @@
 #define __GUI_IWINDOW_H__
 
 #include "iwidget.h"
+#include "imgui/common.h"
 
 namespace GUI
 {
@@ -61,14 +62,14 @@ public:
     virtual void setTitle(const char* titleP) = 0;
     /**
      * Get window background color.
-     * @return {ImVec4}  : window background color.
+     * @return {Color}  : window background color.
      */
-    virtual ImVec4 getBgColor() const = 0;
+    virtual Color getBgColor() const = 0;
     /**
      * Set window background color.
-     * @param  {ImVec4} const : window background color
+     * @param  {Color} const : window background color
      */
-    virtual void setBgColor(ImVec4 const& rColorP) = 0;
+    virtual void setBgColor(Color const& rColorP) = 0;
     /**
      * Main window is created by Os and we need to keep track of it.
      * @param  {void*} osWindowP : main window created by Os

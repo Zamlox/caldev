@@ -25,6 +25,11 @@ public:
         : visibleM{true}
         , idM{START_WIDGET_ID}
         , pFontM{nullptr}
+        , xM{0}
+        , yM{0}
+        , widthM{0}
+        , heightM{0}
+        , bgColorM{1.0, 1.0, 1.0, 1.0}
     {
     }
     Base(Font* pFontP)
@@ -69,6 +74,16 @@ protected:
     Id idM;
     /** Font */
     Font* pFontM;
+    /** X position of top-left corner */
+    int xM;
+    /** y position of top-left corner */
+    int yM;
+    /** Width of window */
+    int widthM;
+    /** Height of window */
+    int heightM;
+    /** Background color */
+    Color bgColorM;
 };
 
 } // namespace GUI

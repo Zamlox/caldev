@@ -20,6 +20,8 @@ cc_library(
         "-Iapi",
         "-Iapi/rebol/imp",
         "-Iinternal/os",
+        "-Iinternal/gui",
+        "-Iextern/glfw/include",
         "-Iextern/imgui",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
@@ -64,6 +66,8 @@ cc_binary(
         "-Iapi",
         "-Iapi/rebol/imp",
         "-Iinternal/os",
+        "-Iinternal/gui",
+        "-Iextern/glfw/include",
         "-Iextern/imgui",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
@@ -103,6 +107,8 @@ cc_test(
         "-Iapi/rebol",
         "-Iapi/rebol/imp",
         "-Iinternal/os",
+        "-Iinternal/gui",
+        "-Iextern/glfw/include",
         "-Iextern/imgui",
     ] + select({
         "@bazel_tools//src/conditions:windows": [

@@ -21,6 +21,8 @@ constexpr Id INVALID_WIDGET_ID{0xFFFFFFFF};
 /** Initial value for widget id */
 constexpr Id START_WIDGET_ID{0};
 
+/** Title type */
+using Title = ImGuiTextBuffer;
 /** Color type */
 using Color = ImVec4;
 /** Align type */
@@ -29,7 +31,7 @@ using Align = ImVec2;
 /**
  * Windows creation flags
  */
-using WindowsFlags = enum {
+using WindowFlags = enum {
     WindowFlags_None                        = ImGuiWindowFlags_None,
     WindowFlags_NoTitleBar                  = ImGuiWindowFlags_NoTitleBar,
     WindowFlags_NoResize                    = ImGuiWindowFlags_NoResize,
