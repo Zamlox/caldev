@@ -17,7 +17,9 @@ namespace GUI
 using Id = ImGuiID;
 
 /** Used for invalid widgets id */
-constexpr Id INVALID_WIDGET_ID{-1};
+constexpr Id INVALID_WIDGET_ID{0xFFFFFFFF};
+/** Initial value for widget id */
+constexpr Id START_WIDGET_ID{0};
 
 /** Color type */
 using Color = ImVec4;
