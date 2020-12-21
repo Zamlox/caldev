@@ -77,7 +77,7 @@ void Window::setBgColor(Color const& rColorP)
 void Window::makeMainWindow(void* osWindowP)
 {
     osWindowM = static_cast<GLFWwindow*>(osWindowP);
-    ImGuiContext* pContext = ImGui::GetCurrentContext();
+    ImGuiContext* pContext = ::ImGui::GetCurrentContext();
     pContext->Extension.mainSize.x = widthM;
     pContext->Extension.mainSize.y = heightM;
 }
@@ -123,6 +123,16 @@ void Window::render()
             pImGuiWindowM = ::ImGui::GetCurrentWindow();
         }
         syncRenderM.unlock();
+
+        // move position and resize for ImGui main window as user interacts
+        //  with os main window
+        if (osWindowM)
+        {
+            ImGuiContext* pContext = ::ImGui::GetCurrentContext();
+            pContext->Extension.pImguiMainWindow = ::ImGui::GetCurrentWindow();
+            ::ImGui::SetWindowPos(titleM.c_str(), ImVec2(xM, yM));
+            ::ImGui::SetWindowSize(titleM.c_str(), pContext->Extension.mainSize);        
+        }
 
         // TODO: render children
         // ...
