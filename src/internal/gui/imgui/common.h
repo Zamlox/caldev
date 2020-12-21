@@ -76,7 +76,11 @@ using Font = ImFont;
 
 
 /** Initialize Glfw for OpenGL */
-IMGUI_IMPL_API bool     InitFor3DRender(GLFWwindow* window, bool install_callbacks);
+bool InitFor3DRender(GLFWwindow* window, bool install_callbacks);
+/** Initiliaze new frame */
+void InitNewFrame();
+/** Render draw data */
+void RenderDrawData(void* pDataP);
 
 } // namespace GUI
 

@@ -107,7 +107,36 @@ void* OpenGL::guiEngine(void* pParamP)
 
 void OpenGL::draw()
 {
-    
+    assert(pMainWindowM);
+
+    // TODO: invalidate fonts
+    // ...
+
+    // Start the Dear ImGui frame
+    InitNewFrame();
+    ::ImGui::NewFrame();
+
+    // Display widgets here
+    // It's enough to render only main window object. The render function
+    //  will recursively render its children. 'windowsM' and 'widgetsM' are
+    //  intended for fast searching items based on their id, not to render.
+    //mainWindowRender();
+
+    // Rendering
+    ::ImGui::Render();
+    int display_w, display_h;
+    glfwGetFramebufferSize(pMainWindowM, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    ImVec4 clearColor = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+    // TODO: get our window background color
+    // ...
+    glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    RenderDrawData(::ImGui::GetDrawData());
+
+    glfwMakeContextCurrent(pMainWindowM);
+    glfwSwapBuffers(pMainWindowM);
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)

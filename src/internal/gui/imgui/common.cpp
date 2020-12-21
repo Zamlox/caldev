@@ -18,4 +18,15 @@ bool InitFor3DRender(GLFWwindow* window, bool install_callbacks)
     return false;
 }
 
+void InitNewFrame()
+{
+    ImGui_ImplOpenGL2_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+}
+
+void RenderDrawData(void* pDataP)
+{
+    ImGui_ImplOpenGL2_RenderDrawData(static_cast<ImDrawData*>(pDataP));
+}
+
 } // namespace GUI
