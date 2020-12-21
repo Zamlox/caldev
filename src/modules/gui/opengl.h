@@ -44,8 +44,8 @@ private:
 
     /** Separate thread to run GUI engine */
     Os::Thread threadM;
-    /** Instance of main window */
-    GLFWwindow* pMainWindowM;
+    /** Instance of os main window */
+    GLFWwindow* pOsWindowM;
 };
 
 } // namespace GUI

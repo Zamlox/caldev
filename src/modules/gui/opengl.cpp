@@ -20,7 +20,7 @@ namespace
 
 OpenGL::OpenGL()
     : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
-    , pMainWindowM{nullptr}
+    , pOsWindowM{nullptr}
 {
     
 }
@@ -49,12 +49,12 @@ void* OpenGL::initGuiEngine(void* pParamP)
     glfwWindowHint(GLFW_DEPTH_BITS, 16);
     glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    if (pOpenGL->pMainWindowM = glfwCreateWindow(640, 480, "Rebsdev", nullptr, nullptr); !pOpenGL->pMainWindowM)
+    if (pOpenGL->pOsWindowM = glfwCreateWindow(640, 480, "Rebsdev", nullptr, nullptr); !pOpenGL->pOsWindowM)
     {
         fprintf(stderr, "glfwCreateWindow() error.\n");
         exit(1);
     }
-    glfwMakeContextCurrent(pOpenGL->pMainWindowM);
+    glfwMakeContextCurrent(pOpenGL->pOsWindowM);
     glfwSwapInterval(1);
 
     ImGuiContext* pImGuiContext = ::ImGui::CreateContext();
@@ -77,7 +77,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Platform/Renderer bindings
-    InitFor3DRender(pOpenGL->pMainWindowM, true);
+    InitFor3DRender(pOpenGL->pOsWindowM, true);
 
     return nullptr;
 }
@@ -86,8 +86,8 @@ void* OpenGL::guiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
 
-    glfwSetWindowSizeCallback(pOpenGL->pMainWindowM, OpenGL::size_callback);
-    while (!glfwWindowShouldClose((pOpenGL->pMainWindowM)))
+    glfwSetWindowSizeCallback(pOpenGL->pOsWindowM, OpenGL::size_callback);
+    while (!glfwWindowShouldClose((pOpenGL->pOsWindowM)))
     {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -99,7 +99,7 @@ void* OpenGL::guiEngine(void* pParamP)
 
         pOpenGL->draw();
     }
-    glfwDestroyWindow(pOpenGL->pMainWindowM);
+    glfwDestroyWindow(pOpenGL->pOsWindowM);
     glfwTerminate();
 
     return nullptr;
@@ -107,7 +107,7 @@ void* OpenGL::guiEngine(void* pParamP)
 
 void OpenGL::draw()
 {
-    assert(pMainWindowM);
+    assert(pOsWindowM);
 
     // TODO: invalidate fonts
     // ...
@@ -125,7 +125,7 @@ void OpenGL::draw()
     // Rendering
     ::ImGui::Render();
     int display_w, display_h;
-    glfwGetFramebufferSize(pMainWindowM, &display_w, &display_h);
+    glfwGetFramebufferSize(pOsWindowM, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
     ImVec4 clearColor = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
     // TODO: get our window background color
@@ -135,8 +135,8 @@ void OpenGL::draw()
 
     RenderDrawData(::ImGui::GetDrawData());
 
-    glfwMakeContextCurrent(pMainWindowM);
-    glfwSwapBuffers(pMainWindowM);
+    glfwMakeContextCurrent(pOsWindowM);
+    glfwSwapBuffers(pOsWindowM);
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)
