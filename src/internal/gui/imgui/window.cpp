@@ -77,6 +77,9 @@ void Window::setBgColor(Color const& rColorP)
 void Window::makeMainWindow(void* osWindowP)
 {
     osWindowM = static_cast<GLFWwindow*>(osWindowP);
+    ImGuiContext* pContext = ImGui::GetCurrentContext();
+    pContext->Extension.mainSize.x = widthM;
+    pContext->Extension.mainSize.y = heightM;
 }
 
 void Window::render()
