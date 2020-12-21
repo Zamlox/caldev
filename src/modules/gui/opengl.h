@@ -7,6 +7,7 @@
 
 #include "igui.h"
 #include "thread.h"
+#include <GLFW/glfw3.h>
 
 namespace GUI
 {
@@ -37,6 +38,8 @@ private:
 
     /** Separate thread to run GUI engine */
     Os::Thread threadM;
+    /** Instance of main window */
+    GLFWwindow* pMainWindowM;
 };
 
 } // namespace GUI

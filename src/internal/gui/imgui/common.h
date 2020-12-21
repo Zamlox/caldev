@@ -9,6 +9,7 @@
 #define __GUI_IMGUI_COMMON_H__
 
 #include "imgui.h"
+#include <GLFW/glfw3.h>
 
 namespace GUI
 {
@@ -72,6 +73,10 @@ using WindowFlags = enum {
 
 /** Font type */
 using Font = ImFont;
+
+
+/** Initialize Glfw for OpenGL */
+IMGUI_IMPL_API bool     InitFor3DRender(GLFWwindow* window, bool install_callbacks);
 
 } // namespace GUI
 
