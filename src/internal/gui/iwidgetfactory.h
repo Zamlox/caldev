@@ -22,11 +22,11 @@ public:
     /**
      * Create a window.
      * @param  {char*} titleP       : title of window (can be UTF-8 if backend allows)
-     * @param  {WindowFlags} flags  : flags for creating window 
+     * @param  {int} flags          : flags for creating window 
      * @param  {Font*} pFontP       : font to be used in window
      * @return {IWindow*}           : new window if succeeded or nullptr if failed
      */
-    virtual IWindow* createWindow(const char* titleP, WindowFlags flags, Font* pFontP) = 0;    
+    virtual IWindow* createWindow(const char* titleP, int flags, Font* pFontP) = 0;    
 };
 
 } // namespace GUI

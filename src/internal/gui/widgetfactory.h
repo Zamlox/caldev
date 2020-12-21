@@ -23,7 +23,7 @@ public:
     static IWidgetFactory& instance();
     
     /** see IWidgetFactory::createWindow() */
-    IWindow* createWindow(const char* titleP, WindowFlags flags, Font* pFontP) override;
+    IWindow* createWindow(const char* titleP, int flags, Font* pFontP) override;
     
 private:
     WidgetFactory() = default;

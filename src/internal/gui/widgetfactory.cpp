@@ -19,7 +19,7 @@ IWidgetFactory& WidgetFactory::instance()
     return *pInstanceM;
 }
 
-IWindow* WidgetFactory::createWindow(const char* titleP, WindowFlags flags, Font* pFontP)
+IWindow* WidgetFactory::createWindow(const char* titleP, int flags, Font* pFontP)
 {
     return nullptr;
 }

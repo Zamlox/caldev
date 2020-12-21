@@ -3,6 +3,7 @@
  */
 
 #include "opengl.h"
+#include "widgetfactory.h"
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "imgui/common.h"
@@ -34,6 +35,48 @@ bool OpenGL::stop()
 {
     return true;
 }
+
+bool  OpenGL::createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP)
+{
+    if (pOsWindowM)
+    {
+        glfwSetWindowPos(pOsWindowM, xP, yP);
+        glfwSetWindowSize(pOsWindowM, widthP, heightP);
+        glfwSetWindowTitle(pOsWindowM, titleP);
+        glfwSetWindowSizeLimits(pOsWindowM, 100, 100, GLFW_DONT_CARE, GLFW_DONT_CARE);
+        pMainWidgetWindowM.reset(WidgetFactory::instance().createWindow(
+            titleP
+            , WindowFlags_NoNav
+            | WindowFlags_NoDecoration
+            | WindowFlags_NoBringToFrontOnFocus
+            | WindowFlags_NoBorder
+            , nullptr
+        ));
+        if (pMainWidgetWindowM.get())
+        {
+            pMainWidgetWindowM->setPos(0, 0);
+            pMainWidgetWindowM->setSize(
+                (widthP < MIN_SIZE_X) ? MIN_SIZE_X : widthP, 
+                (heightP < MIN_SIZE_Y) ? MIN_SIZE_Y : heightP
+            );
+            pMainWidgetWindowM->setBgColor(::ImGui::ColorConvertU32ToFloat4(bgColorP));
+            pMainWidgetWindowM->makeMainWindow(pOsWindowM);
+            //TODO: windowsM.add(pMainWidgetWindowM.get());
+        }
+        glfwShowWindow(pOsWindowM);
+        return pMainWidgetWindowM->getId();
+    }
+    return INVALID_WIDGET_ID;
+}
+
+void OpenGL::hideMainWindow()
+{
+    if (pOsWindowM)
+    {
+        glfwHideWindow(pOsWindowM);
+    }
+}
+
 
 void* OpenGL::initGuiEngine(void* pParamP)
 {
@@ -105,6 +148,14 @@ void* OpenGL::guiEngine(void* pParamP)
     return nullptr;
 }
 
+void OpenGL::mainWindowRender()
+{
+    if (pMainWidgetWindowM.get())
+    {
+        pMainWidgetWindowM->render();
+    }
+}
+
 void OpenGL::draw()
 {
     assert(pOsWindowM);
@@ -120,7 +171,7 @@ void OpenGL::draw()
     // It's enough to render only main window object. The render function
     //  will recursively render its children. 'windowsM' and 'widgetsM' are
     //  intended for fast searching items based on their id, not to render.
-    //mainWindowRender();
+    mainWindowRender();
 
     // Rendering
     ::ImGui::Render();

@@ -64,7 +64,10 @@ using WindowFlags = enum {
     WindowFlags_Tooltip                     = ImGuiWindowFlags_Tooltip,
     WindowFlags_Popup                       = ImGuiWindowFlags_Popup,
     WindowFlags_Modal                       = ImGuiWindowFlags_Modal,
-    WindowFlags_ChildMenu                   = ImGuiWindowFlags_ChildMenu
+    WindowFlags_ChildMenu                   = ImGuiWindowFlags_ChildMenu,
+
+    // [Additional]
+    WindowFlags_NoBorder                    = ImGuiWindowFlags_NoBorder
 
     // [Obsolete]
     //ImGuiWindowFlags_ShowBorders          = 1 << 7,   // --> Set style.FrameBorderSize=1.0f or style.WindowBorderSize=1.0f to enable borders around items or windows.

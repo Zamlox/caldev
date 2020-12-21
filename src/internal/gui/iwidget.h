@@ -12,6 +12,12 @@
 
 namespace GUI
 {
+
+/** Minimum size on x */
+constexpr int MIN_SIZE_X{100};
+/** Minimum size on y */
+constexpr int MIN_SIZE_Y{100};
+
 /**
  * Widget interface
  */
