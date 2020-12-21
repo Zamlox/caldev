@@ -10,6 +10,7 @@
 
 #include "iwindow.h"
 #include "basewidget.h"
+#include "imgui_internal.h"
 #include <GLFW/glfw3.h>
 
 namespace GUI
@@ -56,6 +57,9 @@ public:
     void makeMainWindow(void* osWindowP) override;
     /**
      * Renders window on screen.
+     * While rendering window and children we must protect 
+     * resurces and operations which might run in parallel
+     * with management operations.
      */
     void render() override;
 
@@ -70,6 +74,10 @@ private:
     Font *pFontM;
     /** Reference to OS window if this is main window, nullptr otherwise */
     GLFWwindow* osWindowM;
+    /** Flag indicating if render() was called for the first time */
+    bool firstTimeRenderM;
+    /** A reference to ImGui window */
+    ImGuiWindow* pImGuiWindowM;
 };
 
 } // namespace ImGui

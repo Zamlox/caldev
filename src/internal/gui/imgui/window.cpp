@@ -3,6 +3,7 @@
  */
 
 #include "window.h"
+#include "imgui.h"
 
 namespace GUI
 {
@@ -14,6 +15,8 @@ Window::Window(const char* titleP, WindowFlags flagsP, Font* pFontP)
     , flagsM{flagsP}
     , pFontM{pFontP}
     , osWindowM{nullptr}
+    , firstTimeRenderM{false}
+    , pImGuiWindowM{nullptr}
 {
     titleM.append(titleP);
 }
@@ -78,7 +81,57 @@ void Window::makeMainWindow(void* osWindowP)
 
 void Window::render()
 {
-    
+    if (visibleM && isOpenM)
+    {
+        syncRenderM.lock();
+        // initialize window attributes
+        if (firstTimeRenderM)
+        {
+            // initialize attributes only for first time
+            ::ImGui::SetNextWindowPos(ImVec2(xM, yM));
+            ::ImGui::SetNextWindowSize(ImVec2{static_cast<float>(widthM), static_cast<float>(heightM)});
+        }
+        if (pImGuiWindowM)
+        {
+            // update values which are used inside ImGui::Begin()
+            widthM = pImGuiWindowM->Size.x;
+            heightM = pImGuiWindowM->Size.y;
+            xM = pImGuiWindowM->Pos.x;
+            yM = pImGuiWindowM->Pos.y;
+        }
+        // set color and alpha
+        unsigned int bgColor = ::ImGui::ColorConvertFloat4ToU32(bgColorM);
+        // TODO: implement ::ImGui::SetNextWindowBgColor(bgColor);
+        ::ImGui::SetNextWindowBgAlpha(((bgColor & IM_COL32_A_MASK) >> IM_COL32_A_SHIFT) / 255.0);
+        // set extra id
+        // TODO: implement ::ImGui::SetNextWindowExtraId(idM);
+        // set font
+         if (pFontM) ::ImGui::PushFont(pFontM);
+        // create window
+        if (!::ImGui::Begin(titleM.c_str(), &isOpenM, flagsM))
+        {
+            printf("Cannot create window: %s, %ud\n", titleM.c_str(), flagsM);
+            exit(1);
+        }
+        // get ImGui window for further references
+        if (firstTimeRenderM)
+        {
+            firstTimeRenderM = false;
+            pImGuiWindowM = ::ImGui::GetCurrentWindow();
+        }
+        syncRenderM.unlock();
+
+        // TODO: render children
+        // ...
+
+        // End window
+        ::ImGui::End();
+        if (pFontM) ::ImGui::PopFont();    
+    }
+    else if (!isOpenM && osWindowM)
+    {
+        glfwSetWindowShouldClose(osWindowM, true);
+    }
 }
 
 } // namespace ImGui
