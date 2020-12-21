@@ -36,6 +36,12 @@ private:
      */
     static void* guiEngine(void*pParamP);
 
+    /** Draw on canvas */
+    void draw();
+
+    /** Callback for size */
+    static void size_callback(GLFWwindow* window, int width, int height);
+
     /** Separate thread to run GUI engine */
     Os::Thread threadM;
     /** Instance of main window */

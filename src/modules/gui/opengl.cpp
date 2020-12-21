@@ -49,8 +49,9 @@ void* OpenGL::initGuiEngine(void* pParamP)
     glfwWindowHint(GLFW_DEPTH_BITS, 16);
     glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    if (pOpenGL->pMainWindowM = glfwCreateWindow(640, 480, "Rebsdev", NULL, NULL); !pOpenGL->pMainWindowM)
+    if (pOpenGL->pMainWindowM = glfwCreateWindow(640, 480, "Rebsdev", nullptr, nullptr); !pOpenGL->pMainWindowM)
     {
+        fprintf(stderr, "glfwCreateWindow() error.\n");
         exit(1);
     }
     glfwMakeContextCurrent(pOpenGL->pMainWindowM);
@@ -84,7 +85,36 @@ void* OpenGL::initGuiEngine(void* pParamP)
 void* OpenGL::guiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
+
+    glfwSetWindowSizeCallback(pOpenGL->pMainWindowM, OpenGL::size_callback);
+    while (!glfwWindowShouldClose((pOpenGL->pMainWindowM)))
+    {
+        // Poll and handle events (inputs, window resize, etc.)
+        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
+        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
+        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+        //glfwWaitEvents();
+        glfwPollEvents();
+
+        pOpenGL->draw();
+    }
+    glfwDestroyWindow(pOpenGL->pMainWindowM);
+    glfwTerminate();
+
     return nullptr;
+}
+
+void OpenGL::draw()
+{
+    
+}
+
+void OpenGL::size_callback(GLFWwindow* window, int width, int height)
+{
+    ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
+    assert(pImGuiContext);
+    pImGuiContext->Extension.mainSize = ImVec2{static_cast<float>(width), static_cast<float>(height)};
 }
 
 } // namespace GUI
