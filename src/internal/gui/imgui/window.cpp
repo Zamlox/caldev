@@ -101,10 +101,10 @@ void Window::render()
         }
         // set color and alpha
         unsigned int bgColor = ::ImGui::ColorConvertFloat4ToU32(bgColorM);
-        // TODO: implement ::ImGui::SetNextWindowBgColor(bgColor);
+        ::ImGui::SetNextWindowBgColor(bgColor);
         ::ImGui::SetNextWindowBgAlpha(((bgColor & IM_COL32_A_MASK) >> IM_COL32_A_SHIFT) / 255.0);
         // set extra id
-        // TODO: implement ::ImGui::SetNextWindowExtraId(idM);
+        ::ImGui::SetNextWindowExtraId(idM);
         // set font
          if (pFontM) ::ImGui::PushFont(pFontM);
         // create window
