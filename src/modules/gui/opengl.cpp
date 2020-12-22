@@ -77,7 +77,6 @@ void OpenGL::hideMainWindow()
     }
 }
 
-
 void* OpenGL::initGuiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
@@ -115,7 +114,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // pImGuiContext->Extension.pMainWindowStorage = &self->windowsM;
     // pImGuiContext->Extension.pMainWidgetStorage = &self->widgetsM;
 
-    ImGuiIO& io = ::ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ::ImGui::GetIO();
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
