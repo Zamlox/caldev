@@ -22,6 +22,7 @@ namespace
 OpenGL::OpenGL()
     : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
     , pOsWindowM{nullptr}
+    , stopEngineM{false}
 {
     
 }
@@ -33,10 +34,11 @@ bool OpenGL::start()
 
 bool OpenGL::stop()
 {
+    stopEngineM = true;
     return true;
 }
 
-bool  OpenGL::createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP)
+int OpenGL::createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP)
 {
     if (pOsWindowM)
     {
@@ -129,7 +131,7 @@ void* OpenGL::guiEngine(void* pParamP)
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
 
     glfwSetWindowSizeCallback(pOpenGL->pOsWindowM, OpenGL::size_callback);
-    while (!glfwWindowShouldClose((pOpenGL->pOsWindowM)))
+    while (!glfwWindowShouldClose(pOpenGL->pOsWindowM) && !pOpenGL->stopEngineM)
     {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.

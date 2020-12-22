@@ -26,7 +26,7 @@ public:
     /** see IGui::stop() */
     bool stop() override;
     /** see IGui::createMainWindow() */
-    bool createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP) override;
+    int  createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP) override;
     /** see IGui::hideMainWindow() */
     void hideMainWindow() override;
 
@@ -56,6 +56,8 @@ private:
     GLFWwindow* pOsWindowM;
     /** Main window info */
     std::unique_ptr<IWindow> pMainWidgetWindowM;
+    /** Flag used to stop the engine */
+    bool stopEngineM;
 };
 
 } // namespace GUI
