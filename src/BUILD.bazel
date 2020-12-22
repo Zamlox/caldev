@@ -119,6 +119,7 @@ cc_test(
         "-Iextern/glfw/include",
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
+        "-Imodules/gui",
     ] + [
         "-std:c++17",
     ] + select({
