@@ -10,6 +10,7 @@
 
 #include "imgui.h"
 #include <GLFW/glfw3.h>
+#include <limits>
 
 namespace GUI
 {
@@ -21,6 +22,8 @@ using Id = ImGuiID;
 constexpr Id INVALID_WIDGET_ID{0xFFFFFFFF};
 /** Initial value for widget id */
 constexpr Id START_WIDGET_ID{0};
+/** Maximum value for Id */
+constexpr unsigned int MAX_ID{UINT_MAX};
 
 /** Title type */
 using Title = ImGuiTextBuffer;
@@ -28,6 +31,8 @@ using Title = ImGuiTextBuffer;
 using Color = ImVec4;
 /** Align type */
 using Align = ImVec2;
+/** String bufer type */
+using StringBuffer = ImGuiTextBuffer;
 
 /**
  * Windows creation flags

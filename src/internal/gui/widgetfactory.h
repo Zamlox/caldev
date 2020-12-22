@@ -13,6 +13,9 @@
 namespace GUI
 {
 
+/**
+ * Factory for widgets
+ */
 class WidgetFactory : public IWidgetFactory
 {
 public:
@@ -24,11 +27,15 @@ public:
     
     /** see IWidgetFactory::createWindow() */
     IWindow* createWindow(const char* titleP, int flags, Font* pFontP) override;
+    /** see IWidgetFactory::destroyWindow() */
+    void destroyWindow(IWindow*& pWindowP) override;
     
 private:
-    WidgetFactory() = default;
+    WidgetFactory();
 
     static IWidgetFactory* pInstanceM;
+    /** Unique indx for widgets */
+    Id indexM;
 };
 
 } // namespace GUI

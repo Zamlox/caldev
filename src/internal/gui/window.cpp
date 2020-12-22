@@ -7,7 +7,7 @@
 namespace GUI
 {
 
-Window::Window(const char* titleP, WindowFlags flagsP, Font* pFontP)
+Window::Window(const char* titleP, int flagsP, Font* pFontP)
     : implM{titleP, flagsP, pFontP}
 {
 }

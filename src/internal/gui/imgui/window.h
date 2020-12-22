@@ -27,11 +27,11 @@ public:
     /**
      * Initialize window.
      * 
-     * @param  {char*} titleP       : window title
-     * @param  {WindowFlags} flagsP : window flags creation
-     * @param  {Font*} pFontP       : font to be used
+     * @param  {char*} titleP   : window title
+     * @param  {int} flagsP     : window flags creation
+     * @param  {Font*} pFontP   : font to be used
      */
-    Window(const char* titleP, WindowFlags flagsP, Font* pFontP);
+    Window(const char* titleP, int flagsP, Font* pFontP);
 
     /** see IWindow::getPosX() */
     int getPosX() const override;
@@ -69,7 +69,7 @@ private:
     /** Window title */
     Title titleM;
     /** Window flags */
-    WindowFlags flagsM;
+    int flagsM;
     /** Window font */
     Font *pFontM;
     /** Reference to OS window if this is main window, nullptr otherwise */

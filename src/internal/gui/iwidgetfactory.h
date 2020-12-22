@@ -27,6 +27,11 @@ public:
      * @return {IWindow*}           : new window if succeeded or nullptr if failed
      */
     virtual IWindow* createWindow(const char* titleP, int flags, Font* pFontP) = 0;    
+    /**
+     * Destroy a window.
+     * @param  {IWindow*} pWindowP : Window to be destroyed
+     */
+    virtual void destroyWindow(IWindow*& pWindowP) = 0;
 };
 
 } // namespace GUI

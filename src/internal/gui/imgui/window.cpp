@@ -10,7 +10,7 @@ namespace GUI
 namespace ImGui
 {
 
-Window::Window(const char* titleP, WindowFlags flagsP, Font* pFontP)
+Window::Window(const char* titleP, int flagsP, Font* pFontP)
     : isOpenM{true}
     , flagsM{flagsP}
     , pFontM{pFontP}

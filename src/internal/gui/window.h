@@ -18,17 +18,17 @@ namespace GUI
 /**
  * Implementation of IWindow
  */
-class Window : Base<IWindow>
+class Window : public Base<IWindow>
 {
 public:
     /**
      * Initialize window 
      * 
-     * @param  {char*} titleP       : window title
-     * @param  {WindowFlags} flagsP : window flags creation
-     * @param  {Font*} pFontP       : font to be used
+     * @param  {char*} titleP   : window title
+     * @param  {int} flagsP     : window flags creation
+     * @param  {Font*} pFontP   : font to be used
      */
-    Window(const char* titleP, WindowFlags flagsP, Font* pFontP);
+    Window(const char* titleP, int flagsP, Font* pFontP);
 
     /** see IWindow::getPosX() */
     int getPosX() const override;
