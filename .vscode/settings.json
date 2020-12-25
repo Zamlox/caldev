@@ -80,6 +80,7 @@
         "valarray": "cpp",
         "variant": "cpp",
         "internal.h": "c",
-        "glfw3.h": "c"
+        "glfw3.h": "c",
+        "xiosbase": "cpp"
     }
 }

@@ -6,7 +6,8 @@
     "configurations": [
         {                                
             "name": "(gdb) Rebosdk Launch",
-            "type": "cppdbg",
+            //"type": "cppdbg",
+            "type": "cppvsdbg",
             "request": "launch",
             // "program": "${workspaceFolder}/a.exe",
             //"program": "/usr/local/bin/rebol",
