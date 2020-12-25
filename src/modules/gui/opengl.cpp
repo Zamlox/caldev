@@ -185,7 +185,7 @@ void OpenGL::draw()
     // TODO: invalidate fonts
     // ...
 
-    // Start the Dear ImGui frame
+    // Start Dear ImGui frame
     InitNewFrame();
     ::ImGui::NewFrame();
 
