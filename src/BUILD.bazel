@@ -22,14 +22,14 @@ COPTS = [
         "-Iextern/glfw/include",
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
-    ] + [
-        "-std:c++17",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
+            "-std:c++17",
         ],
         "//conditions:default": [
             "-DOS_LINUX"
+            "-std=c++17",
         ]
     })
 
