@@ -39,6 +39,14 @@ public:
      * Hide main window
      */
     virtual void hideMainWindow() = 0;
+    /**
+     * Show main window
+     */
+    virtual void showMainWindow() = 0;
+    /**
+     * Close main window
+     */
+    virtual void closeMainWindow() = 0;
 };
 
 } // namespace GUI

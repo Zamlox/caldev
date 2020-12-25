@@ -81,6 +81,7 @@
         "variant": "cpp",
         "internal.h": "c",
         "glfw3.h": "c",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "xlocmes": "cpp"
     }
 }

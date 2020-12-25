@@ -79,6 +79,21 @@ void OpenGL::hideMainWindow()
     }
 }
 
+void OpenGL::showMainWindow()
+{
+    if (pOsWindowM)
+    {
+        glfwShowWindow(pOsWindowM);
+    }
+}
+
+void OpenGL::closeMainWindow()
+{
+    stopEngineM = true;
+    threadM.join();
+}
+
+
 void* OpenGL::initGuiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
