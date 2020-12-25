@@ -28,7 +28,7 @@ COPTS = [
             "-std:c++17",
         ],
         "//conditions:default": [
-            "-DOS_LINUX"
+            "-DOS_LINUX",
             "-std=c++17",
         ]
     })
