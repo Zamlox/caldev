@@ -47,6 +47,7 @@ jobs:
       - name: Build gtest (other)
         if: steps.check_gtest_other.outputs.files_exists == 'false' && matrix.os != 'windows-latest'
         run: |
+          g++ --version
           echo Building gtest ...
           cd src/extern/googletest
           bazel build :gtest
