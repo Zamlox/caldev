@@ -56,10 +56,10 @@ jobs:
       - name: Build product
         run: |
           cd src
-          bazel build :rebosdk
+          bazel build --sandbox_debug :rebosdk
 
       - name: Test product
         run: |
           cd src
-          bazel build :unittests
+          bazel build --sandbox_debug :unittests
           ./bazel-bin/unittests
