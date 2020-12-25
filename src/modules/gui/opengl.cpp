@@ -45,7 +45,7 @@ int OpenGL::createMainWindow(char const* titleP, int xP, int yP, int widthP, int
         glfwSetWindowPos(pOsWindowM, xP, yP);
         glfwSetWindowSize(pOsWindowM, widthP, heightP);
         glfwSetWindowTitle(pOsWindowM, titleP);
-        glfwSetWindowSizeLimits(pOsWindowM, 100, 100, GLFW_DONT_CARE, GLFW_DONT_CARE);
+        glfwSetWindowSizeLimits(pOsWindowM, MIN_SIZE_X, MIN_SIZE_X, GLFW_DONT_CARE, GLFW_DONT_CARE);
         pMainWidgetWindowM.reset(WidgetFactory::instance().createWindow(
             titleP
             , WindowFlags_NoNav
@@ -179,9 +179,11 @@ void OpenGL::draw()
     int display_w, display_h;
     glfwGetFramebufferSize(pOsWindowM, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
-    ImVec4 clearColor = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
-    // TODO: get our window background color
-    // ...
+    ImVec4 clearColor = ImVec4(1.0f, 0.0f, 0.0f, 0.0f);
+    if (pMainWidgetWindowM.get())
+    {
+        clearColor = pMainWidgetWindowM->getBgColor();
+    }
     glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
