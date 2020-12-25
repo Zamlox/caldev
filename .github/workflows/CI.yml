@@ -10,6 +10,10 @@ jobs:
       matrix:
         os: [ windows-latest, self-hosted ]
     steps:
+      - name: Cleanup
+        run: |
+          rm -rf src/extern/glfw
+          rm -rf src/extern/imgui
       - name: Checkout this repo
         uses: actions/checkout@v2
         with:
@@ -18,10 +22,8 @@ jobs:
       - name: Checkout submodules
         run: |
           cd src/extern/glfw
-          git fetch origin
           git checkout master
           cd ../imgui
-          git fetch origin
           git checkout master
           cd ../../..
           echo OS: ${{matrix.os}}
