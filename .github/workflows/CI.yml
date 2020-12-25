@@ -10,11 +10,6 @@ jobs:
       matrix:
         os: [ windows-latest, self-hosted ]
     steps:
-      - name: Cleanup (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          rmdir src\extern\glfw /s /q
-          rmdir src\extern\imgui /s /q
       - name: Cleanup (Others)
         if: matrix.os != 'windows-latest'
         run: |
