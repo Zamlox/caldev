@@ -38,7 +38,13 @@ bool OpenGL::stop()
     return true;
 }
 
-int OpenGL::createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP)
+int OpenGL::createMainWindow(
+    char const* titleP, 
+    int xP, int yP, 
+    int widthP, 
+    int heightP, 
+    int bgColorP,
+    bool visibleP)
 {
     if (pOsWindowM)
     {
@@ -65,7 +71,7 @@ int OpenGL::createMainWindow(char const* titleP, int xP, int yP, int widthP, int
             pMainWidgetWindowM->makeMainWindow(pOsWindowM);
             //TODO: windowsM.add(pMainWidgetWindowM.get());
         }
-        glfwShowWindow(pOsWindowM);
+        (visibleP) ? glfwShowWindow(pOsWindowM) : glfwHideWindow(pOsWindowM);
         return pMainWidgetWindowM->getId();
     }
     return INVALID_WIDGET_ID;

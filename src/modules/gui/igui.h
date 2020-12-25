@@ -32,9 +32,15 @@ public:
      * @param  {int} widthP     : width of window
      * @param  {int} heightP    : height of window
      * @param  {int} bgColorP   : background color
+     * @param  {bool} visibleP  : true if window visible, false otherwise
      * @return {int}            : window id if succeeded, INVALID_WIDGET_ID otherwise
      */
-    virtual int createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP) = 0;
+    virtual int createMainWindow(
+        char const* titleP, 
+        int xP, int yP, 
+        int widthP, int heightP, 
+        int bgColorP,
+        bool visibleP = true) = 0;
     /**
      * Hide main window
      */

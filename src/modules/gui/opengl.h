@@ -26,7 +26,13 @@ public:
     /** see IGui::stop() */
     bool stop() override;
     /** see IGui::createMainWindow() */
-    int  createMainWindow(char const* titleP, int xP, int yP, int widthP, int heightP, int bgColorP) override;
+    int  createMainWindow(
+        char const* titleP, 
+        int xP, int yP, 
+        int widthP, 
+        int heightP, 
+        int bgColorP, 
+        bool visibleP = true) override;
     /** see IGui::hideMainWindow() */
     void hideMainWindow() override;
     /** see IGui::showMainWindow() */

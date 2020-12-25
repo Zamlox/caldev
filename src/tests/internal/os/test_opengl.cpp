@@ -12,9 +12,9 @@ namespace
 TEST(TestsOpenGL, Init) {
     GUI::OpenGL opengl;
     ASSERT_TRUE(opengl.start());
-    int res = opengl.createMainWindow("Hello", 50, 50, 800, 600, 0xFFFFFF);
+    int res = opengl.createMainWindow("Hello", 50, 50, 800, 600, 0xFF0000, false);
     ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
-    Os::Util::instance().msleep(1000);
+    Os::Util::instance().msleep(100);
     opengl.closeMainWindow();
 }
 
