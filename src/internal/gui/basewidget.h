@@ -35,8 +35,8 @@ public:
     }
     Base(Font* pFontP)
         : Base()
-        , pFontM{pFontP}
     {
+        pFontM = pFontP;
     }
     virtual ~Base()
     {
