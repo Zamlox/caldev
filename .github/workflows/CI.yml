@@ -14,13 +14,13 @@ jobs:
       - name: Cleanup (Others)
         if: matrix.os != 'Windows'
         run: |
-          rm -rf src/extern/glfw
-          rm -rf src/extern/imgui
+          [ -d "src/extern/glfw" ] && rm -rf src/extern/glfw
+          [ -d "src/extern/imgui" ] && rm -rf src/extern/imgui
       - name: Cleanup (Windows)
         if: matrix.os == 'Windows'
         run: |
-          Remove-Item -Recurse -Confirm:$false src\extern\glfw
-          Remove-Item -Recurse -Confirm:$false src\extern\imgui
+          if (Test-Path src\extern\glfw) {Remove-Item -Recurse -Confirm:$false src\extern\glfw}
+          if (Test-Path src\extern\imgui) {Remove-Item -Recurse -Confirm:$false src\extern\imgui}
       - name: Checkout this repo
         uses: actions/checkout@v2
         with:
