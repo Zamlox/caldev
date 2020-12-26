@@ -19,8 +19,8 @@ jobs:
       - name: Cleanup (Windows)
         if: matrix.os == 'Windows'
         run: |
-          if (Test-Path src\extern\glfw) {Remove-Item -Recurse -Confirm:$false src\extern\glfw}
-          if (Test-Path src\extern\imgui) {Remove-Item -Recurse -Confirm:$false src\extern\imgui}
+          if (Test-Path src\extern\glfw) {Remove-Item -Recurse -Force -Confirm:$false src\extern\glfw}
+          if (Test-Path src\extern\imgui) {Remove-Item -Recurse -Force -Confirm:$false src\extern\imgui}
       - name: Checkout this repo
         uses: actions/checkout@v2
         with:
