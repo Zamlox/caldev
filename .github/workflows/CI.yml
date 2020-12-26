@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
 #        os: [ windows-latest, self-hosted ]
-        os: [ self-hosted, ReboSDK_Win ]
+        os: [ self-hosted, Linux, X64, self-hosted, X64, Windows ]
     steps:
       - name: Cleanup (Others)
         if: matrix.os != 'windows-latest'
