@@ -19,8 +19,8 @@ jobs:
       - name: Cleanup (Windows)
         if: matrix.os == 'Windows'
         run: |
-          rmdir /S /Q src/extern/glfw
-          rmdir /S /Q src/extern/imgui
+          rmdir /S /Q src\extern\glfw
+          rmdir /S /Q src\extern\imgui
       - name: Checkout this repo
         uses: actions/checkout@v2
         with:
