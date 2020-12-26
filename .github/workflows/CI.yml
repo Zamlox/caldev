@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
 #        os: [ windows-latest, self-hosted ]
-        os: [ self-hosted, self-hosted ]
+        os: [ Linux, Windows ]
     steps:
       - name: Cleanup (Others)
-        if: matrix.os != 'windows-latest'
+        if: matrix.os != 'Windows'
         run: |
           rm -rf src/extern/glfw
           rm -rf src/extern/imgui
