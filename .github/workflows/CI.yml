@@ -14,8 +14,8 @@ jobs:
       - name: Cleanup (Others)
         if: matrix.os != 'Windows'
         run: |
-          [ -d "src/extern/glfw" ] && rm -rf src/extern/glfw
-          [ -d "src/extern/imgui" ] && rm -rf src/extern/imgui
+          rm -rf src/extern/glfw
+          rm -rf src/extern/imgui
       - name: Cleanup (Windows)
         if: matrix.os == 'Windows'
         run: |
