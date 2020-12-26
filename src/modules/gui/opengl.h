@@ -7,6 +7,9 @@
 
 #include "igui.h"
 #include "thread.h"
+#include "iwindow.h"
+#include <GLFW/glfw3.h>
+#include <memory>
 
 namespace GUI
 {
@@ -22,6 +25,20 @@ public:
     bool start() override;
     /** see IGui::stop() */
     bool stop() override;
+    /** see IGui::createMainWindow() */
+    int  createMainWindow(
+        char const* titleP, 
+        int xP, int yP, 
+        int widthP, 
+        int heightP, 
+        int bgColorP, 
+        bool visibleP = true) override;
+    /** see IGui::hideMainWindow() */
+    void hideMainWindow() override;
+    /** see IGui::showMainWindow() */
+    void showMainWindow() override;
+    /** see IGui::closeMainWindow() */
+    void closeMainWindow() override;
 
 private:
     /**
@@ -35,8 +52,22 @@ private:
      */
     static void* guiEngine(void*pParamP);
 
+    /** Renders main window */
+    void mainWindowRender();
+    /** Draw on canvas */
+    void draw();
+
+    /** Callback for size */
+    static void size_callback(GLFWwindow* window, int width, int height);
+
     /** Separate thread to run GUI engine */
     Os::Thread threadM;
+    /** Instance of os main window */
+    GLFWwindow* pOsWindowM;
+    /** Main window info */
+    std::unique_ptr<IWindow> pMainWidgetWindowM;
+    /** Flag used to stop the engine */
+    bool stopEngineM;
 };
 
 } // namespace GUI

@@ -1,8 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
-cc_library(
-    name = "rebosdklib",
-    srcs = glob([
+SRCS = glob([
         "api/**",
         "modules/**/*.h",
         "modules/**/*.cpp",
@@ -15,19 +13,31 @@ cc_library(
             "internal/**/*.h",
             "internal/**/*.cpp",
         ], exclude=["internal/os/windows/**"])
-    }),
-    copts = [
+    })
+COPTS = [
         "-Iapi",
         "-Iapi/rebol/imp",
         "-Iinternal/os",
+        "-Iinternal/gui",
+        "-Iextern/glfw/include",
+        "-Iextern/imgui",
+        "-Iextern/imgui/examples",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
+            "-std:c++17",
         ],
         "//conditions:default": [
-            "-DOS_LINUX"
+            "-DOS_LINUX",
+            "-std=c++17",
         ]
-    }),
+    })
+
+
+cc_library(
+    name = "rebosdklib",
+    srcs = SRCS,
+    copts = COPTS,
     deps = [
         "//extern/glfw:glfw",
         "//extern/imgui:imgui",
@@ -35,7 +45,7 @@ cc_library(
     visibility = ["//visibility:public"],
     linkopts = select({
         "@bazel_tools//src/conditions:windows": [
-            "user32.lib", "gdi32.lib", "shell32.lib"
+            "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
         ],
         "//conditions:default": [
             "-ldl", "-lpthread", "-lGL"
@@ -45,70 +55,25 @@ cc_library(
 
 cc_binary(
     name = "rebosdk",
-    srcs = glob([
-        "api/**",
-        "modules/**/*.h",
-        "modules/**/*.cpp",
-    ]) + select({
-        "@bazel_tools//src/conditions:windows": glob([
-            "internal/**/*.h",
-            "internal/**/*.cpp",
-        ], exclude=["internal/os/linux/**"]),
-        "//conditions:default": glob([
-            "internal/**/*.h",
-            "internal/**/*.cpp",
-        ], exclude=["internal/os/windows/**"])
-    }),
-    copts = [
-        "-Iapi",
-        "-Iapi/rebol/imp",
-        "-Iinternal/os",
-    ] + select({
-        "@bazel_tools//src/conditions:windows": [
-            "-DOS_WINDOWS",
-        ],
-        "//conditions:default": [
-            "-DOS_LINUX"
-        ]
-    }),
-    deps = [ ":rebosdklib" ],
+    srcs = SRCS,
+    copts = COPTS,
+    deps = [ 
+        ":rebosdklib",
+    ],
     linkshared = True,
 )
 
 cc_test(
     name = "unittests",
-    srcs = glob([
-        "api/**/*.h",
-        "api/**/*.cpp",
-        "modules/**/*.h",
-        "modules/**/*.cpp",
-    ]) + select({
-        "@bazel_tools//src/conditions:windows": glob([
-            "internal/**/*.h",
-            "internal/**/*.cpp",
-        ], exclude=["internal/os/linux/**"]),
-        "//conditions:default": glob([
-            "internal/**/*.h",
-            "internal/**/*.cpp",
-        ], exclude=["internal/os/windows/**"])
-    }) + glob([
+    srcs = SRCS + glob([
         "tests/**/*.cpp",
         "tests/**/*.h",
     ]),
     copts = [
         "-Iextern/googletest/googletest/include",
-        "-Iapi",
         "-Iapi/rebol",
-        "-Iapi/rebol/imp",
-        "-Iinternal/os",
-    ] + select({
-        "@bazel_tools//src/conditions:windows": [
-            "-DOS_WINDOWS",
-        ],
-        "//conditions:default": [
-            "-DOS_LINUX"
-        ]
-    }),
+        "-Imodules/gui",
+    ] + COPTS,
     deps = [
         "//extern/googletest:gtest_main",
         ":rebosdklib",
