@@ -20,7 +20,7 @@ namespace
 } // anonymous namespace
 
 OpenGL::OpenGL()
-    : threadM{"GuiEngine", nullptr, &OpenGL::guiEngine, this}
+    : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
     , pOsWindowM{nullptr}
     , stopEngineM{false}
 {
@@ -29,7 +29,6 @@ OpenGL::OpenGL()
 
 bool OpenGL::start()
 {
-    initGuiEngine(this);
     return threadM.start();
 }
 
