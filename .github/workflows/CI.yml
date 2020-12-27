@@ -9,13 +9,18 @@ jobs:
     strategy:
       matrix:
 #        os: [ windows-latest, self-hosted ]
-        os: [ self-hosted ]
+        os: [ Linux, Windows ]
     steps:
       - name: Cleanup (Others)
-        if: matrix.os != 'windows-latest'
+        if: matrix.os != 'Windows'
         run: |
           rm -rf src/extern/glfw
           rm -rf src/extern/imgui
+      - name: Cleanup (Windows)
+        if: matrix.os == 'Windows'
+        run: |
+          if (Test-Path src\extern\glfw) {Remove-Item -Recurse -Force -Confirm:$false src\extern\glfw}
+          if (Test-Path src\extern\imgui) {Remove-Item -Recurse -Force -Confirm:$false src\extern\imgui}
       - name: Checkout this repo
         uses: actions/checkout@v2
         with:
@@ -61,7 +66,6 @@ jobs:
 
       - name: Build product
         run: |
-          g++ --version
           cd src
           bazel build --sandbox_debug :rebosdk
 
