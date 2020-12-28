@@ -4,6 +4,8 @@ SRCS = glob([
         "api/**",
         "modules/**/*.h",
         "modules/**/*.cpp",
+        "bindings/**/*.h",
+        "bindings/**/*.cpp",
     ]) + select({
         "@bazel_tools//src/conditions:windows": glob([
             "internal/**/*.h",
@@ -22,6 +24,7 @@ COPTS = [
         "-Iextern/glfw/include",
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
+        "-Ibindings/common.h",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
