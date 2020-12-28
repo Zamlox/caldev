@@ -9,10 +9,11 @@
 #define __BIND_REBOL2_FACE_H__
 
 #include "bindings/common.h"
-#include <string>
-#include <vector>
-#include <cstddef>
-#include <variant>
+#include "bindings/rebol2/cpp/base.h"
+#include "bindings/rebol2/cpp/effect.h"
+#include "bindings/rebol2/cpp/edge.h"
+#include "bindings/rebol2/cpp/font.h"
+#include "bindings/rebol2/cpp/para.h"
 
 namespace Bind
 {
@@ -20,34 +21,20 @@ namespace Rebol2
 {
 
 struct Face;
-struct DrawItems;
 
-using Text      = std::string;
-using Word      = Text;
-using PairInt   = std::tuple<int, int>;
-using Pair      = PairInt;
 using Panes     = std::vector<Face>;
-using Color     = std::tuple<int, int, int>;
-using Image     = std::vector<std::byte>;
-using EffectParams  = std::variant<
-    Param0,
-    Param2<Pair, Pair>,
-    Param1<Pair>,
-    Param1<int>,
-    Param1<Color>,
-    Param3<Pair, Color, Color>,
-    Param1<std::vector<DrawItems>>,
-    Param2<Color, double>,
-    Param4<Pair, Color, int, int>,
-    Param5<Pair, Pair, Color, int, Pair>
->;
-using Effect    = std::variant<
+using Rate      = std::variant<int, Time>;
+using Options   = std::variant<
     Word,
-    std::vector<std::tuple<Word, EffectParams>>
+    std::vector<Word>
+>;
+using Changes   = std::variant<
+    Word,
+    std::vector<Word>
 >;
 
 /**
- * Data strutcture for corresponding face object in Rebol2
+ * Data structure for corresponding face object in Rebol2
  */
 struct Face
 {
@@ -61,6 +48,13 @@ struct Face
     None<Color>     colorM;
     None<Image>     imageM;
     None<Effect>    effectM;
+    None<Edge>      edgeM;
+    None<Font>      fontM;
+    None<Para>      paraM;
+    None<Rate>      rateM;
+    None<bool>      showM;
+    None<Options>   optionsM;
+    None<Changes>   changesM;
 };
 
 } // namespace Rebol2

@@ -68,9 +68,6 @@ private:
     T1  value1, *pValue1;
 };
 
-template <typename T>
-using None = Param1<T>;
-
 template <typename T1, typename T2>
 class Param2
 {
@@ -202,7 +199,6 @@ private:
     T4  value4, *pValue4;
     T5  value5, *pValue5;
 };
-
 
 } // namespace Bind
 
