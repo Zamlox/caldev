@@ -8,8 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-#        os: [ windows-latest, self-hosted ]
-        os: [ Linux, Windows ]
+        os: [ Linux, Windows, macOS ]
     steps:
       - name: Cleanup (Others)
         if: matrix.os != 'Windows'
