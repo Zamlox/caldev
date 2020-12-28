@@ -8,9 +8,9 @@
 #ifndef __GUI_WINDOW_H__
 #define __GUI_WINDOW_H__
 
-#include "iwindow.h"
-#include "basewidget.h"
-#include "imgui/window.h"
+#include "internal/gui/iwindow.h"
+#include "internal/gui/basewidget.h"
+#include "internal/gui/imgui/window.h"
 
 namespace GUI
 {

@@ -8,11 +8,11 @@
 #ifndef __OS_BARRIER_H__
 #define __OS_BARRIER_H__
 
-#include "ibarrier.h"
+#include "internal/os/ibarrier.h"
 #ifdef OS_WINDOWS
-#include "windows/barrier.h"
+#include "internal/os/windows/barrier.h"
 #else
-#include "linux/barrier.h"
+#include "internal/os/linux/barrier.h"
 #endif
 
 namespace Os 

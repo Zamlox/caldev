@@ -2,8 +2,8 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "window.h"
-#include "imgui.h"
+#include "internal/gui/imgui/window.h"
+#include "extern/imgui/imgui.h"
 
 namespace GUI
 {

@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "util.h"
+#include "internal/os/linux/util.h"
 #include <unistd.h>
 
 namespace Os

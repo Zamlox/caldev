@@ -8,7 +8,7 @@
 #ifndef __GUI_WIDGETFACTORY_H__
 #define __GUI_WIDGETFACTORY_H__
 
-#include "iwidgetfactory.h"
+#include "internal/gui/iwidgetfactory.h"
 
 namespace GUI
 {

@@ -9,8 +9,8 @@
 #ifndef __GUI_BASEWIDGET_H__
 #define __GUI_BASEWIDGET_H__
 
-#include "imgui/common.h"
-#include "mutex.h"
+#include "internal/gui/imgui/common.h"
+#include "internal/os/mutex.h"
 
 namespace GUI
 {

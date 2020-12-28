@@ -8,11 +8,11 @@
 #ifndef __OS_THREAD_H__
 #define __OS_THREAD_H__
 
-#include "ithread.h"
+#include "internal/os/ithread.h"
 #ifdef OS_WINDOWS
-#include "windows/thread.h"
+#include "internal/os/windows/thread.h"
 #else
-#include "linux/thread.h"
+#include "internal/os/linux/thread.h"
 #endif
 
 namespace Os 

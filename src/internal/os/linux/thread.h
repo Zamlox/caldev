@@ -8,8 +8,8 @@
 #ifndef __OS_LINUX_THREAD_H__
 #define __OS_LINUX_THREAD_H__
 
-#include "ithread.h"
-#include "barrier.h"
+#include "internal/os/ithread.h"
+#include "internal/os/linux/barrier.h"
 #include <pthread.h>
 #include <string>
 

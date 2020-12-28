@@ -17,14 +17,10 @@ SRCS = glob([
         ], exclude=["internal/os/windows/**"])
     })
 COPTS = [
-        "-Iapi",
-        "-Iapi/rebol/imp",
-        "-Iinternal/os",
-        "-Iinternal/gui",
+        "-I.",
         "-Iextern/glfw/include",
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
-        "-Ibindings/common.h",
     ] + select({
         "@bazel_tools//src/conditions:windows": [
             "-DOS_WINDOWS",
@@ -76,8 +72,7 @@ cc_test(
     ]),
     copts = [
         "-Iextern/googletest/googletest/include",
-        "-Iapi/rebol",
-        "-Imodules/gui",
+        "-I.",
     ] + COPTS,
     deps = [
         "//extern/googletest:gtest_main",

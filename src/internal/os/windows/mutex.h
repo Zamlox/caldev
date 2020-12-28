@@ -8,7 +8,7 @@
 #ifndef __OS_WINDOWS_MUTEX_H__
 #define __OS_WINDOWS_MUTEX_H__
 
-#include "imutex.h"
+#include "internal/os/imutex.h"
 #include <windows.h>
 #include <synchapi.h>
 

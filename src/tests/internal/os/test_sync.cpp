@@ -3,10 +3,10 @@
  */
 
 #include "gtest/gtest.h"
-#include "mutex.h"
-#include "barrier.h"
-#include "thread.h"
-#include "util.h"
+#include "internal/os/mutex.h"
+#include "internal/os/barrier.h"
+#include "internal/os/thread.h"
+#include "internal/os/util.h"
 #include <vector>
 #include <sstream>
 

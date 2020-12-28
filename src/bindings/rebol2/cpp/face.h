@@ -8,7 +8,7 @@
 #ifndef __BIND_REBOL2_FACE_H__
 #define __BIND_REBOL2_FACE_H__
 
-#include "../common.h"
+#include "bindings/common.h"
 #include <string>
 #include <vector>
 #include <cstddef>

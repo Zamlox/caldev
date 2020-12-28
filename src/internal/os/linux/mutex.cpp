@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "mutex.h"
+#include "internal/os/linux/mutex.h"
 #include <stdio.h>
 #include <stdlib.h>
 

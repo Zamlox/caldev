@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "barrier.h"
+#include "internal/os/barrier.h"
 
 namespace Os
 {

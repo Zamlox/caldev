@@ -3,8 +3,8 @@
  */
 
 #include "gtest/gtest.h"
-#include "opengl.h"
-#include "util.h"
+#include "modules/gui/opengl.h"
+#include "internal/os/util.h"
 
 namespace
 {

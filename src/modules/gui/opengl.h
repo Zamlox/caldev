@@ -5,9 +5,9 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "igui.h"
-#include "thread.h"
-#include "iwindow.h"
+#include "modules/gui/igui.h"
+#include "internal/os/thread.h"
+#include "internal/gui/iwindow.h"
 #include <GLFW/glfw3.h>
 #include <memory>
 

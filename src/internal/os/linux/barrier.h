@@ -8,7 +8,7 @@
 #ifndef __OS_LINUX_BARRIER_H__
 #define __OS_LINUX_BARRIER_H__
 
-#include "ibarrier.h"
+#include "internal/os/ibarrier.h"
 #ifdef OS_LINUX
 #include <semaphore.h>
 #else

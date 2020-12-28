@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "util.h"
+#include "internal/os/util.h"
 #include <assert.h>
 
 namespace Os

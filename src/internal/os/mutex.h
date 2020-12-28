@@ -8,11 +8,11 @@
 #ifndef __OS_MUTEX_H__
 #define __OS_MUTEX_H__
 
-#include "imutex.h"
+#include "internal/os/imutex.h"
 #ifdef OS_WINDOWS
-#include "windows/mutex.h"
+#include "internal/os/windows/mutex.h"
 #else
-#include "linux/mutex.h"
+#include "internal/os/linux/mutex.h"
 #endif
 
 namespace Os

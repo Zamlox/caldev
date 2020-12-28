@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "window.h"
+#include "internal/gui/window.h"
 
 namespace GUI
 {

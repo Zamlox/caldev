@@ -2,9 +2,9 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "widgetfactory.h"
-#include "imgui/common.h"
-#include "window.h"
+#include "internal/gui/widgetfactory.h"
+#include "internal/gui/imgui/common.h"
+#include "internal/gui/window.h"
 #include <string>
 
 namespace GUI

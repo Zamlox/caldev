@@ -8,7 +8,7 @@
 #ifndef __OS_LINUX_MUTEX_H__
 #define __OS_LINUX_MUTEX_H__
 
-#include "imutex.h"
+#include "internal/os/imutex.h"
 #include <pthread.h>
 
 namespace Os

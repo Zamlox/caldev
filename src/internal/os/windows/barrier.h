@@ -8,7 +8,7 @@
 #ifndef __OS_WINDOWS_BARRIER_H__
 #define __OS_WINDOWS_BARRIER_H__
 
-#include "ibarrier.h"
+#include "internal/os/ibarrier.h"
 #include <windows.h>
 #include <synchapi.h>
 
