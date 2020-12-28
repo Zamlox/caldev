@@ -22,14 +22,28 @@ namespace
 OpenGL::OpenGL()
     : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
     , pOsWindowM{nullptr}
+    , pMainWidgetWindowM{nullptr}
     , stopEngineM{false}
 {
     
 }
 
-bool OpenGL::start()
+bool OpenGL::startOnThread()
 {
+    stopEngineM = false;
     return threadM.start();
+}
+
+bool OpenGL::startOnMainThread(Os::ThreadFunc funcOnLoadP)
+{
+    stopEngineM = false;
+    initGuiEngine(this);
+    if (funcOnLoadP != nullptr)
+    {
+        funcOnLoadP(this);
+    }
+    guiEngine(this);
+    return true;
 }
 
 bool OpenGL::stop()
@@ -52,27 +66,34 @@ int OpenGL::createMainWindow(
         glfwSetWindowSize(pOsWindowM, widthP, heightP);
         glfwSetWindowTitle(pOsWindowM, titleP);
         glfwSetWindowSizeLimits(pOsWindowM, MIN_SIZE_X, MIN_SIZE_X, GLFW_DONT_CARE, GLFW_DONT_CARE);
-        pMainWidgetWindowM.reset(WidgetFactory::instance().createWindow(
-            titleP
-            , WindowFlags_NoNav
-            | WindowFlags_NoDecoration
-            | WindowFlags_NoBringToFrontOnFocus
-            | WindowFlags_NoBorder
-            , nullptr
-        ));
-        if (pMainWidgetWindowM.get())
-        {
-            pMainWidgetWindowM->setPos(0, 0);
-            pMainWidgetWindowM->setSize(
-                (widthP < MIN_SIZE_X) ? MIN_SIZE_X : widthP, 
-                (heightP < MIN_SIZE_Y) ? MIN_SIZE_Y : heightP
-            );
-            pMainWidgetWindowM->setBgColor(::ImGui::ColorConvertU32ToFloat4(bgColorP));
-            pMainWidgetWindowM->makeMainWindow(pOsWindowM);
-            //TODO: windowsM.add(pMainWidgetWindowM.get());
-        }
         (visibleP) ? glfwShowWindow(pOsWindowM) : glfwHideWindow(pOsWindowM);
-        return pMainWidgetWindowM->getId();
+        if (pMainWidgetWindowM == nullptr)
+        {
+            pMainWidgetWindowM = WidgetFactory::instance().createWindow(
+                titleP
+                , WindowFlags_NoNav
+                | WindowFlags_NoDecoration
+                | WindowFlags_NoBringToFrontOnFocus
+                | WindowFlags_NoBorder
+                , nullptr
+            );
+            if (pMainWidgetWindowM)
+            {
+                pMainWidgetWindowM->setPos(0, 0);
+                pMainWidgetWindowM->setSize(
+                    (widthP < MIN_SIZE_X) ? MIN_SIZE_X : widthP, 
+                    (heightP < MIN_SIZE_Y) ? MIN_SIZE_Y : heightP
+                );
+                pMainWidgetWindowM->setBgColor(::ImGui::ColorConvertU32ToFloat4(bgColorP));
+                pMainWidgetWindowM->makeMainWindow(pOsWindowM);
+                //TODO: windowsM.add(pMainWidgetWindowM.get());
+                return pMainWidgetWindowM->getId();
+            }
+        }
+        else
+        {
+            return pMainWidgetWindowM->getId();
+        }
     }
     return INVALID_WIDGET_ID;
 }
@@ -165,14 +186,16 @@ void* OpenGL::guiEngine(void* pParamP)
         pOpenGL->draw();
     }
     glfwDestroyWindow(pOpenGL->pOsWindowM);
+    pOpenGL->pOsWindowM = nullptr;
     glfwTerminate();
+    WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
 
     return nullptr;
 }
 
 void OpenGL::mainWindowRender()
 {
-    if (pMainWidgetWindowM.get())
+    if (pMainWidgetWindowM)
     {
         pMainWidgetWindowM->render();
     }
@@ -201,7 +224,7 @@ void OpenGL::draw()
     glfwGetFramebufferSize(pOsWindowM, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
     ImVec4 clearColor = ImVec4(1.0f, 0.0f, 0.0f, 0.0f);
-    if (pMainWidgetWindowM.get())
+    if (pMainWidgetWindowM)
     {
         clearColor = pMainWidgetWindowM->getBgColor();
     }

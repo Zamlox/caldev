@@ -21,8 +21,10 @@ class OpenGL : public IGui
 {
 public:
     OpenGL();
-    /** see IGui::start() */
-    bool start() override;
+    /** see IGui::startOnThread() */
+    bool startOnThread() override;
+    /** see IGui::startOnMainThread() */
+    bool startOnMainThread(Os::ThreadFunc funcOnLoadP) override;
     /** see IGui::stop() */
     bool stop() override;
     /** see IGui::createMainWindow() */
@@ -64,8 +66,8 @@ private:
     Os::Thread threadM;
     /** Instance of os main window */
     GLFWwindow* pOsWindowM;
-    /** Main window info */
-    std::unique_ptr<IWindow> pMainWidgetWindowM;
+    /** Main window widget */
+    IWindow* pMainWidgetWindowM;
     /** Flag used to stop the engine */
     bool stopEngineM;
 };

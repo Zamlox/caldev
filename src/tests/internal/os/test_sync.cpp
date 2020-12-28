@@ -147,6 +147,8 @@ TEST_F(ThreadTest, BarrierOff) {
     ASSERT_TRUE(threadsM[1]->start());
     threadsM[1]->join();
     ASSERT_EQ(countM, 0);
+    barrierM.signal();
+    threadsM[0]->join();
 }
 
 TEST_F(ThreadTest, ThreadExecution) {

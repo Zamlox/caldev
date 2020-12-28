@@ -35,7 +35,11 @@ void Thread::join()
 
 unsigned long int Thread::getId() const
 {
+#ifdef OS_LINUX
     return threadIdM;
+#else
+    return 0;
+#endif
 }
 
 const char* Thread::getName() const

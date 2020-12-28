@@ -8,8 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-#        os: [ windows-latest, self-hosted ]
-        os: [ Linux, Windows ]
+        os: [ Linux, Windows, macOS ]
     steps:
       - name: Cleanup (Others)
         if: matrix.os != 'Windows'
@@ -26,14 +25,14 @@ jobs:
         with:
           token: ${{secrets.GLFW_CHECKOUT}}
           submodules: recursive
-#      - name: Checkout submodules
-#        run: |
-#          cd src/extern/glfw
-#          git checkout master
-#          cd ../imgui
-#          git checkout master
-#          cd ../../..
-#          echo OS: ${{matrix.os}}
+      - name: Checkout submodules
+        run: |
+          cd src/extern/glfw
+          git checkout master
+          cd ../imgui
+          git checkout master
+          cd ../../..
+          echo OS: ${{matrix.os}}
 
       - name: Check gtest existence (windows)
         id: check_gtest_windows

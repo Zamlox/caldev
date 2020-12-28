@@ -6,8 +6,8 @@
     "configurations": [
         {                                
             "name": "(gdb) Rebosdk Launch",
-            //"type": "cppdbg",
-            "type": "cppvsdbg",
+            "type": "cppdbg",
+            //"type": "cppvsdbg",
             "request": "launch",
             // "program": "${workspaceFolder}/a.exe",
             //"program": "/usr/local/bin/rebol",
@@ -30,8 +30,11 @@
             ],
             */
             "externalConsole": true,
-            "MIMode": "gdb",
-            "miDebuggerPath": "/usr/bin/gdb",
+            "osx": {
+                "MIMode": "lldb",
+                //"miDebuggerPath": "/usr/bin/gdb",
+                "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+            },
             "preLaunchTask": "bazel_debug_build",
             "logging": { "engineLogging": true },
             "setupCommands": [

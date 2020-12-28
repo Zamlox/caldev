@@ -27,19 +27,28 @@ COPTS = [
             "-DOS_WINDOWS",
             "-std:c++17",
         ],
+        "@bazel_tools//src/conditions:darwin": [
+            "-DOS_MACOS",
+            "-std=c++17",
+        ],
         "//conditions:default": [
             "-DOS_LINUX",
             "-std=c++17",
         ]
     })
 
-
 cc_library(
-    name = "rebosdklib",
+    name = "rebosdk",
     srcs = SRCS,
     copts = COPTS,
-    deps = [
-        "//extern/glfw:glfw",
+    deps = select({
+        "@bazel_tools//src/conditions:darwin": [
+            "//extern/glfw:glfw_",
+        ],
+        "//conditions:default": [
+            "//extern/glfw:glfw",
+        ],
+    }) + [
         "//extern/imgui:imgui",
     ],
     visibility = ["//visibility:public"],
@@ -47,20 +56,13 @@ cc_library(
         "@bazel_tools//src/conditions:windows": [
             "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
         ],
+        "@bazel_tools//src/conditions:darwin": [
+            "-ldl", "-lpthread", "-framework Foundation -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo"
+        ],
         "//conditions:default": [
             "-ldl", "-lpthread", "-lGL"
         ]
     }),
-)
-
-cc_binary(
-    name = "rebosdk",
-    srcs = SRCS,
-    copts = COPTS,
-    deps = [ 
-        ":rebosdklib",
-    ],
-    linkshared = True,
 )
 
 cc_test(
@@ -76,6 +78,6 @@ cc_test(
     ] + COPTS,
     deps = [
         "//extern/googletest:gtest_main",
-        ":rebosdklib",
+        ":rebosdk",
     ],
 )
