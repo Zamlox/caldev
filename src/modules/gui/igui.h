@@ -5,6 +5,11 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
+#ifndef __GUI_IGUI_H__
+#define __GUI_IGUI_H__
+
+#include "ithread.h"
+
 namespace GUI
 {
 /**
@@ -15,10 +20,16 @@ class IGui
 public:
     virtual ~IGui() = default;
     /**
-     * Starts GUI engine
+     * Starts GUI engine in a different thread then main thread
      * @return {bool}  :  true if succeeded, false otherwise
      */
-    virtual bool start() = 0;
+    virtual bool startOnThread() = 0;
+    /**
+     * Starts GUI engine in main thread
+     * @param  {Os::ThreadFunc} funcOnLoadP : function to execute after init but before thread body
+     * @return {bool}                       : true if succeeded, false otherwise
+     */
+    virtual bool startOnMainThread(Os::ThreadFunc funcOnLoadP) = 0;
     /**
      * Stops GUI engine
      * @return {bool}  : true if succeeded, false otherwise
@@ -56,3 +67,5 @@ public:
 };
 
 } // namespace GUI
+
+#endif // __GUI_IGUI_H__

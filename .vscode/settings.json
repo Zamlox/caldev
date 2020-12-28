@@ -82,6 +82,7 @@
         "internal.h": "c",
         "glfw3.h": "c",
         "xiosbase": "cpp",
-        "xlocmes": "cpp"
+        "xlocmes": "cpp",
+        "xtr1common": "cpp"
     }
 }
