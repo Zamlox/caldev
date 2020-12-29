@@ -7,8 +7,9 @@
 #include "internal/os/util.h"
 #include "bindings/rebol2/cpp/default.h"
 
-
+#ifndef OS_MACOS
 #include <filesystem>
+#endif
 #include <iostream>
 
 #define GTEST_COUT std::cerr << "[          ] [ INFO ]"
@@ -89,6 +90,7 @@ TEST_F(TestsOpenGL, StartThread) {
 }
 #endif
 
+#ifndef OS_MACOS    // missing filesystem
 TEST_F(TestsOpenGL, CreateFont) {
     std::filesystem::path cwd = std::filesystem::current_path();
 #ifdef OS_WINDOWS
@@ -113,5 +115,6 @@ TEST_F(TestsOpenGL, CreateFont) {
     GUI::Font* pFont1 = opengl.createFont(Bind::Rebol2::Default::instance().getFont());
     ASSERT_EQ(pFont, pFont1);
 }
+#endif
 
 }

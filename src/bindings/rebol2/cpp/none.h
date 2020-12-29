@@ -24,7 +24,7 @@ public:
     template <typename TDefault>
     T const& getValueOrDefault(TDefault const& rDefaultP) const
     {
-        if (T* pVal = getValue1(); pVal != nullptr)
+        if (T* pVal = Param1<T>::getValue1(); pVal != nullptr)
         {
             return *pVal;
         }
@@ -33,7 +33,7 @@ public:
 
     CanBeNone& operator=(T const& rOpP)
     {
-        setValue1(rOpP);
+        Param1<T>::setValue1(rOpP);
         return *this;
     }
 };
