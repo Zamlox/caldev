@@ -66,7 +66,10 @@ public:
 
 private:
     T1  value1, *pValue1;
+    static T1* pDefaultValueM;
 };
+template <typename T1>
+T1* Param1<T1>::pDefaultValueM{nullptr};
 
 template <typename T1, typename T2>
 class Param2

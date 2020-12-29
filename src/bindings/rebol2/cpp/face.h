@@ -49,7 +49,7 @@ struct Face
     CanBeNone<Image>    imageM;
     CanBeNone<Effect>   effectM;
     CanBeNone<Edge>     edgeM;
-    CanBeNone<Font>     fontM;
+    CanBeNone<FaceFont> fontM;
     CanBeNone<Para>     paraM;
     CanBeNone<Rate>     rateM;
     CanBeNone<bool>     showM;

@@ -3,10 +3,11 @@
  */
 
 #include "modules/gui/opengl.h"
+#include "internal/gui/imgui/common.h"
 #include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
-#include "internal/gui/imgui/common.h"
+#include "extern/imgui/examples/imgui_impl_opengl2.h"
 
 namespace GUI
 {
@@ -24,6 +25,8 @@ OpenGL::OpenGL()
     , pOsWindowM{nullptr}
     , pMainWidgetWindowM{nullptr}
     , stopEngineM{false}
+    , fontsM{&syncBeforeFrameStartsM}
+    , newFontAddedM{false}
 {
     
 }
@@ -205,9 +208,13 @@ void OpenGL::draw()
 {
     assert(pOsWindowM);
 
-    // TODO: invalidate fonts
-    // ...
+    syncBeforeFrameStartsM.lock();
 
+    if (newFontAddedM)
+    {
+        ImGui_ImplOpenGL2_InvalidateFont();
+        newFontAddedM = false;
+    }
     // Start Dear ImGui frame
     InitNewFrame();
     ::ImGui::NewFrame();
@@ -235,6 +242,8 @@ void OpenGL::draw()
 
     glfwMakeContextCurrent(pOsWindowM);
     glfwSwapBuffers(pOsWindowM);
+
+    syncBeforeFrameStartsM.unlock();
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)
@@ -242,6 +251,36 @@ void OpenGL::size_callback(GLFWwindow* window, int width, int height)
     ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
     assert(pImGuiContext);
     pImGuiContext->Extension.mainSize = ImVec2{static_cast<float>(width), static_cast<float>(height)};
+}
+
+Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
+{
+    Font* pFont{nullptr};
+    ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
+    assert(pImGuiContext);
+    Bind::Rebol2::FontInfo fontInfo;
+    Bind::Rebol2::Text const& fontName{rFontP.fontPathM};
+    if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
+    {
+        static ImFontConfig fntConfig;
+        syncBeforeFrameStartsM.lock();
+        pFont = pImGuiContext->IO.Fonts->AddFontFromFileTTF(
+            fontName.c_str()
+            , (rFontP.sizeM.getValue1()) ? *rFontP.sizeM.getValue1() : 10 // TODO: implement default values
+            , &fntConfig
+        );
+        fontInfo.faceFontM = rFontP;
+        fontInfo.pFontM = pFont;
+        fontsM.add(fontName, fontInfo);
+        newFontAddedM = true;
+        syncBeforeFrameStartsM.unlock();
+    }
+    else
+    {
+        pFont = fontInfo.pFontM;
+    }
+    
+    return pFont;
 }
 
 } // namespace GUI
