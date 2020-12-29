@@ -33,7 +33,7 @@ protected:
         GUI::OpenGL* pOpenGL = static_cast<GUI::OpenGL*>(pParamP);
         if (pOpenGL)
         {
-            int res = pOpenGL->createMainWindow("Main thread window", 50, 50, 800, 600, 0xFF0000, true);
+            pOpenGL->createMainWindow("Main thread window", 50, 50, 800, 600, 0xFF0000, true);
         }
         threadM.start();
         return nullptr;
@@ -44,7 +44,7 @@ protected:
         GUI::OpenGL* pOpenGL = static_cast<GUI::OpenGL*>(pParamP);
         if (pOpenGL)
         {
-            int res = pOpenGL->createMainWindow("Another main thread window", 10, 40, 600, 400, 0xFFFF00, true);
+            pOpenGL->createMainWindow("Another main thread window", 10, 40, 600, 400, 0xFFFF00, true);
         }
         threadM.start();
         return nullptr;
