@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "thread.h"
+#include "internal/os/linux/thread.h"
 
 namespace Os
 {

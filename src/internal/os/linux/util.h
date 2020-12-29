@@ -8,7 +8,7 @@
 #ifndef __OS_LINUX_UTIL_H__
 #define __OS_LINUX_UTIL_H__
 
-#include "iutil.h"
+#include "internal/os/iutil.h"
 
 namespace Os
 {

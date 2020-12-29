@@ -2,8 +2,8 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "thread.h"
-#include "processthreadsapi.h"
+#include "internal/os/windows/thread.h"
+#include <processthreadsapi.h>
 
 namespace Os
 {

@@ -2,8 +2,8 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "rebol2.h"
-#include "rebol2imp.h"
+#include "api/rebol/rebol2.h"
+#include "api/rebol/imp/rebol2imp.h"
 #include <assert.h>
 #include <memory>
 

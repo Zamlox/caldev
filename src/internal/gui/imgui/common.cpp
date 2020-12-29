@@ -2,9 +2,9 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "common.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl2.h"
+#include "internal/gui/imgui/common.h"
+#include "extern/imgui/examples/imgui_impl_glfw.h"
+#include "extern/imgui/examples/imgui_impl_opengl2.h"
 
 namespace GUI
 {

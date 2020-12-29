@@ -8,9 +8,9 @@
 #ifndef __GUI_IWIDGETFACTORY_H__
 #define __GUI_IWIDGETFACTORY_H__
 
-#include "iwidget.h"
-#include "iwindow.h"
-#include "imgui/common.h"
+#include "internal/gui/iwidget.h"
+#include "internal/gui/iwindow.h"
+#include "internal/gui/imgui/common.h"
 
 namespace GUI
 {

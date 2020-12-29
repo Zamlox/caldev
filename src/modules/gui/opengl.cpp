@@ -2,11 +2,11 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "opengl.h"
-#include "widgetfactory.h"
-#include "imgui.h"
-#include "imgui_internal.h"
-#include "imgui/common.h"
+#include "modules/gui/opengl.h"
+#include "internal/gui/widgetfactory.h"
+#include "extern/imgui/imgui.h"
+#include "extern/imgui/imgui_internal.h"
+#include "internal/gui/imgui/common.h"
 
 namespace GUI
 {

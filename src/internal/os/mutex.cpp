@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "mutex.h"
+#include "internal/os/mutex.h"
 
 namespace Os
 {

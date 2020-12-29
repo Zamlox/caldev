@@ -3,8 +3,8 @@
  */
 
 #include "gtest/gtest.h"
-#include "rebol2.h"
-#include "rebol2imp.h"
+#include "api/rebol/rebol2.h"
+#include "api/rebol/imp/rebol2imp.h"
 
 namespace {
 

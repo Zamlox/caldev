@@ -8,7 +8,7 @@
 #ifndef __GUI_IGUI_H__
 #define __GUI_IGUI_H__
 
-#include "ithread.h"
+#include "internal/os/ithread.h"
 
 namespace GUI
 {

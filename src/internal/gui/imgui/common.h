@@ -8,7 +8,7 @@
 #ifndef __GUI_IMGUI_COMMON_H__
 #define __GUI_IMGUI_COMMON_H__
 
-#include "imgui.h"
+#include "extern/imgui/imgui.h"
 #include <GLFW/glfw3.h>
 #include <limits.h>
 

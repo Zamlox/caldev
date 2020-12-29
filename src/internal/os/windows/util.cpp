@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "util.h"
+#include "internal/os/windows/util.h"
 #include <synchapi.h>
 
 namespace Os

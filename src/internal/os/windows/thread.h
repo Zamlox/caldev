@@ -8,8 +8,8 @@
 #ifndef __OS_WINDOWS_THREAD_H__
 #define __OS_WINDOWS_THREAD_H__
 
-#include "ithread.h"
-#include "barrier.h"
+#include "internal/os/ithread.h"
+#include "internal/os/windows/barrier.h"
 #include <windows.h>
 #include <string>
 

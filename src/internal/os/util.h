@@ -8,11 +8,11 @@
 #ifndef __OS_UTIL_H__
 #define __OS_UTIL_H__
 
-#include "iutil.h"
+#include "internal/os/iutil.h"
 #ifdef OS_WINDOWS
-#include "windows/util.h"
+#include "internal/os/windows/util.h"
 #else
-#include "linux/util.h"
+#include "internal/os/linux/util.h"
 #endif
 
 namespace Os

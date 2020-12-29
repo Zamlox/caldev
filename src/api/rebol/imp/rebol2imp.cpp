@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "rebol2imp.h"
+#include "api/rebol/imp/rebol2imp.h"
 
 namespace Api
 {
