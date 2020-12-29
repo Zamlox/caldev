@@ -64,12 +64,9 @@ public:
         pValue1 = &value1;
     }
 
-private:
+protected:
     T1  value1, *pValue1;
-    static T1* pDefaultValueM;
 };
-template <typename T1>
-T1* Param1<T1>::pDefaultValueM{nullptr};
 
 template <typename T1, typename T2>
 class Param2
@@ -90,7 +87,7 @@ public:
     void setValue2(T2 const& rValueP)
     { value2 = rValueP; pValue2 = &value2; }
 
-private:
+protected:
     T1  value1, *pValue1;
     T2  value2, *pValue2;
 };
@@ -119,7 +116,7 @@ public:
     void setValue3(T3 const& rValueP)
     { value3 = rValueP; pValue3 = &value3; }
 
-private:
+protected:
     T1  value1, *pValue1;
     T2  value2, *pValue2;
     T3  value3, *pValue3;
@@ -154,7 +151,7 @@ public:
     void setValue4(T4 const& rValueP)
     { value4 = rValueP; pValue4 = &value4; }
 
-private:
+protected:
     T1  value1, *pValue1;
     T2  value2, *pValue2;
     T3  value3, *pValue3;
@@ -195,7 +192,7 @@ public:
     void setValue5(T5 const& rValueP)
     { value5 = rValueP; pValue5 = &value5; }
 
-private:
+protected:
     T1  value1, *pValue1;
     T2  value2, *pValue2;
     T3  value3, *pValue3;

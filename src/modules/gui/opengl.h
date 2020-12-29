@@ -46,6 +46,13 @@ public:
     /** see IGui::closeMainWindow() */
     void closeMainWindow() override;
 
+    /**
+     * Create font based on a rebol font object
+     * @param  {Bind::Rebol2::Font} const : rebol2 font object
+     * @return {Font*}                    : font created if successful or nullptr otherwise
+     */
+    Font* createFont(Bind::Rebol2::FaceFont const& rFontP);
+
 private:
     /**
      * Code to run before returning back to caller after thread starts
@@ -65,12 +72,6 @@ private:
 
     /** Callback for size */
     static void size_callback(GLFWwindow* window, int width, int height);
-    /**
-     * Create font based on a rebol font object
-     * @param  {Bind::Rebol2::Font} const : rebol2 font object
-     * @return {Font*}                    : font created if successful or nullptr otherwise
-     */
-    Font* createFont(Bind::Rebol2::FaceFont const& rFontP);
 
     /** Separate thread to run GUI engine */
     Os::Thread threadM;

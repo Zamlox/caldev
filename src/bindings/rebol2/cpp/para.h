@@ -10,6 +10,7 @@
 
 #include "bindings/common.h"
 #include "bindings/rebol2/cpp/base.h"
+#include "bindings/rebol2/cpp/none.h"
 #include <vector>
 #include <variant>
 

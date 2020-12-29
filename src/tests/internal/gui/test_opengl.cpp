@@ -5,6 +5,13 @@
 #include "gtest/gtest.h"
 #include "modules/gui/opengl.h"
 #include "internal/os/util.h"
+#include "bindings/rebol2/cpp/default.h"
+
+
+#include <filesystem>
+#include <iostream>
+
+#define GTEST_COUT std::cerr << "[          ] [ INFO ]"
 
 namespace
 {
@@ -82,5 +89,29 @@ TEST_F(TestsOpenGL, StartThread) {
 }
 #endif
 
+TEST_F(TestsOpenGL, CreateFont) {
+    std::filesystem::path cwd = std::filesystem::current_path();
+#ifdef OS_WINDOWS
+    cwd.append("extern\\imgui\\misc\\fonts\\DroidSans.ttf");
+#else
+    cwd.append("extern/imgui/misc/fonts/DroidSans.ttf");
+#endif
+    Bind::Rebol2::Default::instance().setFaceFont(
+        "TestFont1",
+        10,
+        "Regular",
+        {100, 100, 100},
+        "Left",
+        "Top",
+        {10, 20},
+        {21, 22},
+        {13,14},
+        cwd.string()
+    );
+    GUI::Font* pFont = opengl.createFont(Bind::Rebol2::Default::instance().getFont());
+    ASSERT_NE(pFont, nullptr);
+    GUI::Font* pFont1 = opengl.createFont(Bind::Rebol2::Default::instance().getFont());
+    ASSERT_EQ(pFont, pFont1);
 }
 
+}

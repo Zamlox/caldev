@@ -2,6 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
+#include "bindings/rebol2/cpp/default.h"
 #include "modules/gui/opengl.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/gui/widgetfactory.h"
@@ -221,8 +222,7 @@ void OpenGL::draw()
 
     // Display widgets here
     // It's enough to render only main window object. The render function
-    //  will recursively render its children. 'windowsM' and 'widgetsM' are
-    //  intended for fast searching items based on their id, not to render.
+    //  will recursively render its children.
     mainWindowRender();
 
     // Rendering
@@ -266,7 +266,7 @@ Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
         syncBeforeFrameStartsM.lock();
         pFont = pImGuiContext->IO.Fonts->AddFontFromFileTTF(
             fontName.c_str()
-            , (rFontP.sizeM.getValue1()) ? *rFontP.sizeM.getValue1() : 10 // TODO: implement default values
+            , rFontP.sizeM.getValueOrDefault(Bind::Rebol2::getDefaultFontSize())
             , &fntConfig
         );
         fontInfo.faceFontM = rFontP;

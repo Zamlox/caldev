@@ -14,6 +14,7 @@
 #include "bindings/rebol2/cpp/edge.h"
 #include "bindings/rebol2/cpp/font.h"
 #include "bindings/rebol2/cpp/para.h"
+#include "bindings/rebol2/cpp/none.h"
 
 namespace Bind
 {
