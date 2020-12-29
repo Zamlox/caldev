@@ -14,3 +14,9 @@ EXPORT int rebInitGUI (int guiTypeP)
     assert(pRebol2API != nullptr);
     return pRebol2API->initGUI(guiTypeP);
 }
+
+EXPORT int rebStopGUI()
+{
+    assert(pRebol2API != nullptr);
+    return pRebol2API->stopGUI();
+}

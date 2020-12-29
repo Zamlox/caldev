@@ -53,6 +53,7 @@ bool OpenGL::startOnMainThread(Os::ThreadFunc funcOnLoadP)
 bool OpenGL::stop()
 {
     stopEngineM = true;
+    threadM.join();
     return true;
 }
 
@@ -120,8 +121,7 @@ void OpenGL::showMainWindow()
 
 void OpenGL::closeMainWindow()
 {
-    stopEngineM = true;
-    threadM.join();
+    stop();
 }
 
 

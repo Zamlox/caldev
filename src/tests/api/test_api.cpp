@@ -10,6 +10,7 @@ namespace {
 
 TEST(RebolAPITest, Initialization){
     EXPECT_EQ(rebInitGUI(Api::GUI_OPENGL2), 0);
+    EXPECT_EQ(rebStopGUI(), 0);
     EXPECT_EQ(rebInitGUI(Api::GUI_DIRECTX), 0);
     EXPECT_NE(rebInitGUI(99), 0);
 }
