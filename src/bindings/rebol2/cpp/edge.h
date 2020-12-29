@@ -19,10 +19,10 @@ namespace Rebol2
 
 struct Edge
 {
-    None<Color>     colorM;
-    None<Pair>      sizeM;
-    None<Effect>    effectM;
-    None<Image>     imageM;
+    CanBeNone<Color>     colorM;
+    CanBeNone<Pair>      sizeM;
+    CanBeNone<Effect>    effectM;
+    CanBeNone<Image>     imageM;
 };
 
 } // namespace Rebol2

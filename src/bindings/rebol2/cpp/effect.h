@@ -18,12 +18,12 @@ namespace Rebol2
 {
 
 struct DrawItems;
-using EffectParams  = std::variant<
+using EffectParam   = std::variant<
     Param0,
-    Param2<Pair, Pair>,
-    Param1<Pair>,
     Param1<int>,
     Param1<Color>,
+    Param1<Pair>,
+    Param2<Pair, Pair>,
     Param3<Pair, Color, Color>,
     Param1<std::vector<DrawItems>>,
     Param2<Color, double>,
@@ -32,7 +32,7 @@ using EffectParams  = std::variant<
 >;
 using Effect    = std::variant<
     Word,
-    std::vector<std::tuple<Word, EffectParams>>
+    std::vector<std::tuple<Word, EffectParam>>
 >;
 
 } // namespace Rebol2

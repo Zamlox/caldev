@@ -18,8 +18,10 @@ namespace Bind
 namespace Rebol2
 {
 
+constexpr void* none = nullptr;
+
 template <typename T>
-using None      = Param1<T>;
+using CanBeNone = Param1<T>;
 
 using Text      = std::string;
 using Word      = Text;

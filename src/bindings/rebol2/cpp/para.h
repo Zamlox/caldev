@@ -26,12 +26,12 @@ using ParaTabs = std::variant<
 
 struct Para
 {
-    None<Pair>      originM;
-    None<Pair>      marginM;
-    None<Pair>      indentM;
-    None<Pair>      scrollM;
-    None<ParaTabs>  tabsM;
-    None<bool>      wrapM;
+    CanBeNone<Pair>      originM;
+    CanBeNone<Pair>      marginM;
+    CanBeNone<Pair>      indentM;
+    CanBeNone<Pair>      scrollM;
+    CanBeNone<ParaTabs>  tabsM;
+    CanBeNone<bool>      wrapM;
 };
 
 } // namespace Rebol2

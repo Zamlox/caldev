@@ -26,15 +26,15 @@ using FontStyle = std::variant<
 
 struct Font
 {
-    None<Text>      nameM;
-    None<Pair>      sizeM;
-    None<FontStyle> styleM;
-    None<Color>     colorM;
-    None<Word>      alignM;
-    None<Word>      valignM;
-    None<Pair>      offsetM;
-    None<Pair>      spaceM;
-    None<Pair>      shadowM;
+    CanBeNone<Text>      nameM;
+    CanBeNone<Pair>      sizeM;
+    CanBeNone<FontStyle> styleM;
+    CanBeNone<Color>     colorM;
+    CanBeNone<Word>      alignM;
+    CanBeNone<Word>      valignM;
+    CanBeNone<Pair>      offsetM;
+    CanBeNone<Pair>      spaceM;
+    CanBeNone<Pair>      shadowM;
 };
 
 } // namespace Rebol2

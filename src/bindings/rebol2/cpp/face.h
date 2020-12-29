@@ -39,22 +39,22 @@ using Changes   = std::variant<
 struct Face
 {
     int             idM;
-    None<Word>      typeM;
-    None<Pair>      offsetM;
-    None<Pair>      sizeM;
-    None<Pair>      spanM;
-    None<Panes>     paneM;
-    None<Text>      textM;
-    None<Color>     colorM;
-    None<Image>     imageM;
-    None<Effect>    effectM;
-    None<Edge>      edgeM;
-    None<Font>      fontM;
-    None<Para>      paraM;
-    None<Rate>      rateM;
-    None<bool>      showM;
-    None<Options>   optionsM;
-    None<Changes>   changesM;
+    CanBeNone<Word>      typeM;
+    CanBeNone<Pair>      offsetM;
+    CanBeNone<Pair>      sizeM;
+    CanBeNone<Pair>      spanM;
+    CanBeNone<Panes>     paneM;
+    CanBeNone<Text>      textM;
+    CanBeNone<Color>     colorM;
+    CanBeNone<Image>     imageM;
+    CanBeNone<Effect>    effectM;
+    CanBeNone<Edge>      edgeM;
+    CanBeNone<Font>      fontM;
+    CanBeNone<Para>      paraM;
+    CanBeNone<Rate>      rateM;
+    CanBeNone<bool>      showM;
+    CanBeNone<Options>   optionsM;
+    CanBeNone<Changes>   changesM;
 };
 
 } // namespace Rebol2
