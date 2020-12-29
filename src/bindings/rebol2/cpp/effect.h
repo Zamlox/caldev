@@ -10,6 +10,8 @@
 
 #include "bindings/common.h"
 #include "bindings/rebol2/cpp/base.h"
+#include "bindings/rebol2/cpp/draw.h"
+#include "bindings/rebol2/cpp/none.h"
 #include <variant>
 
 namespace Bind
@@ -17,7 +19,6 @@ namespace Bind
 namespace Rebol2
 {
 
-struct DrawItems;
 using EffectParam   = std::variant<
     Param0,
     Param1<int>,
@@ -30,9 +31,10 @@ using EffectParam   = std::variant<
     Param4<Pair, Color, int, int>,
     Param5<Pair, Pair, Color, int, Pair>
 >;
-using Effect    = std::variant<
+using EffectBlock   = std::vector<std::tuple<Word, EffectParam>>;
+using Effect        = std::variant<
     Word,
-    std::vector<std::tuple<Word, EffectParam>>
+    EffectBlock
 >;
 
 } // namespace Rebol2

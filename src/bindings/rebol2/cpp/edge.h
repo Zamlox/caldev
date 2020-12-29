@@ -11,6 +11,7 @@
 #include "bindings/common.h"
 #include "bindings/rebol2/cpp/base.h"
 #include "bindings/rebol2/cpp/effect.h"
+#include "bindings/rebol2/cpp/none.h"
 
 namespace Bind
 {

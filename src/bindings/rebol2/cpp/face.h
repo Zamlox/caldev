@@ -14,6 +14,7 @@
 #include "bindings/rebol2/cpp/edge.h"
 #include "bindings/rebol2/cpp/font.h"
 #include "bindings/rebol2/cpp/para.h"
+#include "bindings/rebol2/cpp/none.h"
 
 namespace Bind
 {
@@ -49,7 +50,7 @@ struct Face
     CanBeNone<Image>    imageM;
     CanBeNone<Effect>   effectM;
     CanBeNone<Edge>     edgeM;
-    CanBeNone<Font>     fontM;
+    CanBeNone<FaceFont> fontM;
     CanBeNone<Para>     paraM;
     CanBeNone<Rate>     rateM;
     CanBeNone<bool>     showM;

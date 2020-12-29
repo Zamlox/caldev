@@ -10,6 +10,9 @@
 
 #include "bindings/common.h"
 #include "bindings/rebol2/cpp/base.h"
+#include "bindings/rebol2/cpp/none.h"
+#include "internal/gui/imgui/common.h"
+#include "internal/tools/safemap.h"
 #include <vector>
 #include <variant>
 
@@ -24,10 +27,20 @@ using FontStyle = std::variant<
     FontStyleBlock
 >;
 
-struct Font
+struct FaceFont
 {
+    bool operator==(FaceFont const& rOpP)
+    {
+        return (nameM == rOpP.nameM)
+            && (styleM == rOpP.styleM)
+            && (sizeM == rOpP.sizeM)
+            && (colorM == rOpP.colorM);
+    }
+    bool operator!=(FaceFont const& rOpP)
+    { return !(*this == rOpP); }
+    
     CanBeNone<Text>      nameM;
-    CanBeNone<Pair>      sizeM;
+    CanBeNone<int>       sizeM;
     CanBeNone<FontStyle> styleM;
     CanBeNone<Color>     colorM;
     CanBeNone<Word>      alignM;
@@ -35,7 +48,15 @@ struct Font
     CanBeNone<Pair>      offsetM;
     CanBeNone<Pair>      spaceM;
     CanBeNone<Pair>      shadowM;
+    Text                 fontPathM;
 };
+
+using FontInfo = struct {
+    GUI::Font*  pFontM;
+    FaceFont    faceFontM;
+};
+using FontsMap = Tools::SafeMap<std::string, FontInfo>;
+
 
 } // namespace Rebol2
 } // namespace Bind
