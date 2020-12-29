@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <cstddef>
+#include <tuple>
 
 namespace Bind
 {
