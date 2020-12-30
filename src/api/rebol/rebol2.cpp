@@ -9,13 +9,13 @@
 
 std::unique_ptr<Api::Rebol2Imp> pRebol2API{new Api::Rebol2Imp};
 
-EXPORT int rebInitGUI (int guiTypeP)
+EXPORT int initGUI (int guiTypeP)
 {
     assert(pRebol2API != nullptr);
     return pRebol2API->initGUI(guiTypeP);
 }
 
-EXPORT int rebStopGUI()
+EXPORT int stopGUI()
 {
     assert(pRebol2API != nullptr);
     return pRebol2API->stopGUI();

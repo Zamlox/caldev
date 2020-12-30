@@ -15,11 +15,11 @@
  * @param  {int} guiTypeP : type of GUI
  * @return {int}          : 0 if succeeded
  */
-EXPORT int rebInitGUI(int guiTypeP);
+EXPORT int initGUI(int guiTypeP);
 /**
  * Stop GUI engine
  * @return {int}  : 0 if succeeded
  */
-EXPORT int rebStopGUI();
+EXPORT int stopGUI();
 
 #endif // __API_REBOL2_H__
