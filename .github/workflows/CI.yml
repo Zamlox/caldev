@@ -68,6 +68,13 @@ jobs:
           cd src
           bazel build --sandbox_debug :rebosdk
 
+  test:
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ Linux, Windows, macOS ]
+    steps:
       - name: Test product
         run: |
           cd src
