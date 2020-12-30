@@ -66,7 +66,7 @@ jobs:
       - name: Build product
         run: |
           cd src
-          bazel build --sandbox_debug :rebosdk
+          bazel build --strip=always :rebosdk
 
   test:
     needs: build
@@ -78,5 +78,5 @@ jobs:
       - name: Test product
         run: |
           cd src
-          bazel build --sandbox_debug :unittests
+          bazel build --strip=always :unittests
           ./bazel-bin/unittests
