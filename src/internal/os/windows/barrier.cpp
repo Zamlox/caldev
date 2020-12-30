@@ -15,7 +15,7 @@ Barrier::Barrier()
 {
     if ((eventM = CreateEvent(NULL, FALSE, FALSE, NULL)) == NULL)
     {
-        printf("ERROR ! Cannot create event !\n");
+        fprintf(stderr, "ERROR ! Cannot create event !\n");
         exit(1);
     }
 }
@@ -24,7 +24,7 @@ void Barrier::signal()
 {
     if (!SetEvent(eventM))
     {
-        printf("ERROR ! Cannot set event !\n");
+        fprintf(stderr, "ERROR ! Cannot set event !\n");
         exit(1);
     }
 }
@@ -33,7 +33,7 @@ void Barrier::wait()
 {
     if (WaitForSingleObject(eventM, INFINITE) == WAIT_FAILED)
     {
-        printf("ERROR ! Wait on event failed !\n");
+        fprintf(stderr, "ERROR ! Wait on event failed !\n");
         exit(1);
     }
 }

@@ -17,7 +17,7 @@ int Rebol2Imp::initGUI(int guiTypeP)
 #ifndef OS_MACOS
             if(!pGuiEngineM->startOnThread())
             {
-                printf("Cannot start OpenGL engine !");
+                fprintf(stderr, "Cannot start OpenGL engine !\n");
                 exit(1);
             }
 #endif

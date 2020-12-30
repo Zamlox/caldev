@@ -113,7 +113,7 @@ void Window::render()
         // create window
         if (!::ImGui::Begin(titleM.c_str(), &isOpenM, flagsM))
         {
-            printf("Cannot create window: %s, %ud\n", titleM.c_str(), flagsM);
+            fprintf(stderr, "Cannot create window: %s, %ud\n", titleM.c_str(), flagsM);
             exit(1);
         }
         // get ImGui window for further references

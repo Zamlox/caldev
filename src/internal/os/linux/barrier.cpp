@@ -15,13 +15,13 @@ Barrier::Barrier()
 {
 #ifdef OS_LINUX
     if (sem_init(&semaphoreM, 0, 0) != 0) {
-        printf("\n Semaphore init has failed\n");
+        fprintf(stderr, "Semaphore init has failed\n");
         exit(1);
     }
 #else
     if ((pSemaphoreM = dispatch_semaphore_create(0)) == nullptr)
     {
-        printf("\n Semaphore create has failed\n");
+        fprintf(stderr, "Semaphore create has failed\n");
         exit(1);
     }
 #endif
