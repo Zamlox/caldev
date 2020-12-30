@@ -9,6 +9,7 @@
 #define __API_REBOL2IMP_H__
 
 #include "modules/gui/igui.h"
+#include <memory>
 
 namespace Api
 {
