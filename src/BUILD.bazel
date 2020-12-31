@@ -37,7 +37,7 @@ COPTS = [
     })
 
 cc_library(
-    name = "rebosdk",
+    name = "rebosdklib",
     srcs = SRCS,
     copts = COPTS,
     deps = select({
@@ -51,6 +51,14 @@ cc_library(
         "//extern/imgui:imgui",
     ],
     visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "rebosdk",
+    srcs = SRCS,
+    copts = COPTS,
+    linkshared = True,
+    deps = [":rebosdklib"],
     linkopts = select({
         "@bazel_tools//src/conditions:windows": [
             "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
@@ -76,6 +84,6 @@ cc_test(
     ] + COPTS,
     deps = [
         "//extern/googletest:gtest_main",
-        ":rebosdk",
+        ":rebosdklib",
     ],
 )

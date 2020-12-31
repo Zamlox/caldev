@@ -1,0 +1,4 @@
+build:i386_linux --crosstool_top=//toolchain:c++
+build:i386_linux --cpu=i386
+build:i386_linux --compiler=g++
+build:i386_linux --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
