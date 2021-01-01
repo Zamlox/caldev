@@ -34,10 +34,22 @@ jobs:
           cd ../../..
           echo OS: ${{matrix.os}}
 
-      - name: Build product
+      - name: Build product (64bit)
         run: |
           cd src
           bazel build --strip=always :rebosdk
+
+      - name: Build Windows 32bit
+        if: matrix.os == 'Windows'
+        run: |
+          cd src
+          bazel build --cpu=x64_x86_windows --strip=always :rebosdk32
+
+      - name: Build Linux 32bit
+        if: matrix.os == 'Linux'
+        run: |
+          cd src
+          bazel build --config=i386_linux --strip=always :rebosdk32
 
   test:
     needs: build
