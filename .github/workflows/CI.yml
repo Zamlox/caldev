@@ -28,13 +28,11 @@ jobs:
       - name: Checkout submodules
         run: |
           cd src/extern/glfw
-          git checkout master
           git fetch origin
-          git rebase origin/master
+          git checkout origin/master
           cd ../imgui
-          git checkout master
           git fetch origin
-          git rebase origin/master
+          git checkout origin/master
           cd ../../..
           echo OS: ${{matrix.os}}
 
