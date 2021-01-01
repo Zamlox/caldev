@@ -56,6 +56,7 @@ def _impl(ctx):
                     flag_groups = ([
                         flag_group(
                             flags = [
+                                "-g",
                                 "-m32",
                                 "-fpermissive",
                             ],

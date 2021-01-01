@@ -77,8 +77,8 @@ TEST_F(ThreadTest, MutexOff) {
             nullptr, 
             [=](void* pParamP) {
                 int temp = countM;
-                Os::Util::instance().msleep(10);
                 temp++;
+                Os::Util::instance().msleep(1000);
                 countM = temp;
                 return nullptr;
             }, 
@@ -160,7 +160,8 @@ TEST_F(ThreadTest, ThreadExecution) {
             return nullptr;
         }, 
         [=](void* pParamP) {
-            Os::Util::instance().msleep(100);
+            Os::Barrier* pBarrier = static_cast<Os::Barrier*>(pParamP);
+            pBarrier->wait();
             countM++;
             return nullptr;
         }, 
@@ -169,6 +170,7 @@ TEST_F(ThreadTest, ThreadExecution) {
     ASSERT_TRUE(threadsM[0]->start());
     countM++;
     ASSERT_EQ(countM, 2);
+    barrierM.signal();
     threadsM[0]->join();
     ASSERT_EQ(countM, 3);
 }
