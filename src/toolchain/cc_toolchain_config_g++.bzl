@@ -66,6 +66,7 @@ def _impl(ctx):
                     actions = [
                         ACTION_NAMES.cpp_link_dynamic_library,
                         ACTION_NAMES.cpp_link_nodeps_dynamic_library,
+                        ACTION_NAMES.cpp_link_executable,
                     ],
                     flag_groups = ([
                         flag_group(
