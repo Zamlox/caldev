@@ -47,6 +47,19 @@ COPTS = [
 LIBS_WINDOWS = [
     "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
 ]
+LINKSHARED = True
+DEPS = [":rebosdklib"]
+LINKOPTS = select({
+        "@bazel_tools//src/conditions:windows": LIBS_WINDOWS,
+        ":x86_windows": LIBS_WINDOWS,
+        "@bazel_tools//src/conditions:darwin": [
+            "-ldl", "-lpthread", "-framework Foundation -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo"
+        ],
+        "//conditions:default": [
+            "-ldl", "-lpthread", "-lGL"
+        ]
+    })
+
 
 cc_library(
     name = "rebosdklib",
@@ -65,22 +78,24 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
+# build this for 64bit platform
 cc_binary(
     name = "rebosdk",
     srcs = SRCS,
     copts = COPTS,
-    linkshared = True,
-    deps = [":rebosdklib"],
-    linkopts = select({
-        "@bazel_tools//src/conditions:windows": LIBS_WINDOWS,
-        ":x86_windows": LIBS_WINDOWS,
-        "@bazel_tools//src/conditions:darwin": [
-            "-ldl", "-lpthread", "-framework Foundation -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo"
-        ],
-        "//conditions:default": [
-            "-ldl", "-lpthread", "-lGL"
-        ]
-    }),
+    linkshared = LINKSHARED,
+    deps = DEPS,
+    linkopts = LINKOPTS,
+)
+
+# build this for 32bit platform
+cc_binary(
+    name = "rebosdk32",
+    srcs = SRCS,
+    copts = COPTS,
+    linkshared = LINKSHARED,
+    deps = DEPS,
+    linkopts = LINKOPTS,
 )
 
 cc_test(
