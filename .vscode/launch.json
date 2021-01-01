@@ -6,34 +6,20 @@
     "configurations": [
         {                                
             "name": "(gdb) Rebosdk Launch",
-            //"type": "cppdbg",
-            "type": "cppvsdbg",
+            "type": "cppdbg",
+            //"type": "cppvsdbg",
             "request": "launch",
-            // "program": "${workspaceFolder}/a.exe",
-            //"program": "/usr/local/bin/rebol",
-            //"program": "/home/iosif/stash/rebolview",
-            //"args": ["-qsv", "tests/test1.r"],
             "program": "${workspaceFolder}/src/bazel-bin/unittests",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/src/bazel-bin",
-            //"cwd": "/home/iosif/work/stash/modules/platform",
-            /*
-            "environment": [
-                {
-                    "name": "LD_PRELOAD",
-                    "value": "/home/iosif/work/stash/bazel-bin/modules/platform/CLib/libadk.so"
-                },
-                {
-                    "name": "LD_LIBRARY_PATH",
-                    "value": "/home/iosif/work/stash/bazel-bin/modules/platform/CLib"
-                }
-            ],
-            */
-            "externalConsole": true,
+            "externalConsole": false,
             "osx": {
                 "MIMode": "lldb",
-                //"miDebuggerPath": "/usr/bin/gdb",
                 "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+            },
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
             },
             "preLaunchTask": "bazel_debug_build",
             "logging": { "engineLogging": true },
@@ -44,9 +30,33 @@
                     "ignoreFailures": true
                 }
             ],
-            "sourceFileMap": {
-                "/proc/self/cwd": "/home/iosif/work/rebosdk/src",
-            }
+        },
+        {                                
+            "name": "(gdb) Rebosdk 32bit Launch",
+            "type": "cppdbg",
+            //"type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/bazel-bin/unittests",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/src/bazel-bin",
+            "externalConsole": false,
+            "osx": {
+                "MIMode": "lldb",
+                "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+            },
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
+            },
+            "preLaunchTask": "bazel_debug_build_32bit",
+            "logging": { "engineLogging": true },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
         },
         /*
         {                                

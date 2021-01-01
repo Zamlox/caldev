@@ -42,6 +42,24 @@
                 "isDefault": true
             },
         },
+        {
+            "label": "bazel_debug_build_32bit",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "--config=i386_linux",
+                ":unittests",
+                "--compilation_mode=dbg"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }, 
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
         /*
         {
             "label": "boing_debug_build",
