@@ -45,7 +45,7 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           cd src
-          bazel build --cpu=x64_x86_windows --strip=always --verbose_failures -s :rebosdk32
+          bazel build --cpu=x64_x86_windows --strip=always :rebosdk32
 
       - name: Build Linux 32bit
         if: matrix.os == 'Linux'
@@ -88,9 +88,18 @@ jobs:
           bazel build :gtest
           cd ../../..
           echo "Done !"
-
-      - name: Test product
+      - name: Test product 64bit
         run: |
           cd src
           bazel build --strip=always :unittests
+          ./bazel-bin/unittests
+      - name: Test Windows 32bit
+        run: |
+          cd src
+          bazel build --cpu=x64_x86_windows :unittests
+          ./bazel-bin/unittests
+      - name: Test Linux 32bit
+        run: |
+          cd src
+          bazel build --cpu=x64_x86_windows :unittests
           ./bazel-bin/unittests
