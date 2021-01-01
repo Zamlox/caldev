@@ -112,4 +112,5 @@ cc_test(
         "//extern/googletest:gtest_main",
         ":rebosdklib",
     ],
+    linkopts = LINKOPTS,
 )
