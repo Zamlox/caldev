@@ -94,11 +94,13 @@ jobs:
           bazel build --strip=always :unittests
           ./bazel-bin/unittests
       - name: Test Windows 32bit
+        if: matrix.os == 'Windows'
         run: |
           cd src
           bazel build --cpu=x64_x86_windows :unittests
           ./bazel-bin/unittests
       - name: Test Linux 32bit
+        if: matrix.os == 'Linux'
         run: |
           cd src
           bazel build --cpu=x64_x86_windows :unittests
