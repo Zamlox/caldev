@@ -9,6 +9,7 @@
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
+#include <sstream>
 
 namespace GUI
 {
@@ -53,6 +54,7 @@ bool OpenGL::startOnMainThread(Os::ThreadFunc funcOnLoadP)
 bool OpenGL::stop()
 {
     stopEngineM = true;
+    threadM.join();
     return true;
 }
 
@@ -120,8 +122,7 @@ void OpenGL::showMainWindow()
 
 void OpenGL::closeMainWindow()
 {
-    stopEngineM = true;
-    threadM.join();
+    stop();
 }
 
 
@@ -224,6 +225,10 @@ void OpenGL::draw()
     // It's enough to render only main window object. The render function
     //  will recursively render its children.
     mainWindowRender();
+
+    std::stringstream ss;
+    ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
+    glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
 
     // Rendering
     ::ImGui::Render();

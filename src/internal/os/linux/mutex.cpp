@@ -16,7 +16,7 @@ Mutex::Mutex()
     pthread_mutexattr_init(&mutexAttrM);
     pthread_mutexattr_settype(&mutexAttrM, PTHREAD_MUTEX_RECURSIVE);
     if (pthread_mutex_init(&mutexM, &mutexAttrM) != 0) {
-        printf("\n mutex init has failed\n");
+        fprintf(stderr, "Mutex init has failed\n");
         exit(1);
     }
 }

@@ -1,0 +1,29 @@
+package(default_visibility = ['//visibility:public'])
+
+cc_toolchain_suite(
+    name = "c++",
+    toolchains = {
+        "i386|g++": ":i386_toolchain_g++",
+    },
+)
+
+filegroup(name = "empty")
+
+cc_toolchain(
+    name = "i386_toolchain_g++",
+    toolchain_identifier = "i386-toolchain",
+    toolchain_config = ":i386_toolchain_config",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    dwp_files = ":empty",
+    dynamic_runtime_lib = ":empty",
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    static_runtime_lib = ":empty",
+    strip_files = ":empty",
+    supports_param_files = 0,
+)
+
+load(":cc_toolchain_config_g++.bzl", "cc_toolchain_config_gpp")
+
+cc_toolchain_config_gpp(name = "i386_toolchain_config")

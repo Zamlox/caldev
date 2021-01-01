@@ -28,12 +28,38 @@ jobs:
       - name: Checkout submodules
         run: |
           cd src/extern/glfw
-          git checkout master
+          git fetch origin
+          git checkout origin/master
           cd ../imgui
-          git checkout master
+          git fetch origin
+          git checkout origin/master
           cd ../../..
           echo OS: ${{matrix.os}}
 
+      - name: Build product (64bit)
+        run: |
+          cd src
+          bazel build --strip=always :rebosdk
+
+      - name: Build Windows 32bit
+        if: matrix.os == 'Windows'
+        run: |
+          cd src
+          bazel build --cpu=x64_x86_windows --strip=always :rebosdk32
+
+      - name: Build Linux 32bit
+        if: matrix.os == 'Linux'
+        run: |
+          cd src
+          bazel build --config=i386_linux --strip=always :rebosdk32
+
+  test:
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ Linux, Windows, macOS ]
+    steps:
       - name: Check gtest existence (windows)
         id: check_gtest_windows
         if: matrix.os == 'windows-latest'
@@ -62,21 +88,20 @@ jobs:
           bazel build :gtest
           cd ../../..
           echo "Done !"
-
-      - name: Build product
-        run: |
-          cd src
-          bazel build --strip=always :rebosdk
-
-  test:
-    needs: build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ Linux, Windows, macOS ]
-    steps:
-      - name: Test product
+      - name: Test product 64bit
         run: |
           cd src
           bazel build --strip=always :unittests
+          ./bazel-bin/unittests
+      - name: Test Windows 32bit
+        if: matrix.os == 'Windows'
+        run: |
+          cd src
+          bazel build --cpu=x64_x86_windows :unittests
+          ./bazel-bin/unittests
+      - name: Test Linux 32bit
+        if: matrix.os == 'Linux'
+        run: |
+          cd src
+          bazel build --config=i386_linux --strip=always :unittests
           ./bazel-bin/unittests
