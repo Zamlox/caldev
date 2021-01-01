@@ -34,6 +34,18 @@ jobs:
           cd ../../..
           echo OS: ${{matrix.os}}
 
+      - name: Build product
+        run: |
+          cd src
+          bazel build --strip=always :rebosdk
+
+  test:
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ Linux, Windows, macOS ]
+    steps:
       - name: Check gtest existence (windows)
         id: check_gtest_windows
         if: matrix.os == 'windows-latest'
@@ -63,18 +75,6 @@ jobs:
           cd ../../..
           echo "Done !"
 
-      - name: Build product
-        run: |
-          cd src
-          bazel build --strip=always :rebosdk
-
-  test:
-    needs: build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ Linux, Windows, macOS ]
-    steps:
       - name: Test product
         run: |
           cd src
