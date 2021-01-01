@@ -43,7 +43,7 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           cd src
-          bazel build --cpu=x64_x86_windows --strip=always :rebosdk32
+          bazel build --cpu=x64_x86_windows --strip=always --verbose_failures -s :rebosdk32
 
       - name: Build Linux 32bit
         if: matrix.os == 'Linux'
