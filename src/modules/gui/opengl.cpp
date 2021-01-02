@@ -140,7 +140,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     glfwWindowHint(GLFW_DEPTH_BITS, 16);
     glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    if (pOpenGL->pOsWindowM = glfwCreateWindow(640, 480, "Rebsdev", nullptr, nullptr); !pOpenGL->pOsWindowM)
+    if (pOpenGL->pOsWindowM = glfwCreateWindow(640, 480, "Dummy", nullptr, nullptr); !pOpenGL->pOsWindowM)
     {
         fprintf(stderr, "glfwCreateWindow() error.\n");
         exit(1);
@@ -226,6 +226,7 @@ void OpenGL::draw()
     //  will recursively render its children.
     mainWindowRender();
 
+    // TODO: remove when text widget is implemented. FPS can be displayed using text widget.
     std::stringstream ss;
     ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
     glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
