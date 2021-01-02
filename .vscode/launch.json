@@ -32,7 +32,7 @@
             ],
         },
         {                                
-            "name": "(gdb) Rebosdk 32bit Launch",
+            "name": "(gdb) Rebosdk linux 32bit Launch",
             "type": "cppdbg",
             //"type": "cppvsdbg",
             "request": "launch",
@@ -48,7 +48,7 @@
                 "MIMode": "gdb",
                 "miDebuggerPath": "/usr/bin/gdb",
             },
-            "preLaunchTask": "bazel_debug_build_32bit",
+            "preLaunchTask": "bazel_debug_build_linux_32bit",
             "logging": { "engineLogging": true },
             "setupCommands": [
                 {

@@ -43,7 +43,7 @@
             },
         },
         {
-            "label": "bazel_debug_build_32bit",
+            "label": "bazel_debug_build_linux_32bit",
             "type": "shell",
             "command": "bazel",
             "args": [
