@@ -39,3 +39,9 @@ EXPORT int createMainWindow(
         bgColorP,
         visibleP);
 }
+
+EXPORT void hideMainWindow()
+{
+    assert(pAPI != nullptr);
+    pAPI->hideMainWindow();
+}

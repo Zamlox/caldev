@@ -46,4 +46,9 @@ EXPORT int createMainWindow(
     int bgColorP, 
     bool visibleP = true);
 
+/**
+ * Hide main window.
+ */
+EXPORT void hideMainWindow();
+
 #endif // __API_H__

@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "api/api.h"
 #include "api/imp/apiimp.h"
+#include "internal/os/util.h"
 
 namespace {
 
@@ -20,6 +21,15 @@ TEST(APITest, CreateMainWindow) {
     EXPECT_NE(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, false), 0);
     stopGUI();
     EXPECT_EQ(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, false), Api::ERROR_API_NOT_INITIALIZED);
+}
+
+TEST(APITest, HideMainWindow) {
+    initGUI(Api::GUI_OPENGL2);
+    EXPECT_NE(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, true), 0);
+    Os::Util::instance().msleep(1000);
+    hideMainWindow();
+    Os::Util::instance().msleep(1000);
+    stopGUI();
 }
 
 } // anonymous namespace

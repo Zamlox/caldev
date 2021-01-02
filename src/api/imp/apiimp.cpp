@@ -60,5 +60,12 @@ int  ApiImp::createMainWindow(
     return ERROR_API_NOT_INITIALIZED;
 }
 
+void ApiImp::hideMainWindow()
+{
+    if (pGuiEngineM.get())
+    {
+        pGuiEngineM->hideMainWindow();
+    }
+}
 
 } // namespace Api

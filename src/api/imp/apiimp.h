@@ -67,6 +67,11 @@ public:
         int bgColorP, 
         bool visibleP = true);
 
+    /**
+     * Hide main window.
+     */
+    void hideMainWindow();
+
 private:
     /**
      * Engine instance.
