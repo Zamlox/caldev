@@ -44,7 +44,7 @@ EXPORT int createMainWindow(
     int widthP, 
     int heightP, 
     int bgColorP, 
-    bool visibleP = true);
+    int visibleP);
 
 /**
  * Hide main window.
