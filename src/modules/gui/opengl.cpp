@@ -120,12 +120,6 @@ void OpenGL::showMainWindow()
     }
 }
 
-void OpenGL::closeMainWindow()
-{
-    stop();
-}
-
-
 void* OpenGL::initGuiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
