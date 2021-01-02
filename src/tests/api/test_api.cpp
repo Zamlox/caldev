@@ -20,15 +20,15 @@ TEST(APITest, Initialization){
 
 TEST(APITest, CreateMainWindow) {
     initGUI(Api::GUI_OPENGL2);
-    EXPECT_NE(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, false), 0);
+    EXPECT_NE(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), 0);
     stopGUI();
-    EXPECT_EQ(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, false), Api::ERROR_API_NOT_INITIALIZED);
+    EXPECT_EQ(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), Api::ERROR_API_NOT_INITIALIZED);
     stopGUI();
 }
 
 TEST(APITest, HideMainWindow) {
     initGUI(Api::GUI_OPENGL2);
-    EXPECT_NE(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, true), 0);
+    EXPECT_NE(createMainWindow("Test HideMainWindow", 30, 30, 400, 100, 0xF0F0F0, true), 0);
     Os::Util::instance().msleep(1000);
     hideMainWindow();
     Os::Util::instance().msleep(1000);
@@ -37,7 +37,7 @@ TEST(APITest, HideMainWindow) {
 
 TEST(APITest, ShowMainWindow) {
     initGUI(Api::GUI_OPENGL2);
-    EXPECT_NE(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, true), 0);
+    EXPECT_NE(createMainWindow("Test ShowMainWindow", 30, 30, 400, 100, 0xF0F0F0, true), 0);
     Os::Util::instance().msleep(1000);
     hideMainWindow();
     Os::Util::instance().msleep(1000);
