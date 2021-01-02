@@ -30,15 +30,39 @@ class ApiImp
 public:
     /**
      * Initialize GUI 
+     * 
      * @param  {int} guiTypeP : type of GUI
      * @return {int}          : 0 if success, -1 if fail
      */
     int initGUI(int guiTypeP);
+    
     /**
      * Stop GUI engine.
+     * 
      * @return {int}  : 0 if success, -1 if fail
      */
     int stopGUI();
+
+    /**
+     * Create main window. Only one main window allowed per application.
+     * 
+     * @param  {char*} const   : window title
+     * @param  {int} xP        : X coordinate of top-left corner of window content
+     * @param  {int} yP        : y coordinate of top-left corner of window content
+     * @param  {int} widthP    : window width
+     * @param  {int} heightP   : window height
+     * @param  {int} bgColorP  : background color
+     * @param  {bool} visibleP : window visibility
+     * @return {int}           : 0 if succeeded, -1 if window creation failes or -2
+     *                              if GUI not initialized by calling initGUI
+     */
+    int  createMainWindow(
+        char const* titleP, 
+        int xP, int yP, 
+        int widthP, 
+        int heightP, 
+        int bgColorP, 
+        bool visibleP = true);
 
 private:
     /**

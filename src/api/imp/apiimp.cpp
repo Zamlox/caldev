@@ -7,6 +7,8 @@
 
 namespace Api
 {
+// TODO: Create a common place for error codes
+constexpr int ERROR_API_NOT_INITIALIZED     -2
 
 int ApiImp::initGUI(int guiTypeP)
 {
@@ -38,5 +40,27 @@ int ApiImp::stopGUI()
     }
     return -1;
 }
+
+int  ApiImp::createMainWindow(
+    char const* titleP, 
+    int xP, int yP, 
+    int widthP, 
+    int heightP, 
+    int bgColorP, 
+    bool visibleP)
+{
+    if (pGuiEngineM.get())
+    {
+        return pGuiEngineM->createMainWindow(
+            titleP,
+            xP, yP,
+            widthP,
+            heightP,
+            bgColorP,
+            visibleP);
+    }
+    return ERROR_API_NOT_INITIALIZED;
+}
+
 
 } // namespace Api
