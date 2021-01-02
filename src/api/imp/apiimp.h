@@ -14,6 +14,9 @@
 namespace Api
 {
     
+// TODO: Create a common place for error codes
+constexpr int ERROR_API_NOT_INITIALIZED{-2};
+
 /**
  * GUI type
  */

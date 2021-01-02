@@ -20,3 +20,22 @@ EXPORT int stopGUI()
     assert(pAPI != nullptr);
     return pAPI->stopGUI();
 }
+
+EXPORT int createMainWindow(
+    char const* titleP, 
+    int xP, 
+    int yP, 
+    int widthP, 
+    int heightP, 
+    int bgColorP, 
+    bool visibleP)
+{
+    assert(pAPI != nullptr);
+    return pAPI->createMainWindow(
+        titleP,
+        xP, yP,
+        widthP,
+        heightP,
+        bgColorP,
+        visibleP);
+}

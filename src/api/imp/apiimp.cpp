@@ -7,8 +7,6 @@
 
 namespace Api
 {
-// TODO: Create a common place for error codes
-constexpr int ERROR_API_NOT_INITIALIZED     -2
 
 int ApiImp::initGUI(int guiTypeP)
 {
@@ -26,7 +24,6 @@ int ApiImp::initGUI(int guiTypeP)
             return 0;
         case GUI_DIRECTX:
             return 0;
-
     }
     return -1;
 }
@@ -36,6 +33,7 @@ int ApiImp::stopGUI()
     if (pGuiEngineM.get())
     {
         pGuiEngineM->stop();
+        pGuiEngineM.reset(nullptr);
         return 0;
     }
     return -1;
