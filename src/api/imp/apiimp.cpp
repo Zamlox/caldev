@@ -49,13 +49,15 @@ int  ApiImp::createMainWindow(
 {
     if (pGuiEngineM.get())
     {
-        return pGuiEngineM->createMainWindow(
+        int res = pGuiEngineM->createMainWindow(
             titleP,
             xP, yP,
             widthP,
             heightP,
             bgColorP,
-            visibleP);
+            false);
+        showMainWindow();
+        return res;
     }
     return ERROR_API_NOT_INITIALIZED;
 }
