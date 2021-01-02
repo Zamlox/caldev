@@ -226,10 +226,10 @@ void OpenGL::draw()
     //  will recursively render its children.
     mainWindowRender();
 
-    // TODO: remove when text widget is implemented. FPS can be displayed using text widget.
-    std::stringstream ss;
-    ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
-    glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
+    // Uncomment below to display FPS in title bar.
+    //std::stringstream ss;
+    //ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
+    //glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
 
     // Rendering
     ::ImGui::Render();
