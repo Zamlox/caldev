@@ -80,13 +80,13 @@ TEST_F(TestsOpenGL, StartThread) {
     int res = opengl.createMainWindow("Background thread window", 150, 150, 500, 300, 0x0000FF, true);
     ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
     Os::Util::instance().msleep(1000);
-    opengl.closeMainWindow();
+    opengl.stop();
 
     ASSERT_TRUE(opengl.startOnThread());
     res = opengl.createMainWindow("Another background thread window", 200, 200, 600, 200, 0x00FF00, true);
     ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
     Os::Util::instance().msleep(1000);
-    opengl.closeMainWindow();
+    opengl.stop();
 }
 #endif
 

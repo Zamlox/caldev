@@ -43,8 +43,6 @@ public:
     void hideMainWindow() override;
     /** see IGui::showMainWindow() */
     void showMainWindow() override;
-    /** see IGui::closeMainWindow() */
-    void closeMainWindow() override;
 
     /**
      * Create font based on a rebol font object
