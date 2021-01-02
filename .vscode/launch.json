@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {                                
-            "name": "(gdb) Rebosdk Launch",
+            "name": "(unittests) Rebosdk Launch",
             //"type": "cppdbg",
             "type": "cppvsdbg",
             "request": "launch",
@@ -32,7 +32,7 @@
             ],
         },
         {                                
-            "name": "(gdb) Rebosdk linux 32bit Launch",
+            "name": "(unittests) Rebosdk linux 32bit Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/bazel-bin/unittests",
@@ -52,15 +52,32 @@
             ],
         },
         {                                
-            "name": "(gdb) Rebosdk windows 32bit Launch",
+            "name": "(unittests) Rebosdk windows 32bit Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/bazel-bin/unittests",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/src/bazel-bin",
             "externalConsole": false,
-            //"MIMode": "gdb",
-            //"miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "bazel_debug_build_windows_32bit",
+            "logging": { "engineLogging": true },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+        {                                
+            "name": "(test-gui.r) Rebosdk windows 32bit Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "C:\\Program Files (x86)\\rebol\\view\\rebol.exe",
+            "args": ["-sqv", "${workspaceFolder}/src/tests/bindings/rebol2/test-gui.r"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/src/bazel-bin",
+            "externalConsole": false,
             "preLaunchTask": "bazel_debug_build_windows_32bit",
             "logging": { "engineLogging": true },
             "setupCommands": [
