@@ -68,4 +68,12 @@ void ApiImp::hideMainWindow()
     }
 }
 
+void ApiImp::showMainWindow()
+{
+    if (pGuiEngineM.get())
+    {
+        pGuiEngineM->showMainWindow();
+    }
+}
+
 } // namespace Api

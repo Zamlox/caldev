@@ -72,6 +72,11 @@ public:
      */
     void hideMainWindow();
 
+    /**
+     * Show main window if created.
+     */
+    void showMainWindow();
+
 private:
     /**
      * Engine instance.

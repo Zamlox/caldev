@@ -35,4 +35,15 @@ TEST(APITest, HideMainWindow) {
     stopGUI();
 }
 
+TEST(APITest, ShowMainWindow) {
+    initGUI(Api::GUI_OPENGL2);
+    EXPECT_NE(createMainWindow("Dummy", 30, 30, 100, 100, 0xF0F0F0, true), 0);
+    Os::Util::instance().msleep(1000);
+    hideMainWindow();
+    Os::Util::instance().msleep(1000);
+    showMainWindow();
+    Os::Util::instance().msleep(1000);
+    stopGUI();
+}
+
 } // anonymous namespace

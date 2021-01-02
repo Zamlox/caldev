@@ -51,4 +51,9 @@ EXPORT int createMainWindow(
  */
 EXPORT void hideMainWindow();
 
+/**
+ * Show main window if created.
+ */
+EXPORT void showMainWindow();
+
 #endif // __API_H__

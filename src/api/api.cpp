@@ -45,3 +45,9 @@ EXPORT void hideMainWindow()
     assert(pAPI != nullptr);
     pAPI->hideMainWindow();
 }
+
+EXPORT void showMainWindow()
+{
+    assert(pAPI != nullptr);
+    pAPI->showMainWindow();
+}
