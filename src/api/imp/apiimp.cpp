@@ -2,13 +2,13 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "api/rebol/imp/rebol2imp.h"
+#include "api/imp/apiimp.h"
 #include "modules/gui/opengl.h"
 
 namespace Api
 {
 
-int Rebol2Imp::initGUI(int guiTypeP)
+int ApiImp::initGUI(int guiTypeP)
 {
     switch(guiTypeP)
     {
@@ -29,7 +29,7 @@ int Rebol2Imp::initGUI(int guiTypeP)
     return -1;
 }
 
-int Rebol2Imp::stopGUI()
+int ApiImp::stopGUI()
 {
     if (pGuiEngineM.get())
     {

@@ -1,12 +1,12 @@
 /**
  * Author: 		Iosif Haidu
- * Description: Implementation for Rebol2 API 
+ * Description: API implemnetation 
  *
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __API_REBOL2IMP_H__
-#define __API_REBOL2IMP_H__
+#ifndef __API_APIIMP_H__
+#define __API_APIIMP_H__
 
 #include "modules/gui/igui.h"
 #include <memory>
@@ -16,7 +16,6 @@ namespace Api
     
 /**
  * GUI type
- * Same values must be used from Rebol when initializing GUI
  */
 using GuiType = enum {
     GUI_OPENGL2,
@@ -24,9 +23,9 @@ using GuiType = enum {
 };
 
 /**
- * API implementation for Rebol2
+ * API implementation
  */
-class Rebol2Imp
+class ApiImp
 {
 public:
     /**
@@ -48,6 +47,6 @@ private:
     std::unique_ptr<GUI::IGui> pGuiEngineM;
 };
 
-} // namespace Rebol2API
+} // namespace Api
 
-#endif // __API_REBOL2IMP_H__
+#endif // __API_APIIMP_H__

@@ -5,8 +5,8 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __API_REBOL2_H__
-#define __API_REBOL2_H__
+#ifndef __API_H__
+#define __API_H__
 
 #include "api/export.h"
 
@@ -22,4 +22,4 @@ EXPORT int initGUI(int guiTypeP);
  */
 EXPORT int stopGUI();
 
-#endif // __API_REBOL2_H__
+#endif // __API_H__
