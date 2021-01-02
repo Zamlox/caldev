@@ -60,6 +60,24 @@
                 "isDefault": true
             },
         },
+        {
+            "label": "bazel_debug_build_windows_32bit",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "--cpu=x64_x86_windows",
+                ":unittests",
+                "--compilation_mode=dbg"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }, 
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
         /*
         {
             "label": "boing_debug_build",
