@@ -48,7 +48,7 @@ LIBS_WINDOWS = [
     "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
 ]
 LINKSHARED = True
-DEPS = [":rebosdklib"]
+DEPS = [":caldevlib"]
 LINKOPTS = select({
         "@bazel_tools//src/conditions:windows": LIBS_WINDOWS,
         ":x86_windows": LIBS_WINDOWS,
@@ -62,7 +62,7 @@ LINKOPTS = select({
 
 
 cc_library(
-    name = "rebosdklib",
+    name = "caldevlib",
     srcs = SRCS,
     copts = COPTS,
     deps = select({
@@ -80,7 +80,7 @@ cc_library(
 
 # build this for 64bit platform
 cc_binary(
-    name = "rebosdk",
+    name = "caldev",
     srcs = SRCS,
     copts = COPTS,
     linkshared = LINKSHARED,
@@ -90,7 +90,7 @@ cc_binary(
 
 # build this for 32bit platform
 cc_binary(
-    name = "rebosdk32",
+    name = "caldev32",
     srcs = SRCS,
     copts = COPTS,
     linkshared = LINKSHARED,
@@ -110,7 +110,7 @@ cc_test(
     ] + COPTS,
     deps = [
         "//extern/googletest:gtest_main",
-        ":rebosdklib",
+        ":caldevlib",
     ],
     linkopts = LINKOPTS,
 )

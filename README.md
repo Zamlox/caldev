@@ -1,2 +1,2 @@
-# rebosdk
-REBol Open SDK
+# caldev
+Cross-platform Application Library for DEVelopment

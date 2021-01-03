@@ -45,7 +45,7 @@ int  ApiImp::createMainWindow(
     int widthP, 
     int heightP, 
     int bgColorP, 
-    bool visibleP)
+    int visibleP)
 {
     if (pGuiEngineM.get())
     {
@@ -56,7 +56,10 @@ int  ApiImp::createMainWindow(
             heightP,
             bgColorP,
             false);
-        showMainWindow();
+        if (visibleP != 0) 
+        {   
+            showMainWindow();
+        }
         return res;
     }
     return ERROR_API_NOT_INITIALIZED;

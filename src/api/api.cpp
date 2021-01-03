@@ -28,7 +28,7 @@ EXPORT int createMainWindow(
     int widthP, 
     int heightP, 
     int bgColorP, 
-    bool visibleP)
+    int visibleP)
 {
     assert(pAPI != nullptr);
     return pAPI->createMainWindow(
