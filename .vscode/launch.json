@@ -70,11 +70,11 @@
             ],
         },
         {                                
-            "name": "(test-gui.r) Rebosdk windows 32bit Launch",
+            "name": "(Rebol2) Rebosdk windows 32bit Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "C:\\Program Files (x86)\\rebol\\view\\rebol.exe",
-            "args": ["-sqv", "${workspaceFolder}/src/tests/bindings/rebol2/test-gui.r"],
+            "args": ["-sqv", "${workspaceFolder}/src/tests/bindings/rebol2/tests.r"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/src/bazel-bin",
             "externalConsole": false,
