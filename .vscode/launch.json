@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {                                
-            "name": "(unittests) Rebosdk Launch",
+            "name": "(unittests) caldev Launch",
             //"type": "cppdbg",
             "type": "cppvsdbg",
             "request": "launch",
@@ -32,7 +32,7 @@
             ],
         },
         {                                
-            "name": "(unittests) Rebosdk linux 32bit Launch",
+            "name": "(unittests) caldev linux 32bit Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/bazel-bin/unittests",
@@ -52,7 +52,7 @@
             ],
         },
         {                                
-            "name": "(unittests) Rebosdk windows 32bit Launch",
+            "name": "(unittests) caldev windows 32bit Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/bazel-bin/unittests",
@@ -70,7 +70,7 @@
             ],
         },
         {                                
-            "name": "(Rebol2) Rebosdk windows 32bit Launch",
+            "name": "(Rebol2) caldev windows 32bit Launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "C:\\Program Files (x86)\\rebol\\view\\rebol.exe",

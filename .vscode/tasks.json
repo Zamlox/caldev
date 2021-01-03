@@ -67,7 +67,7 @@
             "args": [
                 "build",
                 "--cpu=x64_x86_windows",
-                ":rebosdk32",
+                ":caldev32",
                 "--compilation_mode=dbg"
             ],
             "options": {

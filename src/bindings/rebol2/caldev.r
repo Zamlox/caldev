@@ -1,7 +1,7 @@
 REBOL [
-    Title:      "Binding for rebosdk library"
-    Purpose:    "Allow calling functions from rebosdk library"
-    file:       %lib.r
+    Title:      "Binding for caldev library"
+    Purpose:    "Allow calling functions from caldev library"
+    file:       %caldev.r
     author:     "Iosif Haidu"
     email:      [iosif.haidu@gmail.com]
     date:       30-12-2020
@@ -13,19 +13,18 @@ REBOL [
     Category:   [library graphics]
     library:    [
         level:          'intermediate
-        platform:       ['win 'linux 'macOS]
+        platform:       ['win 'linux]
         type:           [module]
         domain:         [graphics external-library]
         tested-under:   [
             View 2.7.8.3.1
             View 2.7.8.4.3
-            View 2.7.8.2.5
         ]
         support:        none
         license:        'MIT
     ]
     Notes: {
-        rebosdk library can be found at: https://github.com/Zamlox/rebosdk
+        caldev library can be found at: https://github.com/Zamlox/caldev
     }
 ]
 
@@ -39,9 +38,9 @@ lib-path: either System/version/4 = 3 [
 
 ; load libray
 
-lib: either System/version/4 = 3 [ %rebosdk32.dll ][ %librebosdk32.so ]
+lib: either System/version/4 = 3 [ %caldev32.dll ][ %libcaldev32.so ]
 
-if not attempt [ rebosdk-lib: load/library lib-path/:lib ] [ alert rejoin ["Cannot locate library " lib " !"] quit ]
+if not attempt [ caldev-lib: load/library lib-path/:lib ] [ alert rejoin ["Cannot locate library " lib " !"] quit ]
 
 
 ; constants
@@ -54,14 +53,14 @@ GUIType: [          ; must match Api::GuiType
 
 ; helper functions
 
-func-rebosdk: func [ specs identifier ][
-    make routine! specs rebosdk-lib identifier
+func-caldev: func [ specs identifier ][
+    make routine! specs caldev-lib identifier
 ]
 
 
 ; library functions
 
-rebosdk-funcs: [
+caldev-funcs: [
     init-gui [ 
         "Initialize GUI engine"
         type [ integer! ] "A GUIType value"
@@ -95,6 +94,6 @@ rebosdk-funcs: [
 
 ; get functions
 
-foreach [ name spec lib-func ] rebosdk-funcs [
-    set name func-rebosdk spec lib-func
+foreach [ name spec lib-func ] caldev-funcs [
+    set name func-caldev spec lib-func
 ]

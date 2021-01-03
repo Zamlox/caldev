@@ -27,11 +27,11 @@ REBOL [
         license:        'MIT
     ]
     Notes: {
-        rebosdk library can be found at: https://github.com/Zamlox/rebosdk
+        caldev library can be found at: https://github.com/Zamlox/caldev
     }
 ]
 
-do %../../../bindings/rebol2/lib.r
+do %../../../bindings/rebol2/caldev.r
 
 context [
     test-main-window: does [
