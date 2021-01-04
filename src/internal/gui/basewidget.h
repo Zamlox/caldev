@@ -63,7 +63,7 @@ public:
         return idM;
     }
     /** see IWisget::setId() */
-    void setId(Id idP)
+    void setId(Id idP) override
     {
         idM = idP;
     }

@@ -62,7 +62,7 @@ void Window::setBgColor(Color const& rColorP)
     implM.setBgColor(rColorP);
 }
 
-void Window::makeMainWindow(void* osWindowP)
+void Window::makeMainWindow(not_null<void*> osWindowP)
 {
     implM.makeMainWindow(osWindowP);
 }

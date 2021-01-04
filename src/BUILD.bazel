@@ -26,12 +26,16 @@ SRCS = glob([
             "internal/**/*.h",
             "internal/**/*.cpp",
         ], exclude=["internal/os/windows/**"])
-    })
+    }) + [
+        "extern/GSL/include/gsl/assert.h",
+        "extern/GSL/include/gsl/pointers.h",
+    ]
 COPTS = [
         "-I.",
         "-Iextern/glfw/include",
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
+        "-Iextern/GSL/include",
     ] + select({
         "@bazel_tools//src/conditions:windows": COPTS_WINDOWS,
         ":x86_windows": COPTS_WINDOWS,

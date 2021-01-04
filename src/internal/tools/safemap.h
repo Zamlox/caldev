@@ -10,9 +10,12 @@
 
 #include "internal/os/mutex.h"
 #include <map>
+#include <gsl/pointers.h>
 
 namespace Tools
 {
+
+using namespace gsl;
 
 /**
  * Thread safe map
@@ -27,8 +30,8 @@ public:
     SafeMap()
     : pSyncExternalM{&syncMapM}
     {}
-    SafeMap(Os::Mutex* pSyncExternalP)
-    : pSyncExternalM{pSyncExternalP}
+    SafeMap(not_null<Os::Mutex*> pSyncExternalP)
+    : pSyncExternalM{pSyncExternalP.get()}
     {}
     
     void add(TKEY const& rKeyP, TVALUE const& rValueP)

@@ -26,7 +26,7 @@ public:
     static IWidgetFactory& instance();
     
     /** see IWidgetFactory::createWindow() */
-    IWindow* createWindow(const char* titleP, int flags, Font* pFontP) override;
+    owner<IWindow*> createWindow(const char* titleP, int flags, Font* pFontP) override;
     /** see IWidgetFactory::destroyWindow() */
     void destroyWindow(IWindow*& pWindowP) override;
     

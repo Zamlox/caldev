@@ -11,9 +11,12 @@
 #include "internal/gui/iwidget.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/imgui/common.h"
+#include <gsl/pointers.h>
 
 namespace GUI
 {
+
+using namespace gsl;
 
 class IWidgetFactory
 {
@@ -26,7 +29,7 @@ public:
      * @param  {Font*} pFontP       : font to be used in window
      * @return {IWindow*}           : new window if succeeded or nullptr if failed
      */
-    virtual IWindow* createWindow(const char* titleP, int flags, Font* pFontP) = 0;    
+    virtual owner<IWindow*> createWindow(const char* titleP, int flags, Font* pFontP) = 0;    
     /**
      * Destroy a window.
      * @param  {IWindow*} pWindowP : Window to be destroyed

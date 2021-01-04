@@ -27,10 +27,10 @@ IWidgetFactory& WidgetFactory::instance()
     return *pInstanceM;
 }
 
-IWindow* WidgetFactory::createWindow(const char* titleP, int flags, Font* pFontP)
+owner<IWindow*> WidgetFactory::createWindow(const char* titleP, int flags, Font* pFontP)
 {
     StringBuffer buffer;
-    IWindow* pWindow{nullptr};
+    owner<IWindow*> pWindow{nullptr};
     if (indexM != MAX_ID)
     {
         buffer.appendf("%s###%d", titleP, ++indexM);

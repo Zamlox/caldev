@@ -54,7 +54,7 @@ public:
     /** see IWindow::setBgColor() */
     void setBgColor(Color const& rColorP) override;
     /** see IWindow::makeMainWindow() */
-    void makeMainWindow(void* osWindowP) override;
+    void makeMainWindow(not_null<void*> osWindowP) override;
     /**
      * Renders window on screen.
      * While rendering window and children we must protect 

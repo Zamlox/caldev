@@ -74,9 +74,9 @@ void Window::setBgColor(Color const& rColorP)
     bgColorM = rColorP;
 }
 
-void Window::makeMainWindow(void* osWindowP)
+void Window::makeMainWindow(not_null<void*> osWindowP)
 {
-    osWindowM = static_cast<GLFWwindow*>(osWindowP);
+    osWindowM = static_cast<GLFWwindow*>(osWindowP.get());
     ImGuiContext* pContext = ::ImGui::GetCurrentContext();
     pContext->Extension.mainSize.x = widthM;
     pContext->Extension.mainSize.y = heightM;
