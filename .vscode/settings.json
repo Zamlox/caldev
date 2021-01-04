@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "pointers": "cpp"
+        "pointers": "cpp",
+        "string_span": "cpp",
+        "span": "cpp"
     }
 }

@@ -29,6 +29,11 @@ SRCS = glob([
     }) + [
         "extern/GSL/include/gsl/assert.h",
         "extern/GSL/include/gsl/pointers.h",
+        "extern/GSL/include/gsl/string_span.h",
+        "extern/GSL/include/gsl/span_ext.h",
+        "extern/GSL/include/gsl/span.h",
+        "extern/GSL/include/gsl/byte.h",
+        "extern/GSL/include/gsl/util.h",
     ]
 COPTS = [
         "-I.",

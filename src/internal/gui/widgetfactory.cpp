@@ -27,7 +27,7 @@ IWidgetFactory& WidgetFactory::instance()
     return *pInstanceM;
 }
 
-owner<IWindow*> WidgetFactory::createWindow(const char* titleP, int flags, Font* pFontP)
+owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* pFontP)
 {
     StringBuffer buffer;
     owner<IWindow*> pWindow{nullptr};
