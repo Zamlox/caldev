@@ -27,6 +27,9 @@ jobs:
           submodules: recursive
       - name: Checkout submodules
         run: |
+          cd src/extern/GSL
+          git fetch origin
+          git checkout origin/master
           cd src/extern/glfw
           git fetch origin
           git checkout origin/master
