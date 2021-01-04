@@ -9,9 +9,13 @@
 #define __GUI_IGUI_H__
 
 #include "internal/os/ithread.h"
+#include <gsl/string_span.h>
 
 namespace GUI
 {
+
+using namespace gsl;
+
 /**
  * Interface for GUI engines
  */
@@ -37,7 +41,7 @@ public:
     virtual bool stop() = 0;
     /**
      * Create main window.
-     * @param  {char*} const    : title of main window
+     * @param  {czstring}       : title of main window
      * @param  {int} xP         : top-left x position
      * @param  {int} yP         : top-left y position
      * @param  {int} widthP     : width of window
@@ -47,7 +51,7 @@ public:
      * @return {int}            : window id if succeeded, INVALID_WIDGET_ID otherwise
      */
     virtual int createMainWindow(
-        char const* titleP, 
+        czstring<> titleP, 
         int xP, int yP, 
         int widthP, int heightP, 
         int bgColorP,

@@ -10,10 +10,13 @@
 
 #include "modules/gui/igui.h"
 #include <memory>
+#include <gsl/string_span.h>
 
 namespace Api
 {
     
+using namespace gsl;
+
 // TODO: Create a common place for error codes
 constexpr int ERROR_API_NOT_INITIALIZED{-2};
 
@@ -49,18 +52,18 @@ public:
     /**
      * Create main window. Only one main window allowed per application.
      * 
-     * @param  {char*} const   : window title
-     * @param  {int} xP        : X coordinate of top-left corner of window content
-     * @param  {int} yP        : y coordinate of top-left corner of window content
-     * @param  {int} widthP    : window width
-     * @param  {int} heightP   : window height
-     * @param  {int} bgColorP  : background color
-     * @param  {bool} visibleP : window visibility
-     * @return {int}           : 0 if succeeded, -1 if window creation failes or -2
-     *                              if GUI not initialized by calling initGUI
+     * @param  {czstring} titleP    : window title
+     * @param  {int} xP             : X coordinate of top-left corner of window content
+     * @param  {int} yP             : y coordinate of top-left corner of window content
+     * @param  {int} widthP         : window width
+     * @param  {int} heightP        : window height
+     * @param  {int} bgColorP       : background color
+     * @param  {bool} visibleP      : window visibility
+     * @return {int}                : 0 if succeeded, -1 if window creation failes or -2
+     *                                  if GUI not initialized by calling initGUI
      */
     int  createMainWindow(
-        char const* titleP, 
+        czstring<> titleP, 
         int xP, int yP, 
         int widthP, 
         int heightP, 

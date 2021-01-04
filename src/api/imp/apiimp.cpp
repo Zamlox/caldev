@@ -40,7 +40,7 @@ int ApiImp::stopGUI()
 }
 
 int  ApiImp::createMainWindow(
-    char const* titleP, 
+    czstring<> titleP, 
     int xP, int yP, 
     int widthP, 
     int heightP, 

@@ -33,7 +33,7 @@ public:
     bool stop() override;
     /** see IGui::createMainWindow() */
     int  createMainWindow(
-        char const* titleP, 
+        czstring<> titleP, 
         int xP, int yP, 
         int widthP, 
         int heightP, 

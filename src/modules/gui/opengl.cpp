@@ -59,7 +59,7 @@ bool OpenGL::stop()
 }
 
 int OpenGL::createMainWindow(
-    char const* titleP, 
+    czstring<> titleP, 
     int xP, int yP, 
     int widthP, 
     int heightP, 
