@@ -7,7 +7,7 @@ REBOL [
     date:       30-12-2020
     version:    0.0.1
     needs:      [
-        %lib.r
+        %caldev.r
     ]
     History: [
         0.0.1 [31-12-2020 "Started"]
@@ -15,13 +15,12 @@ REBOL [
     Category:   [tests library graphics]
     library:    [
         level:          'intermediate
-        platform:       ['win 'linux 'macOS]
+        platform:       ['win 'linux]
         type:           [test]
         domain:         [tests graphics external-library]
         tested-under:   [
             View 2.7.8.3.1
             View 2.7.8.4.3
-            View 2.7.8.2.5
         ]
         support:        none
         license:        'MIT

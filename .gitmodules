@@ -8,3 +8,6 @@
 [submodule "src/extern/googletest"]
 	path = src/extern/googletest
 	url = https://github.com/Zamlox/googletest.git
+[submodule "src/extern/GSL"]
+	path = src/extern/GSL
+	url = https://github.com/microsoft/GSL.git
