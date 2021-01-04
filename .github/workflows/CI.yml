@@ -30,7 +30,7 @@ jobs:
           cd src/extern/GSL
           git fetch origin
           git checkout origin/master
-          cd src/extern/glfw
+          cd ../glfw
           git fetch origin
           git checkout origin/master
           cd ../imgui
