@@ -35,7 +35,7 @@ public:
      * Destroy a window.
      * @param  {IWindow*} pWindowP : Window to be destroyed
      */
-    virtual void destroyWindow(IWindow*& pWindowP) = 0;
+    virtual void destroyWindow(owner<IWindow*>& pWindowP) = 0;
 };
 
 } // namespace GUI

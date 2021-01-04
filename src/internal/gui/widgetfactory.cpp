@@ -41,7 +41,7 @@ owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* 
     return pWindow;
 }
 
-void WidgetFactory::destroyWindow(IWindow*& pWindowP)
+void WidgetFactory::destroyWindow(owner<IWindow*>& pWindowP)
 {
     delete pWindowP;
     pWindowP = nullptr;

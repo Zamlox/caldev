@@ -28,7 +28,7 @@ public:
     /** see IWidgetFactory::createWindow() */
     owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP) override;
     /** see IWidgetFactory::destroyWindow() */
-    void destroyWindow(IWindow*& pWindowP) override;
+    void destroyWindow(owner<IWindow*>& pWindowP) override;
     
 private:
     WidgetFactory();
