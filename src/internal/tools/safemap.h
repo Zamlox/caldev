@@ -44,8 +44,7 @@ public:
     {
         bool found{false};
         pSyncExternalM->lock();
-        typename Map::const_iterator it = mapM.find(rKeyP);
-        if (it != mapM.end())
+        if (typename Map::const_iterator it = mapM.find(rKeyP); it != mapM.end())
         {
             rValueP = it->second;
             found = true;
