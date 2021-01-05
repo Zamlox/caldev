@@ -48,7 +48,7 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           cd src
-          bazel build --cpu=x64_x86_windows --strip=always :caldev32
+          bazel build --config=i386_windows --strip=always :caldev32
 
       - name: Build Linux 32bit
         if: matrix.os == 'Linux'
