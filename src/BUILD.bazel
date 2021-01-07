@@ -69,7 +69,6 @@ LINKOPTS = select({
         ]
     })
 
-
 cc_library(
     name = "caldevlib",
     srcs = SRCS,
@@ -121,5 +120,14 @@ cc_test(
         "//extern/googletest:gtest_main",
         ":caldevlib",
     ],
+    linkopts = LINKOPTS,
+)
+
+cc_binary(
+    name = "demo_gui",
+    srcs = ["examples/c++/demo_gui.cpp"] + SRCS,
+    deps = [":caldevlib"],
+    copts = COPTS,
+    linkstatic = 1,
     linkopts = LINKOPTS,
 )

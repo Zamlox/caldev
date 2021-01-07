@@ -9,6 +9,7 @@
 #define __API_H__
 
 #include "api/export.h"
+#include "api/imp/apiimp.h"
 
 /**
  * Initialize GUI
