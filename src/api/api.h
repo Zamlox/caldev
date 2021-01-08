@@ -14,18 +14,20 @@
 /**
  * Initialize GUI
  * 
- * @param  {int} guiTypeP : type of GUI
- * @return {int}          : 0 if succeeded
+ * @param  {int} guiTypeP       : type of GUI
+ * @param  {int} threadTypeP    : type of thread to execute GUI Engine
+ * @return {int}                : 0 if succeeded
  */
-EXPORT int guiEngineInit(int guiTypeP);
+EXPORT int guiEngineInit(int guiTypeP, int threadTypeP);
 
 /**
  * Start GUI engine with specified thread type.
  * 
- * @param  {int} threadTypeP : 
- * @return {EXPORT}          : 
+ * @return {int}    :   0 if success
+ *                      -1 if GUI engine cannot run in thread
+ *                      -2 if guiEngineInit() was not called before
  */
-EXPORT int guiEngineStart(int threadTypeP);
+EXPORT int guiEngineStart();
 
 /**
  * Stop GUI engine

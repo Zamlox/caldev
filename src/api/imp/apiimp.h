@@ -24,6 +24,7 @@ constexpr int ERROR_API_NOT_INITIALIZED{-2};
  * GUI type
  */
 enum class GuiType {
+    INVALID_TYPE = -1,
     GUI_OPENGL2,
     GUI_DIRECTX
 };
@@ -32,6 +33,7 @@ enum class GuiType {
  * Type of thread to execute gui engine
  */
 enum class GuiEngineExecutionType {
+    INVALID_THREAD = -1,
     MAIN_THREAD,
     BKG_THREAD
 };
@@ -42,21 +44,42 @@ enum class GuiEngineExecutionType {
 class ApiImp
 {
 public:
+    ApiImp();
+
+    /**
+     * Converts an int value to a GuiType value
+     * 
+     * @param  {int} valueP : value to be converted
+     * @return {GuiType}    : result of conversion
+     */
+    static GuiType convertGuiType(int valueP);
+
+    
+    /**
+     * Converts an int value to a GuiEngineExecutionType value
+     * 
+     * @param  {int} valueP              : value to be converted
+     * @return {GuiEngineExecutionType}  : result of conversion
+     */
+    static GuiEngineExecutionType convertGuiEngineExecutionType(int valueP);
+
     /**
      * Initialize GUI engine
      * 
-     * @param  {GuiType} guiTypeP   : type of GUI
-     * @return {int}                : 0 if success, -1 if fail
+     * @param  {GuiType} guiTypeP                   : type of GUI
+     * @param  {GuiEngineExecutionType} threadTypeP : type of thread to run engine
+     * @return {int}                                : 0 if success, -1 if fail
      */
-    int guiEngineInit(GuiType guiTypeP);
+    int guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP = GuiEngineExecutionType::BKG_THREAD);
 
     /**
      * Start GUI engine within main or background thread.
      * 
-     * @param  {GuiEngineExecutionType} threadTypeP : type of thread
-     * @return {int}                                : 0 if success, -1 otherwise
+     * @return {int}    :   0 if success
+     *                      -1 if GUI engine cannot run in thread
+     *                      -2 if guiEngineInit() was not called before
      */
-    int guiEngineStart(GuiEngineExecutionType threadTypeP = GuiEngineExecutionType::BKG_THREAD);
+    int guiEngineStart();
     
     /**
      * Stop GUI engine.
@@ -101,6 +124,8 @@ private:
      * Engine instance.
      */
     std::unique_ptr<GUI::IGui> pGuiEngineM;
+    /** Type of thread for GUI engine */
+    bool guiEngineThreadTypeM;
 };
 
 } // namespace Api
