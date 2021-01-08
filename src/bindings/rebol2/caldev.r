@@ -50,6 +50,11 @@ GUIType: [          ; must match Api::GuiType
     DirectX     1
 ]
 
+GuiEngineExecutionType: [
+    Main-Thread     0
+    Bkg-Thread      1
+]
+
 
 ; helper functions
 
@@ -61,14 +66,19 @@ func-caldev: func [ specs identifier ][
 ; library functions
 
 caldev-funcs: [
-    init-gui [ 
+    gui-init [ 
         "Initialize GUI engine"
-        type [ integer! ] "A GUIType value"
-    ] "initGUI"
+        type    [ integer! ] "A GUIType value"
+        thread  [ integer! ] "Thread type to run GUI engine"
+    ] "guiEngineInit"
 
-    stop-GUI [
+    gui-start [
+        "Start GUI engine"
+    ] "guiEngineStart"
+
+    gui-stop [
         "Stop GUI engine"
-    ] "stopGUI"
+    ] "guiEngineStop"
     
     create-main-window [
         "Create main window"

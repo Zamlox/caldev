@@ -88,5 +88,32 @@
                 }
             ],
         },
+        {                                
+            "name": "(demo_gui) caldev Launch",
+            //"type": "cppdbg",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/bazel-bin/demo_gui",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/src/bazel-bin",
+            "externalConsole": false,
+            "osx": {
+                "MIMode": "lldb",
+                "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+            },
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
+            },
+            "preLaunchTask": "demo_gui_debug_build",
+            "logging": { "engineLogging": true },
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
     ]
 }

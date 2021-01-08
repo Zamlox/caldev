@@ -78,6 +78,23 @@
                 "isDefault": true
             },
         },
+        {
+            "label": "demo_gui_debug_build",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                ":demo_gui",
+                "--compilation_mode=dbg"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }, 
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
         /*
         {
             "label": "boing_debug_build",

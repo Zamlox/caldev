@@ -3,20 +3,20 @@
 
 int main(int argc, const char* argv[])
 {
-    if (initGUI(Api::GUI_OPENGL2) != -1)
+    // initialize engine
+    if (guiEngineInit(GUI_TYPE_OPENGL2, GUI_MAIN_THREAD) == 0)
     {
+        // build GUI here
         if (!createMainWindow("GUI Demo", 100, 100, 800, 600, 12456, 1))
         {
             fprintf(stderr, "ERROR ! Cannot create main window !");
             exit(-1);
         }
 
-        while(true)
-        {
-            Os::Util::instance().msleep(10);
-        }
-        
-        stopGUI();
+        // start the engine
+        guiEngineStart();
+        // stop the engine
+        guiEngineStop();
     }
     else
     {
