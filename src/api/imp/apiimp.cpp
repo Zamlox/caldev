@@ -51,18 +51,14 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
             fprintf(stderr, "Invalid GUI engine type !\n");
             return -1;
     }
-    if (threadTypeP == GuiEngineExecutionType::INVALID_THREAD)
-    {
-        fprintf(stderr, "Invalid thread type !\n");
-        return -2;
-    }
     guiEngineBkgThreadM = (threadTypeP == GuiEngineExecutionType::BKG_THREAD) ? true : false;
-    if (!pGuiEngineM->init(guiEngineBkgThreadM))
-    {
-        fprintf(stderr, "Cannot initialize GUI engine !\n");
-        return -1;
-    }
-    return 0;
+    return check(0).error_if_true(
+        all (threadTypeP == GuiEngineExecutionType::INVALID_THREAD),
+        -2, "Invalid thread type !\n"
+    ).error_if_true(
+        all (!pGuiEngineM->init(guiEngineBkgThreadM)),
+        -1, "Cannot initialize GUI engine !\n"
+    ).result();
 }
 
 int ApiImp::guiEngineStart()
