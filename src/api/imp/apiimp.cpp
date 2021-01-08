@@ -31,7 +31,7 @@ int ApiImp::guiEngineStart(GuiEngineExecutionType threadTypeP)
         {
             if (!pGuiEngineM->startOnThread())
             {
-                fprintf(stderr, "Cannot start OpenGL engine in background thread !\n");
+                fprintf(stderr, "Cannot start GUI engine in background thread !\n");
                 exit(1);
             }
         }
@@ -39,7 +39,7 @@ int ApiImp::guiEngineStart(GuiEngineExecutionType threadTypeP)
         {
             if (!pGuiEngineM->startOnMainThread())
             {
-                fprintf(stderr, "Cannot start OpenGL engine in main thread !\n");
+                fprintf(stderr, "Cannot start GUI engine in main thread !\n");
                 exit(1);
             }
         }
