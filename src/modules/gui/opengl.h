@@ -25,10 +25,12 @@ class OpenGL : public IGui
 {
 public:
     OpenGL();
+    /** see IGui::init() */
+    bool init(bool bkgThreadP) override;
     /** see IGui::startOnThread() */
     bool startOnThread() override;
     /** see IGui::startOnMainThread() */
-    bool startOnMainThread(Os::ThreadFunc funcOnLoadP) override;
+    bool startOnMainThread() override;
     /** see IGui::stop() */
     bool stop() override;
     /** see IGui::createMainWindow() */
@@ -85,6 +87,8 @@ private:
     Bind::Rebol2::FontsMap fontsM;
     /** Flag indicating new font has been added */
     bool newFontAddedM;
+    /** Flag indicating if GUI engine runs in background thread */
+    bool isRuningInBkgThreadM;
 };
 
 } // namespace GUI

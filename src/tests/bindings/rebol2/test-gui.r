@@ -38,7 +38,7 @@ context [
         either (create-main-window "Rebol2 Main Window" 250 250 400 400 10100 1) > 0 [
             print "Wait for 10 seconds..."
             wait 10
-        ][ alert "Something wrong happened while creating main window !" ]
+        ][ alert "Something wrong happened while creating main window !" quit/return -1 ]
         stop-gui
     ]
 

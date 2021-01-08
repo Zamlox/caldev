@@ -102,11 +102,11 @@ jobs:
           cd src
           bazel build --cpu=x64_x86_windows :unittests
           ./bazel-bin/unittests
-          rebol -sqv tests\bindings\rebol32\tests.r
+          rebol -sqv tests\bindings\rebol2\tests.r
       - name: Test Linux 32bit
         if: matrix.os == 'Linux'
         run: |
           cd src
           bazel build --config=i386_linux --strip=always :unittests
           ./bazel-bin/unittests
-          rebol -sqv tests/bindings/rebol32/tests.r
+          rebol -sqv tests/bindings/rebol2/tests.r

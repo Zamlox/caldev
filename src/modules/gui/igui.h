@@ -24,16 +24,28 @@ class IGui
 public:
     virtual ~IGui() = default;
     /**
+     * Initialize GUI engine. By default it will be initialized in a background thread.
+     * Call this method before calling any of startOnThread()/startOnMainThread().
+     * 
+     * @param  {bool} bkgThreadP : true if must be initialized in a background thread,
+     *                              false if must be initialized in main thread
+     * @return {bool}            : true if successful, false otherwise
+     */
+    virtual bool init(bool bkgThreadP = true) = 0;
+    
+    /**
      * Starts GUI engine in a different thread then main thread
      * @return {bool}  :  true if succeeded, false otherwise
      */
     virtual bool startOnThread() = 0;
+
     /**
-     * Starts GUI engine in main thread
-     * @param  {Os::ThreadFunc} funcOnLoadP : function to execute after init but before thread body
+     * Starts GUI engine in main thread.
+     * 
+     * GUI widgets must be created after calling 
      * @return {bool}                       : true if succeeded, false otherwise
      */
-    virtual bool startOnMainThread(Os::ThreadFunc funcOnLoadP) = 0;
+    virtual bool startOnMainThread() = 0;
     /**
      * Stops GUI engine
      * @return {bool}  : true if succeeded, false otherwise

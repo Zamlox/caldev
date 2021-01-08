@@ -29,26 +29,38 @@ OpenGL::OpenGL()
     , stopEngineM{false}
     , fontsM{&syncBeforeFrameStartsM}
     , newFontAddedM{false}
+    , isRuningInBkgThreadM{true}
 {
     
 }
 
-bool OpenGL::startOnThread()
+bool OpenGL::init(bool bkgThreadP)
 {
     stopEngineM = false;
-    return threadM.start();
+    if (isRuningInBkgThreadM = bkgThreadP; !isRuningInBkgThreadM)
+    {
+        initGuiEngine(this);
+    }
+    return true;
 }
 
-bool OpenGL::startOnMainThread(Os::ThreadFunc funcOnLoadP)
+bool OpenGL::startOnThread()
 {
-    stopEngineM = false;
-    initGuiEngine(this);
-    if (funcOnLoadP != nullptr)
+    if (isRuningInBkgThreadM)
     {
-        funcOnLoadP(this);
+        return threadM.start();
     }
-    guiEngine(this);
-    return true;
+    return false;
+}
+
+bool OpenGL::startOnMainThread()
+{
+    if (!isRuningInBkgThreadM)
+    {
+        guiEngine(this);
+        return true;
+    }
+    return false;
 }
 
 bool OpenGL::stop()

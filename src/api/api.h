@@ -17,14 +17,22 @@
  * @param  {int} guiTypeP : type of GUI
  * @return {int}          : 0 if succeeded
  */
-EXPORT int initGUI(int guiTypeP);
+EXPORT int guiEngineInit(int guiTypeP);
+
+/**
+ * Start GUI engine with specified thread type.
+ * 
+ * @param  {int} threadTypeP : 
+ * @return {EXPORT}          : 
+ */
+EXPORT int guiEngineStart(int threadTypeP);
 
 /**
  * Stop GUI engine
  * 
  * @return {int}  : 0 if succeeded
  */
-EXPORT int stopGUI();
+EXPORT int guiEngineStop();
 
 /**
  * Create main window. Only one main window allowed per application.

@@ -9,16 +9,22 @@
 
 std::unique_ptr<Api::ApiImp> pAPI{new Api::ApiImp};
 
-EXPORT int initGUI (int guiTypeP)
+EXPORT int guiEngineInit (int guiTypeP)
 {
     assert(pAPI != nullptr);
-    return pAPI->initGUI(guiTypeP);
+    return pAPI->guiEngineInit(static_cast<Api::GuiType>(guiTypeP));
 }
 
-EXPORT int stopGUI()
+EXPORT int guiEngineStart(int threadTypeP)
 {
     assert(pAPI != nullptr);
-    return pAPI->stopGUI();
+    return pAPI->guiEngineStart(static_cast<Api::GuiEngineExecutionType>(threadTypeP));
+}
+
+EXPORT int guiEngineStop()
+{
+    assert(pAPI != nullptr);
+    return pAPI->guiEngineStop();
 }
 
 EXPORT int createMainWindow(

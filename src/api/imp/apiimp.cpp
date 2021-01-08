@@ -8,27 +8,45 @@
 namespace Api
 {
 
-int ApiImp::initGUI(int guiTypeP)
+int ApiImp::guiEngineInit(GuiType guiTypeP)
 {
     switch(guiTypeP)
     {
-        case GUI_OPENGL2:
+        case GuiType::GUI_OPENGL2:
             pGuiEngineM.reset(new GUI::OpenGL);
-#ifndef OS_MACOS
-            if(!pGuiEngineM->startOnThread())
-            {
-                fprintf(stderr, "Cannot start OpenGL engine !\n");
-                exit(1);
-            }
-#endif
             return 0;
-        case GUI_DIRECTX:
+        case GuiType::GUI_DIRECTX:
             return 0;
     }
     return -1;
 }
 
-int ApiImp::stopGUI()
+int ApiImp::guiEngineStart(GuiEngineExecutionType threadTypeP)
+{
+    if (pGuiEngineM.get())
+    {
+        bool bkgThread = (threadTypeP == GuiEngineExecutionType::BKG_THREAD) ? true : false;
+        pGuiEngineM->init(bkgThread);
+        if (bkgThread)
+        {
+            if (!pGuiEngineM->startOnThread())
+            {
+                fprintf(stderr, "Cannot start OpenGL engine in background thread !\n");
+                exit(1);
+            }
+        }
+        else
+        {
+            if (!pGuiEngineM->startOnMainThread())
+            {
+                fprintf(stderr, "Cannot start OpenGL engine in main thread !\n");
+                exit(1);
+            }
+        }
+    }
+}
+
+int ApiImp::guiEngineStop()
 {
     if (pGuiEngineM.get())
     {

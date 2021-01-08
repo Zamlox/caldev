@@ -23,9 +23,17 @@ constexpr int ERROR_API_NOT_INITIALIZED{-2};
 /**
  * GUI type
  */
-using GuiType = enum {
+enum class GuiType {
     GUI_OPENGL2,
     GUI_DIRECTX
+};
+
+/**
+ * Type of thread to execute gui engine
+ */
+enum class GuiEngineExecutionType {
+    MAIN_THREAD,
+    BKG_THREAD
 };
 
 /**
@@ -35,19 +43,27 @@ class ApiImp
 {
 public:
     /**
-     * Initialize GUI 
+     * Initialize GUI engine
      * 
-     * @param  {int} guiTypeP : type of GUI
-     * @return {int}          : 0 if success, -1 if fail
+     * @param  {GuiType} guiTypeP   : type of GUI
+     * @return {int}                : 0 if success, -1 if fail
      */
-    int initGUI(int guiTypeP);
+    int guiEngineInit(GuiType guiTypeP);
+
+    /**
+     * Start GUI engine within main or background thread.
+     * 
+     * @param  {GuiEngineExecutionType} threadTypeP : type of thread
+     * @return {int}                                : 0 if success, -1 otherwise
+     */
+    int guiEngineStart(GuiEngineExecutionType threadTypeP = GuiEngineExecutionType::BKG_THREAD);
     
     /**
      * Stop GUI engine.
      * 
      * @return {int}  : 0 if success, -1 if fail
      */
-    int stopGUI();
+    int guiEngineStop();
 
     /**
      * Create main window. Only one main window allowed per application.

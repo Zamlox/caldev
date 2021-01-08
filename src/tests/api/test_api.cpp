@@ -10,40 +10,46 @@
 namespace {
 
 TEST(APITest, Initialization){
-    EXPECT_EQ(initGUI(Api::GUI_OPENGL2), 0);
-    EXPECT_EQ(stopGUI(), 0);
-    EXPECT_EQ(initGUI(Api::GUI_DIRECTX), 0);
-    stopGUI();
-    EXPECT_NE(initGUI(99), 0);
-    stopGUI();
+    EXPECT_EQ(guiEngineInit(static_cast<int>(Api::GuiType::GUI_OPENGL2)), 0);
+    EXPECT_EQ(guiEngineStop(), 0);
+    EXPECT_EQ(guiEngineInit(static_cast<int>(Api::GuiType::GUI_DIRECTX)), 0);
+    guiEngineStop();
+    EXPECT_NE(guiEngineInit(99), 0);
+    guiEngineStop();
 }
 
 TEST(APITest, CreateMainWindow) {
-    initGUI(Api::GUI_OPENGL2);
+    guiEngineInit(static_cast<int>(Api::GuiType::GUI_OPENGL2));
     EXPECT_NE(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), 0);
-    stopGUI();
+    guiEngineStop();
     EXPECT_EQ(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), Api::ERROR_API_NOT_INITIALIZED);
-    stopGUI();
+    guiEngineStop();
 }
 
 TEST(APITest, HideMainWindow) {
-    initGUI(Api::GUI_OPENGL2);
+#ifndef OS_MACOS
+    guiEngineInit(static_cast<int>(Api::GuiType::GUI_OPENGL2));
+    guiEngineStart(static_cast<int>(Api::GuiEngineExecutionType::BKG_THREAD));
     EXPECT_NE(createMainWindow("Test HideMainWindow", 30, 30, 400, 100, 0xF0F0F0, true), 0);
     Os::Util::instance().msleep(1000);
     hideMainWindow();
     Os::Util::instance().msleep(1000);
-    stopGUI();
+    guiEngineStop();
+#endif
 }
 
 TEST(APITest, ShowMainWindow) {
-    initGUI(Api::GUI_OPENGL2);
+#ifndef OS_MACOS
+    guiEngineInit(static_cast<int>(Api::GuiType::GUI_OPENGL2));
+    guiEngineStart(static_cast<int>(Api::GuiEngineExecutionType::BKG_THREAD));
     EXPECT_NE(createMainWindow("Test ShowMainWindow", 30, 30, 400, 100, 0xF0F0F0, true), 0);
     Os::Util::instance().msleep(1000);
     hideMainWindow();
     Os::Util::instance().msleep(1000);
     showMainWindow();
     Os::Util::instance().msleep(1000);
-    stopGUI();
+    guiEngineStop();
+#endif
 }
 
 } // anonymous namespace
