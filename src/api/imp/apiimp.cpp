@@ -4,13 +4,16 @@
 
 #include "api/imp/apiimp.h"
 #include "modules/gui/opengl.h"
+#include "internal/tools/logic.h"
 
 namespace Api
 {
 
+using namespace Logic;
+
 ApiImp::ApiImp()
     : pGuiEngineM{nullptr}
-    , guiEngineThreadTypeM{false}
+    , guiEngineBkgThreadM{false}
 {
     
 }
@@ -53,8 +56,8 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
         fprintf(stderr, "Invalid thread type !\n");
         return -2;
     }
-    guiEngineThreadTypeM = (threadTypeP == GuiEngineExecutionType::BKG_THREAD) ? true : false;
-    if (!pGuiEngineM->init(guiEngineThreadTypeM))
+    guiEngineBkgThreadM = (threadTypeP == GuiEngineExecutionType::BKG_THREAD) ? true : false;
+    if (!pGuiEngineM->init(guiEngineBkgThreadM))
     {
         fprintf(stderr, "Cannot initialize GUI engine !\n");
         return -1;
@@ -64,23 +67,16 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
 
 int ApiImp::guiEngineStart()
 {
-    if (pGuiEngineM.get() && !pGuiEngineM->startOnThread())
-    {
-        fprintf(stderr, "Cannot start GUI engine in background thread !\n");
-        return -1;
-    }
-    else if (pGuiEngineM.get() && !pGuiEngineM->startOnMainThread())
-    {
-        fprintf(stderr, "Cannot start GUI engine in main thread !\n");
-        return -1;
-    }
-    else if (pGuiEngineM.get() == nullptr)
-    {
-        fprintf(stderr, "GUI engine instance not inititalized. Call guiEngineInit() !\n");
-        return -2;
-    }
-    
-    return 0;
+    return check(0).error_if_true(
+        all(pGuiEngineM.get(), guiEngineBkgThreadM, !pGuiEngineM->startOnThread()),
+        -1, "Cannot start GUI engine in background thread !\n"
+    ).error_if_true(
+        all(pGuiEngineM.get(), !guiEngineBkgThreadM, !pGuiEngineM->startOnMainThread()),
+        -1, "Cannot start GUI engine in main thread !\n"
+    ).error_if_true(
+        all(pGuiEngineM.get() == nullptr),
+        -2, "GUI engine instance not inititalized. Call guiEngineInit() before calling guiEngineStart() !\n"
+    ).result();
 }
 
 int ApiImp::guiEngineStop()

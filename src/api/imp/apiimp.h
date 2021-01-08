@@ -125,7 +125,7 @@ private:
      */
     std::unique_ptr<GUI::IGui> pGuiEngineM;
     /** Type of thread for GUI engine */
-    bool guiEngineThreadTypeM;
+    bool guiEngineBkgThreadM;
 };
 
 } // namespace Api
