@@ -11,6 +11,12 @@
 #include "api/export.h"
 #include "api/imp/apiimp.h"
 
+// for C++ binding
+constexpr int GUI_TYPE_OPENGL2  = static_cast<int>(Api::GuiType::GUI_OPENGL2);
+constexpr int GUI_TYPE_DIRECTX  = static_cast<int>(Api::GuiType::GUI_DIRECTX);
+constexpr int GUI_MAIN_THREAD   = static_cast<int>(Api::GuiEngineExecutionType::MAIN_THREAD);
+constexpr int GUI_BKG_THREAD    = static_cast<int>(Api::GuiEngineExecutionType::BKG_THREAD);
+
 /**
  * Initialize GUI
  * 
