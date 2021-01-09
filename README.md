@@ -49,4 +49,14 @@ To execute unit tests run ```unittests``` binary within src/bazel-bin folder.
 
 ## Bindings
 
-Currently bindings are developed for [Rebol2](http://www.rebol.com/docs/docs.html) but it can be used by any programming language which has support for calling functions exported by shared libraries.
+Currently bindings are developed for C++ and [Rebol2](http://www.rebol.com/docs/docs.html) but can be developed for any programming language which has support for calling functions exported by shared libraries.
+
+
+## Examples
+Examples can be found in ```src/examples``` folder.  
+Currently only GUI demo exist and it can be built using following command line:
+```
+bazel buil :demo_gui
+```
+Binary can be found in ```src/bazel-bin``` folder.  
+Rebol2 demo can be executed using [Rebol2/View](http://www.rebol.com/download-view.html) interpreter.
