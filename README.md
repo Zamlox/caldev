@@ -56,7 +56,7 @@ Currently bindings are developed for C++ and [Rebol2](http://www.rebol.com/docs/
 Examples can be found in ```src/examples``` folder.  
 Currently only GUI demo exist and it can be built using following command line:
 ```
-bazel buil :demo_gui
+bazel build :demo_gui
 ```
 Binary can be found in ```src/bazel-bin``` folder.  
 Rebol2 demo can be executed using [Rebol2/View](http://www.rebol.com/download-view.html) interpreter.
