@@ -22,6 +22,8 @@ namespace
     }
 } // anonymous namespace
 
+owner<OpenGL*> OpenGL::pEngineinstanceM{nullptr};
+
 OpenGL::OpenGL()
     : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
     , pOsWindowM{nullptr}
@@ -37,6 +39,7 @@ OpenGL::OpenGL()
 bool OpenGL::init(bool bkgThreadP)
 {
     stopEngineM = false;
+    pEngineinstanceM = this;
     if (isRuningInBkgThreadM = bkgThreadP; !isRuningInBkgThreadM)
     {
         initGuiEngine(this);
@@ -263,6 +266,7 @@ void OpenGL::size_callback(GLFWwindow* window, int width, int height)
     ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
     assert(pImGuiContext);
     pImGuiContext->Extension.mainSize = ImVec2{static_cast<float>(width), static_cast<float>(height)};
+    OpenGL::pEngineinstanceM->draw();
 }
 
 Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)

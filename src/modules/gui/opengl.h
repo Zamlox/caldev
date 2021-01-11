@@ -89,6 +89,8 @@ private:
     bool newFontAddedM;
     /** Flag indicating if GUI engine runs in background thread */
     bool isRuningInBkgThreadM;
+    /** One instance for one main window  */
+    static owner<OpenGL*> pEngineinstanceM;
 };
 
 } // namespace GUI
