@@ -8,8 +8,8 @@
 #ifndef __TOOLS_SAFEMAP_H__
 #define __TOOLS_SAFEMAP_H__
 
-#include "internal/os/mutex.h"
 #include <map>
+#include <mutex>
 #include <gsl/pointers.h>
 
 namespace Tools
@@ -25,38 +25,37 @@ class SafeMap
 {
 private:
     using Map = std::map<TKEY, TVALUE>;
+    using Mutex = std::recursive_mutex;
 
 public:
     SafeMap()
     : pSyncExternalM{&syncMapM}
     {}
-    SafeMap(not_null<Os::Mutex*> pSyncExternalP)
+    SafeMap(not_null<Mutex*> pSyncExternalP)
     : pSyncExternalM{pSyncExternalP.get()}
     {}
     
     void add(TKEY const& rKeyP, TVALUE const& rValueP)
     {
-        pSyncExternalM->lock();
+        const std::lock_guard<Mutex> lock{*pSyncExternalM};
         mapM.insert(std::make_pair(rKeyP, rValueP));
-        pSyncExternalM->unlock();
     }
     bool get(TKEY const rKeyP, TVALUE& rValueP) const
     {
         bool found{false};
-        pSyncExternalM->lock();
+        const std::lock_guard<Mutex> lock{*pSyncExternalM};
         if (typename Map::const_iterator it = mapM.find(rKeyP); it != mapM.end())
         {
             rValueP = it->second;
             found = true;
         }
-        pSyncExternalM->unlock();
         return found;
     }
 
 private:
     Map mapM;
-    Os::Mutex syncMapM;
-    Os::Mutex* pSyncExternalM;
+    Mutex syncMapM;
+    Mutex* pSyncExternalM;
 };
 
 } // namespace Tools

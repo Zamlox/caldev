@@ -64,11 +64,8 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
 int ApiImp::guiEngineStart()
 {
     return check(0).error_if_true(
-        all(pGuiEngineM.get(), guiEngineBkgThreadM, !pGuiEngineM->startOnThread()),
-        -1, "Cannot start GUI engine in background thread !\n"
-    ).error_if_true(
-        all(pGuiEngineM.get(), !guiEngineBkgThreadM, !pGuiEngineM->startOnMainThread()),
-        -1, "Cannot start GUI engine in main thread !\n"
+        all(pGuiEngineM.get(), !pGuiEngineM->start()),
+        -1, "Error executing GUI engine thread !\n"
     ).error_if_true(
         all(pGuiEngineM.get() == nullptr),
         -2, "GUI engine instance not inititalized. Call guiEngineInit() before calling guiEngineStart() !\n"

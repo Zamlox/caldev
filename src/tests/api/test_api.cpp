@@ -5,9 +5,11 @@
 #include "gtest/gtest.h"
 #include "api/api.h"
 #include "api/imp/apiimp.h"
-#include "internal/os/util.h"
+#include <thread>
 
 namespace {
+
+using namespace std::chrono_literals;
 
 class TestsAPI : public ::testing::Test
 {
@@ -48,9 +50,9 @@ TEST_F(TestsAPI, HideMainWindow) {
     guiEngineInit(guiType, guiThreadType);
     guiEngineStart();
     EXPECT_NE(createMainWindow("Test HideMainWindow", 30, 30, 400, 100, 0xF0F0F0, true), 0);
-    Os::Util::instance().msleep(1000);
+    std::this_thread::sleep_for(1s);
     hideMainWindow();
-    Os::Util::instance().msleep(1000);
+    std::this_thread::sleep_for(1s);
     guiEngineStop();
 #endif
 }
@@ -60,11 +62,11 @@ TEST_F(TestsAPI, ShowMainWindow) {
     guiEngineInit(guiType, guiThreadType);
     guiEngineStart();
     EXPECT_NE(createMainWindow("Test ShowMainWindow", 30, 30, 400, 100, 0xF0F0F0, true), 0);
-    Os::Util::instance().msleep(1000);
+    std::this_thread::sleep_for(1s);
     hideMainWindow();
-    Os::Util::instance().msleep(1000);
+    std::this_thread::sleep_for(1s);
     showMainWindow();
-    Os::Util::instance().msleep(1000);
+    std::this_thread::sleep_for(1s);
     guiEngineStop();
 #endif
 }

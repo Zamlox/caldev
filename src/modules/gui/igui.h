@@ -8,7 +8,6 @@
 #ifndef __GUI_IGUI_H__
 #define __GUI_IGUI_H__
 
-#include "internal/os/ithread.h"
 #include <gsl/string_span.h>
 
 namespace GUI
@@ -34,18 +33,13 @@ public:
     virtual bool init(bool bkgThreadP = true) = 0;
     
     /**
-     * Starts GUI engine in a different thread then main thread
+     * Starts GUI engine in a different thread or main thread,
+     * depending on how it was initialized.
+     * 
      * @return {bool}  :  true if succeeded, false otherwise
      */
-    virtual bool startOnThread() = 0;
+    virtual bool start() = 0;
 
-    /**
-     * Starts GUI engine in main thread.
-     * 
-     * GUI widgets must be created after calling 
-     * @return {bool}                       : true if succeeded, false otherwise
-     */
-    virtual bool startOnMainThread() = 0;
     /**
      * Stops GUI engine
      * @return {bool}  : true if succeeded, false otherwise
