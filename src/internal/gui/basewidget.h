@@ -10,7 +10,7 @@
 #define __GUI_BASEWIDGET_H__
 
 #include "internal/gui/imgui/common.h"
-#include "internal/os/mutex.h"
+#include <mutex>
 
 namespace GUI
 {
@@ -86,7 +86,7 @@ protected:
     /** Background color */
     Color bgColorM;
     /** Mutex to synchronize render related operations */
-    Os::Mutex syncRenderM;
+    std::mutex syncRenderM;
 };
 
 } // namespace GUI

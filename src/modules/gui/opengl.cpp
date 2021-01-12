@@ -233,7 +233,7 @@ void OpenGL::draw()
 {
     assert(pOsWindowM);
 
-    syncBeforeFrameStartsM.lock();
+    const std::lock_guard<Mutex> lock{syncBeforeFrameStartsM};
 
     if (newFontAddedM)
     {
@@ -271,8 +271,6 @@ void OpenGL::draw()
 
     glfwMakeContextCurrent(pOsWindowM);
     glfwSwapBuffers(pOsWindowM);
-
-    syncBeforeFrameStartsM.unlock();
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)
@@ -293,7 +291,7 @@ Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
     if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
     {
         static ImFontConfig fntConfig;
-        syncBeforeFrameStartsM.lock();
+        const std::lock_guard<Mutex> lock{syncBeforeFrameStartsM};
         pFont = pImGuiContext->IO.Fonts->AddFontFromFileTTF(
             fontName.c_str()
             , rFontP.sizeM.getValueOrDefault(Bind::Rebol2::getDefaultFontSize())
@@ -303,7 +301,6 @@ Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
         fontInfo.pFontM = pFont;
         fontsM.add(fontName, fontInfo);
         newFontAddedM = true;
-        syncBeforeFrameStartsM.unlock();
     }
     else
     {

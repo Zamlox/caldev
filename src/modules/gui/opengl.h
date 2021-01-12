@@ -7,14 +7,13 @@
 
 #include "bindings/rebol2/cpp/font.h"
 #include "modules/gui/igui.h"
-#include "internal/os/thread.h"
-#include "internal/os/mutex.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/imgui/common.h"
 #include "bindings/rebol2/cpp/font.h"
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <future>
+#include <mutex>
 
 namespace GUI
 {
@@ -54,6 +53,7 @@ public:
 
 private:
     using PromiseInit = std::promise<bool>;
+    using Mutex = std::recursive_mutex;
 
     /**
      * Initialization code to be executed in same thread as the engine.
@@ -87,7 +87,7 @@ private:
     /** Flag used to stop the engine */
     bool stopEngineM;
     /** Synchronize operations before a new frame starts */
-    Os::Mutex syncBeforeFrameStartsM;
+    Mutex syncBeforeFrameStartsM;
     
     /** Result value of engine thread execution */
     std::future<bool> engineResultM;

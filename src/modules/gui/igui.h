@@ -8,7 +8,6 @@
 #ifndef __GUI_IGUI_H__
 #define __GUI_IGUI_H__
 
-#include "internal/os/ithread.h"
 #include <gsl/string_span.h>
 
 namespace GUI
