@@ -1,6 +1,6 @@
 /**
  * Author: 		Iosif Haidu
- * Description: API to interface with Rebol2
+ * Description: API to interface with external world
  *
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
