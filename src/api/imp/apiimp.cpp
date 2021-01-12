@@ -41,6 +41,7 @@ GuiEngineExecutionType ApiImp::convertGuiEngineExecutionType(int valueP)
 
 int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
 {
+    bool isGuiTypeInvalid{false};
     switch(guiTypeP)
     {
         case GuiType::GUI_OPENGL2:
@@ -49,17 +50,20 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
         case GuiType::GUI_DIRECTX:
             break;
         default:
-            fprintf(stderr, MSG_ERR_GUI_INVALID_GUI_ENGINE_TYPE);
-            return ERR_GUI_INVALID_GUI_ENGINE_TYPE;
+            isGuiTypeInvalid = true;
+            break;
     }
     guiEngineBkgThreadM = (threadTypeP == GuiEngineExecutionType::BKG_THREAD) ? true : false;
+
     return check(SUCCESS).error_if_true(
+        all (isGuiTypeInvalid),
+        ERR_GUI_INVALID_GUI_ENGINE_TYPE, MSG_ERR_GUI_INVALID_GUI_ENGINE_TYPE
+    ).error_if_true(
         all (threadTypeP == GuiEngineExecutionType::INVALID_THREAD),
         ERR_GUI_INVALID_THREAD_TYPE, MSG_ERR_GUI_INVALID_THREAD_TYPE
-    ).error_if_true(
-        all (!pGuiEngineM->init(guiEngineBkgThreadM)),
-        ERR_GUI_CANNOT_INITIALIZE, MSG_ERR_GUI_CANNOT_INITIALIZE
-    ).result();
+    ).execute_if_no_error([=](){
+        return pGuiEngineM->init(guiEngineBkgThreadM) ? check::success() : check::make_error(ERR_GUI_CANNOT_INITIALIZE, MSG_ERR_GUI_CANNOT_INITIALIZE);
+    }).result();
 }
 
 int ApiImp::guiEngineStart()
@@ -75,13 +79,14 @@ int ApiImp::guiEngineStart()
 
 int ApiImp::guiEngineStop()
 {
-    if (pGuiEngineM.get())
-    {
+    return check(SUCCESS).error_if_true(
+        all (pGuiEngineM.get() == nullptr),
+        ERR_GUI_ENGINE_NOT_INIT, MSG_ERR_GUI_ENGINE_NOT_INIT
+    ).execute_if_no_error([=](){
         pGuiEngineM->stop();
         pGuiEngineM.reset(nullptr);
-        return 0;
-    }
-    return ERR_GUI_ENGINE_NOT_INIT;
+        return check::success();
+    }).result();
 }
 
 int  ApiImp::createMainWindow(

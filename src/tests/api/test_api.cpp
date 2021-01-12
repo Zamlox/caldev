@@ -6,6 +6,7 @@
 #include "api/api.h"
 #include "api/imp/apiimp.h"
 #include "internal/errors/errors.h"
+#include "internal/tools/logic.h"
 #include <thread>
 
 namespace {
@@ -18,6 +19,7 @@ protected:
 
     void SetUp() override
     {
+        Logic::check::showErrorMsg(false);
          guiType = static_cast<int>(Api::GuiType::GUI_OPENGL2);
          guiThreadType = static_cast<int>(Api::GuiEngineExecutionType::BKG_THREAD);
     }
@@ -30,19 +32,21 @@ protected:
 };
 
 TEST_F(TestsAPI, Initialization){
-    EXPECT_EQ(guiEngineInit(guiType, guiThreadType), 0);
-    EXPECT_EQ(guiEngineStop(), 0);
-    EXPECT_EQ(guiEngineInit(guiType, guiThreadType), 0);
-    guiEngineStop();
-    EXPECT_NE(guiEngineInit(99, guiThreadType), 0);
-    guiEngineStop();
+    EXPECT_EQ(guiEngineInit(guiType, guiThreadType), SUCCESS);
+    EXPECT_EQ(guiEngineStop(), SUCCESS);
+    EXPECT_EQ(guiEngineInit(99, guiThreadType), ERR_GUI_INVALID_GUI_ENGINE_TYPE);
+    EXPECT_EQ(guiEngineStop(), ERR_GUI_ENGINE_NOT_INIT);
 }
 
 TEST_F(TestsAPI, CreateMainWindow) {
     guiEngineInit(guiType, guiThreadType);
+    guiEngineStart();
     EXPECT_NE(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), 0);
     guiEngineStop();
-    EXPECT_EQ(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), ERR_GUI_ENGINE_NOT_INIT);
+
+    guiEngineInit(guiType, guiThreadType);
+    guiEngineStart();
+    EXPECT_GT(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), SUCCESS);
     guiEngineStop();
 }
 

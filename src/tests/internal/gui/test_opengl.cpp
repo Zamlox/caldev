@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "modules/gui/opengl.h"
 #include "bindings/rebol2/cpp/default.h"
+#include "internal/errors/errors.h"
 
 #ifndef OS_MACOS
 #include <filesystem>
@@ -58,14 +59,14 @@ TEST_F(TestsOpenGL, StartThread) {
     opengl.init(true);
     ASSERT_TRUE(opengl.start());
     int res = opengl.createMainWindow("Background thread window", 150, 150, 500, 300, 0x0000FF, true);
-    ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
+    ASSERT_NE(res, ERR_GUI_INVALID_WIDGET);
     std::this_thread::sleep_for(1s);
     opengl.stop();
 
     opengl.init(true);
     ASSERT_TRUE(opengl.start());
     res = opengl.createMainWindow("Another background thread window", 200, 200, 600, 200, 0x00FF00, true);
-    ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
+    ASSERT_NE(res, ERR_GUI_INVALID_WIDGET);
     std::this_thread::sleep_for(1s);
     opengl.stop();
 }

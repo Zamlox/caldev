@@ -4,6 +4,7 @@
 
 #include "bindings/rebol2/cpp/default.h"
 #include "modules/gui/opengl.h"
+#include "internal/errors/errors.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
@@ -123,7 +124,7 @@ int OpenGL::createMainWindow(
             return pMainWidgetWindowM->getId();
         }
     }
-    return INVALID_WIDGET_ID;
+    return ERR_GUI_INVALID_WIDGET;
 }
 
 void OpenGL::hideMainWindow()
