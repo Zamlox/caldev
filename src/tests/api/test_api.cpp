@@ -39,6 +39,7 @@ TEST_F(TestsAPI, Initialization){
 }
 
 TEST_F(TestsAPI, CreateMainWindow) {
+#ifndef OS_MACOS
     guiEngineInit(guiType, guiThreadType);
     guiEngineStart();
     EXPECT_NE(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), 0);
@@ -48,6 +49,7 @@ TEST_F(TestsAPI, CreateMainWindow) {
     guiEngineStart();
     EXPECT_GT(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), SUCCESS);
     guiEngineStop();
+#endif
 }
 
 TEST_F(TestsAPI, HideMainWindow) {
