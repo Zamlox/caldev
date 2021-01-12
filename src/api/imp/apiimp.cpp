@@ -62,7 +62,8 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
         all (threadTypeP == GuiEngineExecutionType::INVALID_THREAD),
         ERR_GUI_INVALID_THREAD_TYPE, MSG_ERR_GUI_INVALID_THREAD_TYPE
     ).execute_if_no_error([=](){
-        return pGuiEngineM->init(guiEngineBkgThreadM) ? check::success() : check::make_error(ERR_GUI_CANNOT_INITIALIZE, MSG_ERR_GUI_CANNOT_INITIALIZE);
+        check::ErrResult error{check::make_error(ERR_GUI_CANNOT_INITIALIZE, MSG_ERR_GUI_CANNOT_INITIALIZE)};
+        return pGuiEngineM->init(guiEngineBkgThreadM) ? check::success() : error;
     }).result();
 }
 
@@ -84,7 +85,7 @@ int ApiImp::guiEngineStop()
         ERR_GUI_ENGINE_NOT_INIT, MSG_ERR_GUI_ENGINE_NOT_INIT
     ).execute_if_no_error([=](){
         pGuiEngineM->stop();
-        pGuiEngineM.reset(nullptr);
+        pGuiEngineM.reset(nullptr); 
         return check::success();
     }).result();
 }

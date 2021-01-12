@@ -124,7 +124,7 @@ int OpenGL::createMainWindow(
             return pMainWidgetWindowM->getId();
         }
     }
-    return ERR_GUI_INVALID_WIDGET;
+    return ERR_GUI_MAIN_WINDOW_FAILED;
 }
 
 void OpenGL::hideMainWindow()

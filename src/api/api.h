@@ -22,23 +22,27 @@ constexpr int GUI_BKG_THREAD    = static_cast<int>(Api::GuiEngineExecutionType::
  * 
  * @param  {int} guiTypeP       : type of GUI
  * @param  {int} threadTypeP    : type of thread to execute GUI Engine
- * @return {int}                : 0 if succeeded
+ * @return {int}                : SUCCESS if succeeded
+ *                                  ERR_GUI_INVALID_GUI_ENGINE_TYPE if invalid GUI type value
+ *                                  ERR_GUI_INVALID_THREAD_TYPE if invalid thread type value
+ *                                  ERR_GUI_CANNOT_INITIALIZE if GUi Engine fail to iniitalize
  */
 EXPORT int guiEngineInit(int guiTypeP, int threadTypeP);
 
 /**
  * Start GUI engine with specified thread type.
  * 
- * @return {int}    :   0 if success
- *                      -1 if GUI engine cannot run in thread
- *                      -2 if guiEngineInit() was not called before
+ * @return {int}    :   SUCCESS if succeeded
+ *                          ERR_GUI_EXEC_ENGINE if fail executing GUI engine thread
+ *                          ERR_GUI_ENGINE_NOT_INIT if guiEngineInit() not called
  */
 EXPORT int guiEngineStart();
 
 /**
  * Stop GUI engine
  * 
- * @return {int}  : 0 if succeeded
+ * @return {int}  : SUCCESS if succeeded
+ *                      ERR_GUI_ENGINE_NOT_INIT if guiEngineInit() not called
  */
 EXPORT int guiEngineStop();
 
@@ -52,7 +56,9 @@ EXPORT int guiEngineStop();
  * @param  {int} heightP   : window height
  * @param  {int} bgColorP  : background color
  * @param  {bool} visibleP : window visibility
- * @return {int}           : 0 if succeeded, -1 otherwise
+ * @return {int}           : SUCCESS if succeeded
+ *                              ERR_GUI_ENGINE_NOT_INIT if guiEngineInit() not called
+ *                              ERR_GUI_MAIN_WINDOW_FAILED if main os window not created
  */
 EXPORT int createMainWindow(
     char const* titleP, 
