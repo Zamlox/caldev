@@ -72,23 +72,23 @@ Os::Thread TestsOpenGL::threadM{"TestsOpenGL", nullptr, &TestsOpenGL::stopMainTh
 TEST_F(TestsOpenGL, StartMainThread) {
     opengl.init(false);
     onLoad(&opengl);
-    ASSERT_TRUE(opengl.startOnMainThread());
+    ASSERT_TRUE(opengl.start());
     opengl.init(false);
     onLoad1(&opengl);
-    ASSERT_TRUE(opengl.startOnMainThread());
+    ASSERT_TRUE(opengl.start());
 }
 
 #ifndef OS_MACOS    // OSX does not support handling glfw main loop in different thread
 TEST_F(TestsOpenGL, StartThread) {
     opengl.init(true);
-    ASSERT_TRUE(opengl.startOnThread());
+    ASSERT_TRUE(opengl.start());
     int res = opengl.createMainWindow("Background thread window", 150, 150, 500, 300, 0x0000FF, true);
     ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
     Os::Util::instance().msleep(1000);
     opengl.stop();
 
     opengl.init(true);
-    ASSERT_TRUE(opengl.startOnThread());
+    ASSERT_TRUE(opengl.start());
     res = opengl.createMainWindow("Another background thread window", 200, 200, 600, 200, 0x00FF00, true);
     ASSERT_NE(res, GUI::INVALID_WIDGET_ID);
     Os::Util::instance().msleep(1000);

@@ -10,6 +10,7 @@
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
 #include <sstream>
+#include <thread>
 
 namespace GUI
 {
@@ -25,15 +26,14 @@ namespace
 owner<OpenGL*> OpenGL::pEngineinstanceM{nullptr};
 
 OpenGL::OpenGL()
-    : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
-    , pOsWindowM{nullptr}
+    : pOsWindowM{nullptr}
     , pMainWidgetWindowM{nullptr}
     , stopEngineM{false}
     , fontsM{&syncBeforeFrameStartsM}
     , newFontAddedM{false}
     , isRuningInBkgThreadM{true}
+    , engineStartedM{false}
 {
-    
 }
 
 bool OpenGL::init(bool bkgThreadP)
@@ -42,35 +42,42 @@ bool OpenGL::init(bool bkgThreadP)
     pEngineinstanceM = this;
     if (isRuningInBkgThreadM = bkgThreadP; !isRuningInBkgThreadM)
     {
-        initGuiEngine(this);
+        return initGuiEngine();
     }
     return true;
 }
 
-bool OpenGL::startOnThread()
+bool OpenGL::start()
 {
+    bool result{true};
+    PromiseInit isInitReady;
+    engineStartedM = true;
     if (isRuningInBkgThreadM)
     {
-        return threadM.start();
+        engineResultM = std::async(std::launch::async, &OpenGL::guiEngine, this, &isInitReady);
+        auto fInitReady = isInitReady.get_future();
+        fInitReady.get();
     }
-    return false;
-}
-
-bool OpenGL::startOnMainThread()
-{
-    if (!isRuningInBkgThreadM)
+    else
     {
-        guiEngine(this);
-        return true;
+        result = guiEngine();
     }
-    return false;
+    
+    return result;
 }
 
 bool OpenGL::stop()
 {
-    stopEngineM = true;
-    threadM.join();
-    return true;
+    if (engineStartedM)
+    {
+        stopEngineM = true;
+        if (isRuningInBkgThreadM)
+        {
+            return engineResultM.get();
+        }
+        return true;
+    }
+    return false;
 }
 
 int OpenGL::createMainWindow(
@@ -135,10 +142,8 @@ void OpenGL::showMainWindow()
     }
 }
 
-void* OpenGL::initGuiEngine(void* pParamP)
+bool OpenGL::initGuiEngine()
 {
-    OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
-
     // Setup window
     if (glfwSetErrorCallback(glfw_error_callback); !glfwInit())
     {
@@ -149,12 +154,12 @@ void* OpenGL::initGuiEngine(void* pParamP)
     glfwWindowHint(GLFW_DEPTH_BITS, 16);
     glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    if (pOpenGL->pOsWindowM = glfwCreateWindow(640, 480, "Dummy", nullptr, nullptr); !pOpenGL->pOsWindowM)
+    if (pOsWindowM = glfwCreateWindow(640, 480, "Dummy", nullptr, nullptr); !pOsWindowM)
     {
         fprintf(stderr, "glfwCreateWindow() error.\n");
         exit(1);
     }
-    glfwMakeContextCurrent(pOpenGL->pOsWindowM);
+    glfwMakeContextCurrent(pOsWindowM);
     glfwSwapInterval(1);
 
     ImGuiContext* pImGuiContext = ::ImGui::CreateContext();
@@ -177,17 +182,26 @@ void* OpenGL::initGuiEngine(void* pParamP)
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Platform/Renderer bindings
-    InitFor3DRender(pOpenGL->pOsWindowM, true);
+    InitFor3DRender(pOsWindowM, true);
 
-    return nullptr;
+    return true;
 }
 
-void* OpenGL::guiEngine(void* pParamP)
+bool OpenGL::guiEngine(PromiseInit* pInitReadyP)
 {
-    OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
+    if (isRuningInBkgThreadM)   
+    {
+        if (!initGuiEngine())
+        {
+            return false;
+        }
 
-    glfwSetWindowSizeCallback(pOpenGL->pOsWindowM, OpenGL::size_callback);
-    while (!glfwWindowShouldClose(pOpenGL->pOsWindowM) && !pOpenGL->stopEngineM)
+        assert(pInitReadyP);
+        pInitReadyP->set_value(true);
+    }
+
+    glfwSetWindowSizeCallback(pOsWindowM, OpenGL::size_callback);
+    while (!glfwWindowShouldClose(pOsWindowM) && !stopEngineM)
     {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -197,14 +211,14 @@ void* OpenGL::guiEngine(void* pParamP)
         //glfwWaitEvents();
         glfwPollEvents();
 
-        pOpenGL->draw();
+        draw();
     }
-    glfwDestroyWindow(pOpenGL->pOsWindowM);
-    pOpenGL->pOsWindowM = nullptr;
+    glfwDestroyWindow(pOsWindowM);
+    pOsWindowM = nullptr;
     glfwTerminate();
-    WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
+    WidgetFactory::instance().destroyWindow(pMainWidgetWindowM);
 
-    return nullptr;
+    return true;
 }
 
 void OpenGL::mainWindowRender()
