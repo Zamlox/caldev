@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "api/api.h"
 #include "api/imp/apiimp.h"
+#include "internal/errors/errors.h"
 #include <thread>
 
 namespace {
@@ -41,7 +42,7 @@ TEST_F(TestsAPI, CreateMainWindow) {
     guiEngineInit(guiType, guiThreadType);
     EXPECT_NE(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), 0);
     guiEngineStop();
-    EXPECT_EQ(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), Api::ERROR_API_NOT_INITIALIZED);
+    EXPECT_EQ(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), ERR_GUI_ENGINE_NOT_INIT);
     guiEngineStop();
 }
 

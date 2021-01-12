@@ -5,6 +5,7 @@
 #include "api/imp/apiimp.h"
 #include "modules/gui/opengl.h"
 #include "internal/tools/logic.h"
+#include "internal/errors/errors.h"
 
 namespace Api
 {
@@ -48,27 +49,27 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
         case GuiType::GUI_DIRECTX:
             break;
         default:
-            fprintf(stderr, "Invalid GUI engine type !\n");
-            return -1;
+            fprintf(stderr, MSG_ERR_GUI_INVALID_GUI_ENGINE_TYPE);
+            return ERR_GUI_INVALID_GUI_ENGINE_TYPE;
     }
     guiEngineBkgThreadM = (threadTypeP == GuiEngineExecutionType::BKG_THREAD) ? true : false;
-    return check(0).error_if_true(
+    return check(SUCCESS).error_if_true(
         all (threadTypeP == GuiEngineExecutionType::INVALID_THREAD),
-        -2, "Invalid thread type !\n"
+        ERR_GUI_INVALID_THREAD_TYPE, MSG_ERR_GUI_INVALID_THREAD_TYPE
     ).error_if_true(
         all (!pGuiEngineM->init(guiEngineBkgThreadM)),
-        -1, "Cannot initialize GUI engine !\n"
+        ERR_GUI_CANNOT_INITIALIZE, MSG_ERR_GUI_CANNOT_INITIALIZE
     ).result();
 }
 
 int ApiImp::guiEngineStart()
 {
-    return check(0).error_if_true(
+    return check(SUCCESS).error_if_true(
         all(pGuiEngineM.get(), !pGuiEngineM->start()),
-        -1, "Error executing GUI engine thread !\n"
+        ERR_GUI_EXEC_ENGINE, MSG_ERR_GUI_EXEC_ENGINE
     ).error_if_true(
         all(pGuiEngineM.get() == nullptr),
-        -2, "GUI engine instance not inititalized. Call guiEngineInit() before calling guiEngineStart() !\n"
+        ERR_GUI_ENGINE_NOT_INIT, MSG_ERR_GUI_ENGINE_NOT_INIT
     ).result();
 }
 
@@ -80,7 +81,7 @@ int ApiImp::guiEngineStop()
         pGuiEngineM.reset(nullptr);
         return 0;
     }
-    return -1;
+    return ERR_GUI_ENGINE_NOT_INIT;
 }
 
 int  ApiImp::createMainWindow(
@@ -106,7 +107,7 @@ int  ApiImp::createMainWindow(
         }
         return res;
     }
-    return ERROR_API_NOT_INITIALIZED;
+    return ERR_GUI_ENGINE_NOT_INIT;
 }
 
 void ApiImp::hideMainWindow()

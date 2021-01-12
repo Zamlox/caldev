@@ -17,9 +17,6 @@ namespace Api
     
 using namespace gsl;
 
-// TODO: Create a common place for error codes
-constexpr int ERROR_API_NOT_INITIALIZED{-2};
-
 /**
  * GUI type
  */
