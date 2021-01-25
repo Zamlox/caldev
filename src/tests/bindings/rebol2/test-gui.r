@@ -34,12 +34,13 @@ do %../../../bindings/rebol2/caldev.r
 
 context [
     test-main-window: does [
-        init-gui GUIType/OpenGL
+        gui-init GUIType/OpenGL GuiEngineExecutionType/Bkg-Thread
+        gui-start
         either (create-main-window "Rebol2 Main Window" 250 250 400 400 10100 1) > 0 [
             print "Wait for 10 seconds..."
             wait 10
         ][ alert "Something wrong happened while creating main window !" quit/return -1 ]
-        stop-gui
+        gui-stop
     ]
 
     test-main-window
