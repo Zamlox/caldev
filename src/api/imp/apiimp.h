@@ -9,6 +9,7 @@
 #define __API_APIIMP_H__
 
 #include "modules/gui/igui.h"
+#include "api/imp/apiconst.h"
 #include <memory>
 #include <gsl/string_span.h>
 
@@ -16,24 +17,6 @@ namespace Api
 {
     
 using namespace gsl;
-
-/**
- * GUI type
- */
-enum class GuiType {
-    INVALID_TYPE = -1,
-    GUI_OPENGL2,
-    GUI_DIRECTX
-};
-
-/**
- * Type of thread to execute gui engine
- */
-enum class GuiEngineExecutionType {
-    INVALID_THREAD = -1,
-    MAIN_THREAD,
-    BKG_THREAD
-};
 
 /**
  * API implementation

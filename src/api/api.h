@@ -8,8 +8,13 @@
 #ifndef __API_H__
 #define __API_H__
 
-#include "api/export.h"
-#include "api/imp/apiimp.h"
+#include "api/imp/apiconst.h"
+
+#ifdef _WIN32
+#define EXPORT extern "C" __declspec( dllexport )
+#else
+#define EXPORT extern "C" __attribute__ ((visibility ("default")))
+#endif
 
 // for C++ binding
 constexpr int GUI_TYPE_OPENGL2  = static_cast<int>(Api::GuiType::GUI_OPENGL2);
