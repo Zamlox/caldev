@@ -1,4 +1,6 @@
 #include "api/api.h"
+#include <cstdio>
+#include <stdlib.h>
 
 int main(int argc, const char* argv[])
 {
