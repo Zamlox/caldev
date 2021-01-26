@@ -70,8 +70,11 @@ int ApiImp::guiEngineInit(GuiType guiTypeP, GuiEngineExecutionType threadTypeP)
 int ApiImp::guiEngineStart()
 {
     return check(SUCCESS).error_if_true(
-        all(pGuiEngineM.get(), !pGuiEngineM->start()),
-        ERR_GUI_EXEC_ENGINE, MSG_ERR_GUI_EXEC_ENGINE
+        all(pGuiEngineM.get(), guiEngineBkgThreadM, !pGuiEngineM->startOnThread()),
+        ERR_GUI_EXEC_ENGINE_BKG_THREAD, MSG_ERR_GUI_EXEC_ENGINE_BKG_THREAD
+    ).error_if_true(
+        all(pGuiEngineM.get(), !guiEngineBkgThreadM, !pGuiEngineM->startOnMainThread()),
+        ERR_GUI_EXEC_ENGINE_MAIN_THREAD, MSG_ERR_GUI_EXEC_ENGINE_MAIN_THREAD
     ).error_if_true(
         all(pGuiEngineM.get() == nullptr),
         ERR_GUI_ENGINE_NOT_INIT, MSG_ERR_GUI_ENGINE_NOT_INIT

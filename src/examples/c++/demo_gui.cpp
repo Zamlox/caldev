@@ -1,4 +1,5 @@
 #include "api/api.h"
+#include "internal/os/util.h"
 #include <cstdio>
 #include <stdlib.h>
 

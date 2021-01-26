@@ -11,7 +11,6 @@
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
 #include <sstream>
-#include <thread>
 
 namespace GUI
 {
@@ -27,14 +26,15 @@ namespace
 owner<OpenGL*> OpenGL::pEngineinstanceM{nullptr};
 
 OpenGL::OpenGL()
-    : pOsWindowM{nullptr}
+    : threadM{"GuiEngine", &OpenGL::initGuiEngine, &OpenGL::guiEngine, this}
+    , pOsWindowM{nullptr}
     , pMainWidgetWindowM{nullptr}
     , stopEngineM{false}
     , fontsM{&syncBeforeFrameStartsM}
     , newFontAddedM{false}
     , isRuningInBkgThreadM{true}
-    , engineStartedM{false}
 {
+    
 }
 
 bool OpenGL::init(bool bkgThreadP)
@@ -43,42 +43,35 @@ bool OpenGL::init(bool bkgThreadP)
     pEngineinstanceM = this;
     if (isRuningInBkgThreadM = bkgThreadP; !isRuningInBkgThreadM)
     {
-        return initGuiEngine();
+        initGuiEngine(this);
     }
     return true;
 }
 
-bool OpenGL::start()
+bool OpenGL::startOnThread()
 {
-    bool result{true};
-    PromiseInit isInitReady;
-    engineStartedM = true;
     if (isRuningInBkgThreadM)
     {
-        engineResultM = std::async(std::launch::async, &OpenGL::guiEngine, this, &isInitReady);
-        auto fInitReady = isInitReady.get_future();
-        fInitReady.get();
+        return threadM.start();
     }
-    else
+    return false;
+}
+
+bool OpenGL::startOnMainThread()
+{
+    if (!isRuningInBkgThreadM)
     {
-        result = guiEngine();
+        guiEngine(this);
+        return true;
     }
-    
-    return result;
+    return false;
 }
 
 bool OpenGL::stop()
 {
-    if (engineStartedM)
-    {
-        stopEngineM = true;
-        if (isRuningInBkgThreadM)
-        {
-            return engineResultM.get();
-        }
-        return true;
-    }
-    return false;
+    stopEngineM = true;
+    threadM.join();
+    return true;
 }
 
 int OpenGL::createMainWindow(
@@ -143,8 +136,10 @@ void OpenGL::showMainWindow()
     }
 }
 
-bool OpenGL::initGuiEngine()
+void* OpenGL::initGuiEngine(void* pParamP)
 {
+    OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
+
     // Setup window
     if (glfwSetErrorCallback(glfw_error_callback); !glfwInit())
     {
@@ -155,12 +150,12 @@ bool OpenGL::initGuiEngine()
     glfwWindowHint(GLFW_DEPTH_BITS, 16);
     glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-    if (pOsWindowM = glfwCreateWindow(640, 480, "Dummy", nullptr, nullptr); !pOsWindowM)
+    if (pOpenGL->pOsWindowM = glfwCreateWindow(640, 480, "Dummy", nullptr, nullptr); !pOpenGL->pOsWindowM)
     {
         fprintf(stderr, "glfwCreateWindow() error.\n");
         exit(1);
     }
-    glfwMakeContextCurrent(pOsWindowM);
+    glfwMakeContextCurrent(pOpenGL->pOsWindowM);
     glfwSwapInterval(1);
 
     ImGuiContext* pImGuiContext = ::ImGui::CreateContext();
@@ -183,26 +178,17 @@ bool OpenGL::initGuiEngine()
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Platform/Renderer bindings
-    InitFor3DRender(pOsWindowM, true);
+    InitFor3DRender(pOpenGL->pOsWindowM, true);
 
-    return true;
+    return nullptr;
 }
 
-bool OpenGL::guiEngine(PromiseInit* pInitReadyP)
+void* OpenGL::guiEngine(void* pParamP)
 {
-    if (isRuningInBkgThreadM)   
-    {
-        if (!initGuiEngine())
-        {
-            return false;
-        }
+    OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
 
-        assert(pInitReadyP);
-        pInitReadyP->set_value(true);
-    }
-
-    glfwSetWindowSizeCallback(pOsWindowM, OpenGL::size_callback);
-    while (!glfwWindowShouldClose(pOsWindowM) && !stopEngineM)
+    glfwSetWindowSizeCallback(pOpenGL->pOsWindowM, OpenGL::size_callback);
+    while (!glfwWindowShouldClose(pOpenGL->pOsWindowM) && !pOpenGL->stopEngineM)
     {
         // Poll and handle events (inputs, window resize, etc.)
         // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -212,14 +198,14 @@ bool OpenGL::guiEngine(PromiseInit* pInitReadyP)
         //glfwWaitEvents();
         glfwPollEvents();
 
-        draw();
+        pOpenGL->draw();
     }
-    glfwDestroyWindow(pOsWindowM);
-    pOsWindowM = nullptr;
+    glfwDestroyWindow(pOpenGL->pOsWindowM);
+    pOpenGL->pOsWindowM = nullptr;
     glfwTerminate();
-    WidgetFactory::instance().destroyWindow(pMainWidgetWindowM);
+    WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
 
-    return true;
+    return nullptr;
 }
 
 void OpenGL::mainWindowRender()
@@ -234,7 +220,7 @@ void OpenGL::draw()
 {
     assert(pOsWindowM);
 
-    const std::lock_guard<Mutex> lock{syncBeforeFrameStartsM};
+    syncBeforeFrameStartsM.lock();
 
     if (newFontAddedM)
     {
@@ -272,6 +258,8 @@ void OpenGL::draw()
 
     glfwMakeContextCurrent(pOsWindowM);
     glfwSwapBuffers(pOsWindowM);
+
+    syncBeforeFrameStartsM.unlock();
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)
@@ -292,7 +280,7 @@ Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
     if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
     {
         static ImFontConfig fntConfig;
-        const std::lock_guard<Mutex> lock{syncBeforeFrameStartsM};
+        syncBeforeFrameStartsM.lock();
         pFont = pImGuiContext->IO.Fonts->AddFontFromFileTTF(
             fontName.c_str()
             , rFontP.sizeM.getValueOrDefault(Bind::Rebol2::getDefaultFontSize())
@@ -302,6 +290,7 @@ Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
         fontInfo.pFontM = pFont;
         fontsM.add(fontName, fontInfo);
         newFontAddedM = true;
+        syncBeforeFrameStartsM.unlock();
     }
     else
     {

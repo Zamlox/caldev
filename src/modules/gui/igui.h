@@ -33,12 +33,18 @@ public:
     virtual bool init(bool bkgThreadP = true) = 0;
     
     /**
-     * Starts GUI engine in a different thread or main thread,
-     * depending on how it was initialized.
-     * 
+     * Starts GUI engine in a different thread then main thread
      * @return {bool}  :  true if succeeded, false otherwise
      */
-    virtual bool start() = 0;
+    virtual bool startOnThread() = 0;
+
+    /**
+     * Starts GUI engine in main thread.
+     * 
+     * GUI widgets must be created after calling 
+     * @return {bool}                       : true if succeeded, false otherwise
+     */
+    virtual bool startOnMainThread() = 0;
 
     /**
      * Stops GUI engine

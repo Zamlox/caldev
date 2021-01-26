@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 #include "api/api.h"
 #include "api/imp/apiimp.h"
+#include "internal/os/util.h"
 #include "internal/errors/errors.h"
 #include "internal/tools/logic.h"
 #include <thread>

@@ -7,13 +7,13 @@
 
 #include "bindings/rebol2/cpp/font.h"
 #include "modules/gui/igui.h"
+#include "internal/os/thread.h"
+#include "internal/os/mutex.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/imgui/common.h"
 #include "bindings/rebol2/cpp/font.h"
 #include <GLFW/glfw3.h>
 #include <memory>
-#include <future>
-#include <mutex>
 
 namespace GUI
 {
@@ -27,8 +27,10 @@ public:
     OpenGL();
     /** see IGui::init() */
     bool init(bool bkgThreadP) override;
-    /** see IGui::start() */
-    bool start() override;
+    /** see IGui::startOnThread() */
+    bool startOnThread() override;
+    /** see IGui::startOnMainThread() */
+    bool startOnMainThread() override;
     /** see IGui::stop() */
     bool stop() override;
     /** see IGui::createMainWindow() */
@@ -52,23 +54,16 @@ public:
     Font* createFont(Bind::Rebol2::FaceFont const& rFontP);
 
 private:
-    using PromiseInit = std::promise<bool>;
-    using Mutex = std::recursive_mutex;
-
     /**
-     * Initialization code to be executed in same thread as the engine.
-     * 
-     * @return {bool}   : true if success, false otherwise
+     * Code to run before returning back to caller after thread starts
+     * @param  {void*} pParamP : pass 'this' to have access to internal data
      */
-    bool initGuiEngine();
+    static void* initGuiEngine(void* pParamP);
     /**
-     * Code to run for GUI engine. 
-     * Calls initGuiEngine().
-     * 
-     * @param  {PromiseInit>} initReadyP : signal main thread initialization is done.
-     * @return {bool}                    : true if success, false otherwise
+     * Code to run for GUI engine 
+     * @param  {void*} pParamP : pass 'this' to have access to internal data
      */
-    bool guiEngine(PromiseInit* pInitReadyP = nullptr);
+    static void* guiEngine(void*pParamP);
 
     /** Renders main window */
     void mainWindowRender();
@@ -79,7 +74,7 @@ private:
     static void size_callback(GLFWwindow* window, int width, int height);
 
     /** Separate thread to run GUI engine */
-    //Os::Thread threadM;
+    Os::Thread threadM;
     /** Instance of os main window */
     GLFWwindow* pOsWindowM;
     /** Main window widget */
@@ -87,10 +82,7 @@ private:
     /** Flag used to stop the engine */
     bool stopEngineM;
     /** Synchronize operations before a new frame starts */
-    Mutex syncBeforeFrameStartsM;
-    
-    /** Result value of engine thread execution */
-    std::future<bool> engineResultM;
+    Os::Mutex syncBeforeFrameStartsM;
     /** Collection of created fonts */
     Bind::Rebol2::FontsMap fontsM;
     /** Flag indicating new font has been added */
@@ -99,8 +91,6 @@ private:
     bool isRuningInBkgThreadM;
     /** One instance for one main window  */
     static owner<OpenGL*> pEngineinstanceM;
-    /** Flag indicating if engine is started */
-    bool engineStartedM;
 };
 
 } // namespace GUI
