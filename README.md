@@ -24,39 +24,13 @@ Available bazel targets for bulilding the library:
   * caldev32 (for 32bit)
   * caldev (for 64bit)
 
-## How to build
-Use following command lines from shell to build (command must be executed within 'src' folder).
-
-x86 32bit Windows:
-```
-bazel build --config=i386_windows :caldev32
-```
-x86 32bit Linux:
-```
-bazel build --config=i386_linux :caldev32
-```
-x86 64bit all platforms (Windows, Linux, macOS):
-```
-bazel build :caldev
-```
-
-
-## Unit tests
-
-Unit tests are developed using google test framework and executed on all supported platforms.
-To execute unit tests run ```unittests``` binary within src/bazel-bin folder.
-
 
 ## Bindings
 
-Currently bindings are developed for C++ and [Rebol2](http://www.rebol.com/docs/docs.html) but can be developed for any programming language which has support for calling functions exported by shared libraries.
+Currently bindings are developed for C++, [Rebol2](http://www.rebol.com/docs/docs.html) and Python but can be developed for any programming language which has support for calling functions exported by shared libraries.
 
 
 ## Examples
 Examples can be found in ```src/examples``` folder.  
-Currently only GUI demo exist and it can be built using following command line:
-```
-bazel build :demo_gui
-```
-Binary can be found in ```src/bazel-bin``` folder.  
+Binaries can be downloaded from [release](https://github.com/Zamlox/caldev/releases) page.
 Rebol2 demo can be executed using [Rebol2/View](http://www.rebol.com/download-view.html) interpreter.
