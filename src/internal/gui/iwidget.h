@@ -9,6 +9,7 @@
 #define __GUI_IWIDGET_H__
 
 #include "internal/gui/imgui/common.h"
+#include "internal/gui/irender.h"
 
 namespace GUI
 {
@@ -21,7 +22,7 @@ constexpr int MIN_SIZE_Y{100};
 /**
  * Widget interface
  */
-class IWidget
+class IWidget : public IRender
 {
 public:
     virtual ~IWidget() = default;
@@ -31,15 +32,12 @@ public:
      * @return {Id}  : widget id
      */
     virtual Id getId() const = 0;
+
     /**
      * Set widget it.
      * @param  {Id} idP : widget id
      */
     virtual void setId(Id idP) = 0;
-    /**
-     * Render widget.
-     */
-    virtual void render() = 0;
 };
 
 } // namespace GUI
