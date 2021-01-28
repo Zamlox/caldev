@@ -43,6 +43,12 @@ public:
         mapM.insert(std::make_pair(rKeyP, rValueP));
         pSyncExternalM->unlock();
     }
+    void remove(TKEY const& rKeyP)
+    {
+        pSyncExternalM->lock();
+        mapM.erase(rKeyP);
+        pSyncExternalM->unlock();
+    }
     bool get(TKEY const rKeyP, TVALUE& rValueP) const
     {
         bool found{false};
