@@ -19,7 +19,7 @@ namespace GUI
 using Id = ImGuiID;
 
 /** Initial value for widget id */
-constexpr Id START_WIDGET_ID{0};
+constexpr Id START_WIDGET_ID{1};
 /** Maximum value for Id */
 constexpr unsigned int MAX_ID{UINT_MAX};
 

@@ -49,6 +49,10 @@ public:
         mapM.erase(rKeyP);
         pSyncExternalM->unlock();
     }
+    size_t count() const
+    {
+        return mapM.size();
+    }
     bool get(TKEY const rKeyP, TVALUE& rValueP) const
     {
         bool found{false};

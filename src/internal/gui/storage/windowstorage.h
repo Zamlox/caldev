@@ -32,6 +32,8 @@ public:
     StorageKey add(not_null<IWindow*> pWindowP) override;
     /** see IWidgetStorage::remove() */
     void remove(StorageKey idP) override;
+    /** see IWidgetStorage::count() */
+    size_t count() const override;
 };
 
 } // namespace Storage

@@ -52,6 +52,13 @@ public:
     virtual void remove(StorageKey keyP) = 0;
 
     /**
+     * Number of element in storage.
+     * 
+     * @return {size_t}  : count of elements
+     */
+    virtual size_t count() const = 0;
+
+    /**
      * Updates widget in storage based on key.
      * 
      * @param  {StorageKey} keyP : key of widget to be updated
