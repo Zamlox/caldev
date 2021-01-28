@@ -26,9 +26,10 @@ class SafeMap
 {
 private:
     using Map = std::map<TKEY, TVALUE>;
-    using ProcessFunc = std::function<void(TVALUE&)>;
 
 public:
+    using ProcessFunc = std::function<void(TVALUE&)>;
+
     SafeMap()
     : pSyncExternalM{&syncMapM}
     {}
@@ -50,7 +51,7 @@ public:
         pSyncExternalM->unlock();
         return found;
     }
-    void process(TKEY const rKeyP, ProcessFunc funcP)
+    bool process(TKEY const rKeyP, ProcessFunc funcP)
     {
         bool found{false};
         TVALUE elem;
