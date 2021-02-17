@@ -82,6 +82,8 @@ cc_library(
         ],
     }) + [
         "//extern/imgui:imgui",
+    ] + [
+        "//extern/rebsdev:reblib",
     ],
     visibility = ["//visibility:public"],
 )

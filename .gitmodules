@@ -12,3 +12,6 @@
 	path = src/extern/GSL
 	url = https://github.com/Zamlox/GSL.git
 
+[submodule "src/extern/rebsdev"]
+	path = src/extern/rebsdev
+	url = https://github.com/Zamlox/rebsdev.git
