@@ -82,7 +82,7 @@ public:
     Face const& getFace();
 
 private:
-    Default() = default;
+    Default();
 
     Edge        edgeM;
     Effect      effectM;

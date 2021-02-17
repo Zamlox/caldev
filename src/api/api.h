@@ -9,6 +9,7 @@
 #define __API_H__
 
 #include "api/imp/apiconst.h"
+#include "api/imp/apiface.h"
 
 #ifdef _WIN32
 #define EXPORT extern "C" __declspec( dllexport )
@@ -83,5 +84,13 @@ EXPORT void hideMainWindow();
  * Show main window if created.
  */
 EXPORT void showMainWindow();
+
+/**
+ * Create widget. Use this functon to create also child window.
+ * 
+ * @param  {Api::Face} faceP : face data for widget to be created
+ * @return {int}             : id of created widget on success, ERR_GUI_INVALID_WIDGET otherwise
+ */
+EXPORT int createWidget(Api::Face faceP);
 
 #endif // __API_H__

@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <memory>
 
+
 std::unique_ptr<Api::ApiImp> pAPI{new Api::ApiImp};
 
 EXPORT int guiEngineInit (int guiTypeP, int threadTypeP)
@@ -58,4 +59,9 @@ EXPORT void showMainWindow()
 {
     assert(pAPI != nullptr);
     pAPI->showMainWindow();
+}
+
+EXPORT int createWidget(Api::Face faceP)
+{
+    return pAPI->createWidget(faceP);
 }

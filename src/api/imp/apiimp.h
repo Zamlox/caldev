@@ -10,6 +10,7 @@
 
 #include "modules/gui/igui.h"
 #include "api/imp/apiconst.h"
+#include "api/imp/apiface.h"
 #include <memory>
 #include <gsl/string_span.h>
 
@@ -98,6 +99,14 @@ public:
      * Show main window if created.
      */
     void showMainWindow();
+
+    /**
+     * Create widget or chikd window
+     * 
+     * @param  {Api::Face} faceP : face data for widget to be created
+     * @return {int}             : widget id on success or ERR_GUI_INVALID_WIDGET otherwise
+     */
+    int createWidget(Api::Face const& faceP);
 
 private:
     /**

@@ -135,4 +135,13 @@ void ApiImp::showMainWindow()
     }
 }
 
+int ApiImp::createWidget(Api::Face const& faceP)
+{
+    if (pGuiEngineM.get())
+    {
+        
+    }
+    return 0;
+}
+
 } // namespace Api

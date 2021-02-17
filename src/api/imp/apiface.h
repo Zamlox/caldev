@@ -5,12 +5,10 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __BIND_REBOL2_FACEAPI_H__
-#define __BIND_REBOL2_FACEAPI_H__
+#ifndef __API_FACEAPI_H__
+#define __API_FACEAPI_H__
 
-namespace Bind
-{
-namespace Rebol2
+namespace Api
 {
 
 struct pair
@@ -63,7 +61,7 @@ struct paraT
     pair    scroll;
 };
 
-struct FaceApi
+struct Face
 {
     int     type;
     pair    offset;
@@ -84,7 +82,6 @@ struct FaceApi
     char*   fonrPath;
 };
 
-} // namespace Rebol2
-} // namespace Bind
+} // namespace Api
 
-#endif // __BIND_REBOL2_FACEAPI_H__
+#endif // __API_FACEAPI_H__

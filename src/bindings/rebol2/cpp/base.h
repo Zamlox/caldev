@@ -20,7 +20,7 @@ namespace Rebol2
 {
 
 using Text      = std::string;
-using Word      = Text;
+using Word      = int;
 using PairInt   = std::tuple<int, int>;
 using Pair      = PairInt;
 using Color     = std::tuple<int, int, int>;

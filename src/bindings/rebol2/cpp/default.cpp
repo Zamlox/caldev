@@ -11,6 +11,9 @@ namespace Rebol2
 
 Default* Default::pInstanceM{nullptr};
 
+Default::Default()
+{}
+
 Default& Default::instance()
 {
     if (pInstanceM == nullptr)
