@@ -10,7 +10,7 @@
 
 std::unique_ptr<Api::ApiImp> pAPI{new Api::ApiImp};
 
-EXPORT int guiEngineInit (int guiTypeP, int threadTypeP)
+int guiEngineInit (int guiTypeP, int threadTypeP)
 {
     assert(pAPI != nullptr);
     return pAPI->guiEngineInit(
@@ -18,19 +18,19 @@ EXPORT int guiEngineInit (int guiTypeP, int threadTypeP)
         Api::ApiImp::convertGuiEngineExecutionType(threadTypeP));
 }
 
-EXPORT int guiEngineStart()
+int guiEngineStart()
 {
     assert(pAPI != nullptr);
     return pAPI->guiEngineStart();
 }
 
-EXPORT int guiEngineStop()
+int guiEngineStop()
 {
     assert(pAPI != nullptr);
     return pAPI->guiEngineStop();
 }
 
-EXPORT int createMainWindow(
+int createMainWindow(
     char const* titleP, 
     int xP, 
     int yP, 
@@ -49,19 +49,19 @@ EXPORT int createMainWindow(
         visibleP);
 }
 
-EXPORT void hideMainWindow()
+void hideMainWindow()
 {
     assert(pAPI != nullptr);
     pAPI->hideMainWindow();
 }
 
-EXPORT void showMainWindow()
+void showMainWindow()
 {
     assert(pAPI != nullptr);
     pAPI->showMainWindow();
 }
 
-EXPORT int createWidget(Api::Face faceP)
+int createWidget(Api::Face faceP)
 {
     return pAPI->createWidget(faceP);
 }

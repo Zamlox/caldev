@@ -12,9 +12,13 @@
 #include "api/imp/apiface.h"
 
 #ifdef _WIN32
-#define EXPORT extern "C" __declspec( dllexport )
+    #ifdef CALDEV_EXPORT
+        #define CALDEV_API extern "C" __declspec( dllexport )
+    #else
+        #define CALDEV_API extern "C" __declspec( dllimport )
+    #endif
 #else
-#define EXPORT extern "C" __attribute__ ((visibility ("default")))
+    #define CALDEV_API extern "C" __attribute__ ((visibility ("default")))
 #endif
 
 // for C++ binding
@@ -33,7 +37,7 @@ constexpr int GUI_BKG_THREAD    = static_cast<int>(Api::GuiEngineExecutionType::
  *                                  ERR_GUI_INVALID_THREAD_TYPE if invalid thread type value
  *                                  ERR_GUI_CANNOT_INITIALIZE if GUi Engine fail to iniitalize
  */
-EXPORT int guiEngineInit(int guiTypeP, int threadTypeP);
+CALDEV_API int guiEngineInit(int guiTypeP, int threadTypeP);
 
 /**
  * Start GUI engine with specified thread type.
@@ -42,7 +46,7 @@ EXPORT int guiEngineInit(int guiTypeP, int threadTypeP);
  *                          ERR_GUI_EXEC_ENGINE if fail executing GUI engine thread
  *                          ERR_GUI_ENGINE_NOT_INIT if guiEngineInit() not called
  */
-EXPORT int guiEngineStart();
+CALDEV_API int guiEngineStart();
 
 /**
  * Stop GUI engine
@@ -50,7 +54,7 @@ EXPORT int guiEngineStart();
  * @return {int}  : SUCCESS if succeeded
  *                      ERR_GUI_ENGINE_NOT_INIT if guiEngineInit() not called
  */
-EXPORT int guiEngineStop();
+CALDEV_API int guiEngineStop();
 
 /**
  * Create main window. Only one main window allowed per application.
@@ -66,7 +70,7 @@ EXPORT int guiEngineStop();
  *                              ERR_GUI_ENGINE_NOT_INIT if guiEngineInit() not called
  *                              ERR_GUI_MAIN_WINDOW_FAILED if main os window not created
  */
-EXPORT int createMainWindow(
+CALDEV_API int createMainWindow(
     char const* titleP, 
     int xP, 
     int yP, 
@@ -78,12 +82,12 @@ EXPORT int createMainWindow(
 /**
  * Hide main window.
  */
-EXPORT void hideMainWindow();
+CALDEV_API void hideMainWindow();
 
 /**
  * Show main window if created.
  */
-EXPORT void showMainWindow();
+CALDEV_API void showMainWindow();
 
 /**
  * Create widget. Use this functon to create also child window.
@@ -91,6 +95,6 @@ EXPORT void showMainWindow();
  * @param  {Api::Face} faceP : face data for widget to be created
  * @return {int}             : id of created widget on success, ERR_GUI_INVALID_WIDGET otherwise
  */
-EXPORT int createWidget(Api::Face faceP);
+CALDEV_API int createWidget(Api::Face faceP);
 
 #endif // __API_H__

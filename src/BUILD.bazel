@@ -41,6 +41,7 @@ COPTS = [
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
         "-Iextern/GSL/include",
+        "-DCALDEV_EXPORT",
     ] + select({
         "@bazel_tools//src/conditions:windows": COPTS_WINDOWS,
         ":x86_windows": COPTS_WINDOWS,
