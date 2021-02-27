@@ -27,6 +27,7 @@ SRCS = glob([
             "internal/**/*.cpp",
         ], exclude=["internal/os/windows/**"])
     }) + [
+        "//extern/rebsdev:src/glue/glue.h",
         "extern/GSL/include/gsl/assert.h",
         "extern/GSL/include/gsl/pointers.h",
         "extern/GSL/include/gsl/string_span.h",
@@ -41,6 +42,7 @@ COPTS = [
         "-Iextern/imgui",
         "-Iextern/imgui/examples",
         "-Iextern/GSL/include",
+        "-Iextern/rebsdev/src/glue",
         "-DCALDEV_EXPORT",
     ] + select({
         "@bazel_tools//src/conditions:windows": COPTS_WINDOWS,
@@ -132,5 +134,7 @@ cc_binary(
     deps = [":caldevlib"],
     copts = COPTS,
     linkstatic = 1,
-    linkopts = LINKOPTS,
+    linkopts = LINKOPTS + [
+        "/SUBSYSTEM:WINDOWS"
+    ],
 )
