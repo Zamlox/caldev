@@ -28,6 +28,12 @@ constexpr int GUI_MAIN_THREAD   = static_cast<int>(Api::GuiEngineExecutionType::
 constexpr int GUI_BKG_THREAD    = static_cast<int>(Api::GuiEngineExecutionType::BKG_THREAD);
 
 /**
+ * Initialize library
+ * @return {CALDEV_API}  :  SUCCESS if succeded
+ */
+CALDEV_API int init_lib();
+
+/**
  * Initialize GUI
  * 
  * @param  {int} guiTypeP       : type of GUI

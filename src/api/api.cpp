@@ -7,8 +7,18 @@
 #include <assert.h>
 #include <memory>
 
+extern "C" {
+#include "extern/rebsdev/src/glue/glue.h"
+}
 
 std::unique_ptr<Api::ApiImp> pAPI{new Api::ApiImp};
+
+int init_lib()
+{
+    init_rebsdev();
+
+    return 0;
+}
 
 int guiEngineInit (int guiTypeP, int threadTypeP)
 {

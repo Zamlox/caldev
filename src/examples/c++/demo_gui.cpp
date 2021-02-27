@@ -2,9 +2,19 @@
 #include "internal/os/util.h"
 #include <cstdio>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
+#ifdef _WIN32
+int WINAPI WinMain(HINSTANCE inst, HINSTANCE prior, LPSTR cmd, int show)
+#else
 int main(int argc, const char* argv[])
+#endif
 {
+    // initialize library
+    init_lib();
+    
     // initialize engine
     if (guiEngineInit(GUI_TYPE_OPENGL2, GUI_MAIN_THREAD) == 0)
     {
