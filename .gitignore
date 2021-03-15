@@ -4,3 +4,4 @@ src/bazel-src
 src/bazel-testlogs
 **/imgui.ini
 release
+.vscode/settings.json
