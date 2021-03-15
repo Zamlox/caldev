@@ -108,6 +108,7 @@ TEST_F(TestsOpenGL, CreateFont) {
 #else
     cwd.append("extern/imgui/misc/fonts/DroidSans.ttf");
 #endif
+/*
     Bind::Rebol2::Default::instance().setFaceFont(
         "TestFont1",
         10,
@@ -124,6 +125,7 @@ TEST_F(TestsOpenGL, CreateFont) {
     ASSERT_NE(pFont, nullptr);
     GUI::Font* pFont1 = opengl.createFont(Bind::Rebol2::Default::instance().getFont());
     ASSERT_EQ(pFont, pFont1);
+*/
 }
 #endif
 
