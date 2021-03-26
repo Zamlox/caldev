@@ -36,6 +36,9 @@ jobs:
           cd ../imgui
           git fetch origin
           git checkout origin/master
+          cd ../rebsdev
+          git fetch origin
+          git checkout origin/main
           cd ../../..
           echo OS: ${{matrix.os}}
 
