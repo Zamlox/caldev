@@ -31,7 +31,7 @@
             "command": "bazel",
             "args": [
                 "build",
-                ":unittests",
+                ":test_all",
                 "--compilation_mode=dbg"
             ],
             "options": {

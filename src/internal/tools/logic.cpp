@@ -11,13 +11,13 @@ bool check::showErrMsgM{true};
 
 check::check(int errorCodeSuccessP) 
     : errorCodeM{errorCodeSuccessP}
-    , errResultM{std::make_tuple(SUCCESS, MSG_SUCCESS)}
+    , errResultM{std::make_tuple(OK, MSG_OK)}
 {
 }
 
 check& check::error_if_true(bool conditionP, int errorCodeP, const char* errMsgP)
 {
-    if (conditionP && (errorCodeM == SUCCESS))
+    if (conditionP && (errorCodeM == OK))
     {
         if (showErrMsgM)
         {
@@ -30,7 +30,7 @@ check& check::error_if_true(bool conditionP, int errorCodeP, const char* errMsgP
 
 check& check::error_if_true(bool conditionP)
 {
-    if (conditionP && errorCodeM == SUCCESS)
+    if (conditionP && errorCodeM == OK)
     {
         if (showErrMsgM)
         {
@@ -43,7 +43,7 @@ check& check::error_if_true(bool conditionP)
 
 check& check::execute_if_no_error(std::function<ErrResult(void)> rFP)
 {
-    if (errorCodeM == SUCCESS)
+    if (errorCodeM == OK)
     {
         errResultM = rFP();
         errorCodeM = std::get<int>(errResultM);
@@ -63,7 +63,7 @@ check::ErrResult check::make_error(int errCodeP, const char* errMsgP)
 
 check::ErrResult check::success()
 {
-    return make_error(SUCCESS, MSG_SUCCESS);
+    return make_error(OK, MSG_OK);
 }
 
 void check::showErrorMsg(bool valueP)

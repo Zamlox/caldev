@@ -2,7 +2,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "bindings/rebol2/cpp/default.h"
+#include "bindings/rebol2/cpp/font.h"
 #include "modules/gui/opengl.h"
 #include "internal/errors/errors.h"
 #include "internal/gui/imgui/common.h"
@@ -11,6 +11,8 @@
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
 #include <sstream>
+
+extern "C" FaceFont gDefaultFont;
 
 namespace GUI
 {
@@ -270,20 +272,20 @@ void OpenGL::size_callback(GLFWwindow* window, int width, int height)
     OpenGL::pEngineinstanceM->draw();
 }
 
-Font* OpenGL::createFont(Bind::Rebol2::FaceFont const& rFontP)
+Font* OpenGL::createFont(FaceFont const& rFontP)
 {
     Font* pFont{nullptr};
     ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
     assert(pImGuiContext);
     Bind::Rebol2::FontInfo fontInfo;
-    Bind::Rebol2::Text const& fontName{rFontP.fontPathM};
+    Bind::Rebol2::Text const& fontName{rFontP.path.value};
     if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
     {
         static ImFontConfig fntConfig;
         syncBeforeFrameStartsM.lock();
         pFont = pImGuiContext->IO.Fonts->AddFontFromFileTTF(
             fontName.c_str()
-            , rFontP.sizeM.getValueOrDefault(Bind::Rebol2::getDefaultFontSize())
+            , rFontP.size.none ? gDefaultFont.size.value : rFontP.size.value
             , &fntConfig
         );
         fontInfo.faceFontM = rFontP;

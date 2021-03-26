@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 #include "modules/gui/opengl.h"
 #include "internal/os/util.h"
-#include "bindings/rebol2/cpp/default.h"
 #include "internal/errors/errors.h"
 #include <thread>
 

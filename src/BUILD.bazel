@@ -111,8 +111,22 @@ cc_binary(
     linkopts = LINKOPTS,
 )
 
+# demo app
+cc_binary(
+    name = "demo_gui",
+    srcs = ["examples/c++/demo_gui.cpp"] + SRCS,
+    deps = [":caldevlib"],
+    copts = COPTS,
+    linkstatic = 1,
+    linkopts = LINKOPTS + [
+        "/SUBSYSTEM:WINDOWS"
+    ],
+)
+
+# tests
+# all tests
 cc_test(
-    name = "unittests",
+    name = "test_all",
     srcs = SRCS + glob([
         "tests/**/*.cpp",
         "tests/**/*.h",
@@ -128,13 +142,19 @@ cc_test(
     linkopts = LINKOPTS,
 )
 
-cc_binary(
-    name = "demo_gui",
-    srcs = ["examples/c++/demo_gui.cpp"] + SRCS,
-    deps = [":caldevlib"],
-    copts = COPTS,
-    linkstatic = 1,
-    linkopts = LINKOPTS + [
-        "/SUBSYSTEM:WINDOWS"
+cc_test(
+    name = "test_rebsdev",
+    srcs = SRCS + glob([
+        "tests/external/rebsdev/**/*.cpp",
+        "tests/external/rebsdev/**/*.h",
+    ]),
+    copts = [
+        "-Iextern/googletest/googletest/include",
+        "-I.",
+    ] + COPTS,
+    deps = [
+        "//extern/googletest:gtest_main",
+        ":caldevlib",
     ],
+    linkopts = LINKOPTS,
 )

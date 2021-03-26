@@ -11,7 +11,6 @@
 #include "internal/os/mutex.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/imgui/common.h"
-#include "bindings/rebol2/cpp/font.h"
 #include <GLFW/glfw3.h>
 #include <memory>
 
@@ -51,7 +50,7 @@ public:
      * @param  {Bind::Rebol2::Font} const : rebol2 font object
      * @return {Font*}                    : font created if successful or nullptr otherwise
      */
-    Font* createFont(Bind::Rebol2::FaceFont const& rFontP);
+    Font* createFont(FaceFont const& rFontP);
 
 private:
     /**

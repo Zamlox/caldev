@@ -33,8 +33,8 @@ protected:
 };
 
 TEST_F(TestsAPI, Initialization){
-    EXPECT_EQ(guiEngineInit(guiType, guiThreadType), SUCCESS);
-    EXPECT_EQ(guiEngineStop(), SUCCESS);
+    EXPECT_EQ(guiEngineInit(guiType, guiThreadType), OK);
+    EXPECT_EQ(guiEngineStop(), OK);
     EXPECT_EQ(guiEngineInit(99, guiThreadType), ERR_GUI_INVALID_GUI_ENGINE_TYPE);
     EXPECT_EQ(guiEngineStop(), ERR_GUI_ENGINE_NOT_INIT);
 }
@@ -48,7 +48,7 @@ TEST_F(TestsAPI, CreateMainWindow) {
 
     guiEngineInit(guiType, guiThreadType);
     guiEngineStart();
-    EXPECT_GT(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), SUCCESS);
+    EXPECT_GT(createMainWindow("Test CreateMainWindow", 30, 30, 400, 100, 0xF0F0F0, false), OK);
     guiEngineStop();
 #endif
 }

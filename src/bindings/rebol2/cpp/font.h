@@ -8,48 +8,19 @@
 #ifndef __BIND_REBOL2_FONT_H__
 #define __BIND_REBOL2_FONT_H__
 
-#include "bindings/common.h"
-#include "bindings/rebol2/cpp/base.h"
-#include "bindings/rebol2/cpp/none.h"
-#include "internal/gui/imgui/common.h"
 #include "internal/tools/safemap.h"
-#include <vector>
-#include <variant>
+#include "internal/gui/imgui/common.h"
+extern "C"
+{
+#include "extern/rebsdev/src/glue/glue.h"
+}
 
 namespace Bind
 {
 namespace Rebol2
 {
 
-using FontStyleBlock = std::vector<Word>;
-using FontStyle = std::variant<
-    Word,
-    FontStyleBlock
->;
-
-struct FaceFont
-{
-    bool operator==(FaceFont const& rOpP)
-    {
-        return (nameM == rOpP.nameM)
-            && (styleM == rOpP.styleM)
-            && (sizeM == rOpP.sizeM)
-            && (colorM == rOpP.colorM);
-    }
-    bool operator!=(FaceFont const& rOpP)
-    { return !(*this == rOpP); }
-    
-    CanBeNone<Text>      nameM;
-    CanBeNone<int>       sizeM;
-    CanBeNone<FontStyle> styleM;
-    CanBeNone<Color>     colorM;
-    CanBeNone<Word>      alignM;
-    CanBeNone<Word>      valignM;
-    CanBeNone<Pair>      offsetM;
-    CanBeNone<Pair>      spaceM;
-    CanBeNone<Pair>      shadowM;
-    Text                 fontPathM;
-};
+using Text      = std::string;
 
 using FontInfo = struct {
     GUI::Font*  pFontM;
@@ -57,8 +28,10 @@ using FontInfo = struct {
 };
 using FontsMap = Tools::SafeMap<std::string, FontInfo>;
 
-
 } // namespace Rebol2
 } // namespace Bind
+
+bool operator ==(FaceFont const& rOp1P, FaceFont const& rOp2P);
+bool operator !=(FaceFont const& rOp1P, FaceFont const& rOp2P);
 
 #endif // __BIND_REBOL2_FONT_H__

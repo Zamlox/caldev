@@ -22,18 +22,18 @@ TEST(DoDeepEvaluation, SubBlocks)
 
     //void* pBlock = parse_block("make image! [1x1 #{000000}]");
     void* pBlock = parse_block("['z] a: 10 b: a + 1 [c: b + 1] d: 10.20.30");
-    result = get_block_int(pBlock, 0, &iValue);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(iValue, 10);
     result = get_block_int(pBlock, 1, &iValue);
     EXPECT_EQ(result, SUCCESS);
+    EXPECT_EQ(iValue, 10);
+    result = get_block_int(pBlock, 2, &iValue);
+    EXPECT_EQ(result, SUCCESS);
     EXPECT_EQ(iValue, 11);
-    result = get_block_subblock(pBlock, 2, &pSubBlock);
+    result = get_block_subblock(pBlock, 3, &pSubBlock);
     EXPECT_EQ(result, SUCCESS);
     result = get_block_int(pSubBlock, 0, &iValue);
     EXPECT_EQ(result, SUCCESS);
     EXPECT_EQ(iValue, 12);
-    result = get_block_tuple(pBlock, 3, &a, &b, &c);
+    result = get_block_tuple(pBlock, 4, &a, &b, &c);
     EXPECT_EQ(result, SUCCESS);
     EXPECT_EQ(a, 10);
     EXPECT_EQ(b, 20);
@@ -42,74 +42,195 @@ TEST(DoDeepEvaluation, SubBlocks)
 
 TEST(DoDeepEvaluation, Face)
 {
-    void* pBlock = parse_block("make object! [      \
-        id: 11                                      \
-        type: 'face                                 \
-        offset: 2x3                                 \
-        size: 12x13                                 \
-        span: 1x4                                   \
+    void* pBlock = parse_block("make face [      \
         pane: [                                     \
             make object! [                          \
                 id: 12                              \
             ]                                       \
         ]                                           \
+        id: 11                                      \
+        type: 'face                                 \
+        offset: 2x3                                 \
+        size: 12x13                                 \
+        span: 1x4                                   \
         text: \"Window_1\"                          \
         color: 1.2.3                                \
         image: make image! 2x2                      \
-        effect: [merge extend 2x3 4x5 ]             \
+        effect: [                                   \
+            merge                                   \
+            extend 2x3 4x5                          \
+            draw [                                  \
+                box 100x100 200x200 3               \
+                circle 150x150 100 120              \
+                line 10x20 30x20 5x6                \
+                shape [                             \
+                    arc 10x11 3 4 30 1 1            \
+                    move 200x300                    \
+                    line-by 10x10 25x15             \
+                ]                                   \
+            ]                                       \
+        ]                                           \
+        data: none                                  \
+        edge: make face/edge [                      \
+            color: 100.101.102                      \
+            size: 5x6                               \
+            image: none                             \
+            effect: [                               \
+                bevel bezel nurbs                   \
+            ]                                       \
+        ]                                           \
+        font: make face/font [                      \
+            name: \"Arial\"                         \
+            style: 'bold                            \
+            size: 16                                \
+            color: 200.201.202                      \
+            offset: 10x20                           \
+            space: 0x0                              \
+            align: 'left                            \
+            valign: 'top                            \
+            shadow: 1x1                             \
+            path: \"/usr/share/font/fun.ttf\"       \
+        ]                                           \
     ]");
+    GlueFace glueFace;
+    FaceCounters faceCounters;
+    int colorChannels;
+    Effect *pEffect{nullptr};
+    Draw *pDraw{nullptr};
+    Shape *pShape{nullptr};
 
-    void* pFace = get_face(pBlock);
-    int result;
-    int iValue, x, y, len;
-    int red, green, blue;
-    const char* szValue;
-    void* pElem;
-    unsigned char* pImage;
-    Effect effect;
-    result = get_face_id(pFace, &iValue);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(iValue, 11);
-    result = get_face_type(pFace, &szValue);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_STREQ(szValue, "face");
-    result = get_face_offset(pFace, &x, &y);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(x, 2);
-    EXPECT_EQ(y, 3);
-    result = get_face_size(pFace, &x, &y);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(x, 12);
-    EXPECT_EQ(y, 13);
-    result = get_face_span(pFace, &x, &y);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(x, 1);
-    EXPECT_EQ(y, 4);
-    result = get_face_pane_count(pFace);
-    EXPECT_EQ(result, 1);
-    result = get_face_pane_elem(pFace, 0, &pElem);
-    EXPECT_EQ(result, SUCCESS);
-    result = get_face_id(pElem, &iValue);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(iValue, 12);
-    result = get_face_text(pFace, &szValue);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_STREQ(szValue, "Window_1");
-    result = get_face_color(pFace, &red, &green, &blue);
-    EXPECT_EQ(red, 1);
-    EXPECT_EQ(green, 2);
-    EXPECT_EQ(blue, 3);
-    result = get_face_image(pFace, &pImage, &len);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(len, 12);
-    result = get_face_effect_count(pFace);
-    EXPECT_EQ(result, 2);
-    result = get_face_effect_elem(pFace, 0, &effect);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(effect.type, EFFECT_MERGE);
-    result = get_face_effect_elem(pFace, 1, &effect);
-    EXPECT_EQ(result, SUCCESS);
-    EXPECT_EQ(effect.type, EFFECT_EXTEND);
+    COLOR_FIELDS(colorChannels);
+    get_face_by_index(pBlock, &glueFace, &faceCounters);
+    EXPECT_EQ(glueFace.id.none, 0);
+    EXPECT_EQ(glueFace.id.value, 11);
+    EXPECT_EQ(glueFace.type.none, 0);
+    EXPECT_STREQ(glueFace.type.value, "face");
+    EXPECT_EQ(glueFace.offset.none, 0);
+    EXPECT_EQ(glueFace.offset.value.x, 2);
+    EXPECT_EQ(glueFace.offset.value.y, 3);
+    EXPECT_EQ(glueFace.size.none, 0);
+    EXPECT_EQ(glueFace.size.value.x, 12);
+    EXPECT_EQ(glueFace.size.value.y, 13);
+    EXPECT_EQ(glueFace.span.none, 0);
+    EXPECT_EQ(glueFace.span.value.x, 1);
+    EXPECT_EQ(glueFace.span.value.y, 4);
+    EXPECT_EQ(faceCounters.paneCount, 1);
+    EXPECT_EQ(glueFace.text.none, 0);
+    EXPECT_STREQ(glueFace.text.value, "Window_1");
+    EXPECT_EQ(glueFace.color.none, 0);
+    EXPECT_EQ(glueFace.color.value.a, 1);
+    EXPECT_EQ(glueFace.color.value.b, 2);
+    EXPECT_EQ(glueFace.color.value.c, 3);
+    EXPECT_EQ(glueFace.image.none, 0);
+    EXPECT_EQ(glueFace.image.value.width, 2);
+    EXPECT_EQ(glueFace.image.value.height, 2);
+    EXPECT_EQ(glueFace.image.value.length, glueFace.image.value.width * glueFace.image.value.height * colorChannels);
+    EXPECT_EQ(faceCounters.effectCount, 3);
+    // effect
+    EXPECT_EQ(get_face_effect_elem(0, &pEffect), SUCCESS);
+    ASSERT_NE(pEffect, nullptr);
+    EXPECT_EQ(pEffect->type, EFFECT_MERGE);
+    EXPECT_EQ(get_face_effect_elem(1, &pEffect), SUCCESS);
+    ASSERT_NE(pEffect, nullptr);
+    EXPECT_EQ(pEffect->type, EFFECT_EXTEND);
+    EXPECT_EQ(pEffect->elem.extend.horiz.x, 2);
+    EXPECT_EQ(pEffect->elem.extend.horiz.y, 3);
+    EXPECT_EQ(pEffect->elem.extend.vert.x, 4);
+    EXPECT_EQ(pEffect->elem.extend.vert.y, 5);
+    EXPECT_EQ(get_face_effect_elem(2, &pEffect), SUCCESS);
+    ASSERT_NE(pEffect, nullptr);
+    EXPECT_EQ(pEffect->type, EFFECT_DRAW);
+    // draw
+    EXPECT_EQ(get_face_effect_draw_count(pEffect->elem.draw), 4);
+    get_face_effect_draw_elem(0, &pDraw);
+    EXPECT_EQ(pDraw->type, DRAW_BOX);
+    EXPECT_EQ(pDraw->elem.box.upper_left.x, 100);
+    EXPECT_EQ(pDraw->elem.box.upper_left.y, 100);
+    EXPECT_EQ(pDraw->elem.box.bottom_right.x, 200);
+    EXPECT_EQ(pDraw->elem.box.bottom_right.y, 200);
+    EXPECT_EQ(*pDraw->elem.box.corner_radius.p_data, 3);
+    get_face_effect_draw_elem(1, &pDraw);
+    EXPECT_EQ(pDraw->type, DRAW_CIRCLE);
+    EXPECT_EQ(pDraw->elem.circle.center.x, 150);
+    EXPECT_EQ(pDraw->elem.circle.center.y, 150);
+    EXPECT_EQ(pDraw->elem.circle.radius_x, 100);
+    EXPECT_EQ(*pDraw->elem.circle.radius_y.p_data, 120);
+    get_face_effect_draw_elem(2, &pDraw);
+    EXPECT_EQ(pDraw->type, DRAW_LINE);
+    EXPECT_EQ(pDraw->elem.line.size, 3);
+    EXPECT_EQ(pDraw->elem.line.elems[0].x, 10);
+    EXPECT_EQ(pDraw->elem.line.elems[0].y, 20);
+    EXPECT_EQ(pDraw->elem.line.elems[1].x, 30);
+    EXPECT_EQ(pDraw->elem.line.elems[1].y, 20);
+    EXPECT_EQ(pDraw->elem.line.elems[2].x, 5);
+    EXPECT_EQ(pDraw->elem.line.elems[2].y, 6);
+    // shape
+    get_face_effect_draw_elem(3, &pDraw);
+    EXPECT_EQ(pDraw->type, DRAW_SHAPE);
+    EXPECT_EQ(get_face_effect_draw_shape_count(pDraw->elem.shape_cmd_block), 3);
+    EXPECT_EQ(get_face_effect_draw_shape_elem(0, &pShape), SUCCESS);
+    EXPECT_EQ(pShape->type, SHAPE_ARC);
+    EXPECT_EQ(pShape->elem.arc.point1.x, 10);
+    EXPECT_EQ(pShape->elem.arc.point1.y, 11);
+    EXPECT_EQ(pShape->elem.arc.radius_x, 3);
+    EXPECT_EQ(pShape->elem.arc.radius_y, 4);
+    EXPECT_EQ(pShape->elem.arc.angle, 30);
+    EXPECT_EQ(pShape->elem.arc.large, 1);
+    EXPECT_EQ(pShape->elem.arc.sweep, 1);
+    EXPECT_EQ(get_face_effect_draw_shape_elem(1, &pShape), SUCCESS);
+    EXPECT_EQ(pShape->type, SHAPE_MOVE);
+    EXPECT_EQ(pShape->elem.move.x, 200);
+    EXPECT_EQ(pShape->elem.move.y, 300);
+    EXPECT_EQ(get_face_effect_draw_shape_elem(2, &pShape), SUCCESS);
+    EXPECT_EQ(pShape->type, SHAPE_LINE_BY);
+    EXPECT_EQ(pShape->elem.line.size, 2);
+    EXPECT_EQ(pShape->elem.line.elems[0].x, 10);
+    EXPECT_EQ(pShape->elem.line.elems[0].y, 10);
+    EXPECT_EQ(pShape->elem.line.elems[1].x, 25);
+    EXPECT_EQ(pShape->elem.line.elems[1].y, 15);
+    // data - ignored
+    // edge
+    EXPECT_EQ(glueFace.edge.none, 0);
+    EXPECT_EQ(glueFace.edge.value.color.none, 0);
+    EXPECT_EQ(glueFace.edge.value.color.value.a, 100);
+    EXPECT_EQ(glueFace.edge.value.color.value.b, 101);
+    EXPECT_EQ(glueFace.edge.value.color.value.c, 102);
+    EXPECT_EQ(glueFace.edge.value.size.none, 0);
+    EXPECT_EQ(glueFace.edge.value.size.value.x, 5);
+    EXPECT_EQ(glueFace.edge.value.size.value.y, 6);
+    EXPECT_EQ(glueFace.edge.value.image.none, 1);
+    EXPECT_EQ(glueFace.edge.value.effect.none, 0);
+    EXPECT_EQ(glueFace.edge.value.effect.value.words_count, 3);
+    EXPECT_EQ(glueFace.edge.value.effect.value.words[0], EDGE_BEVEL);
+    EXPECT_EQ(glueFace.edge.value.effect.value.words[1], EDGE_BEZEL);
+    EXPECT_EQ(glueFace.edge.value.effect.value.words[2], EDGE_NURBS);
+    // font
+    EXPECT_EQ(glueFace.font.none, 0);
+    EXPECT_EQ(glueFace.font.value.name.none, 0);
+    EXPECT_STREQ(glueFace.font.value.name.value, "Arial");
+    EXPECT_EQ(glueFace.font.value.style.none, 0);
+    EXPECT_EQ(glueFace.font.value.style.value, FONT_BOLD);
+    EXPECT_EQ(glueFace.font.value.size.none, 0);
+    EXPECT_EQ(glueFace.font.value.size.value, 16);
+    EXPECT_EQ(glueFace.font.value.color.none, 0);
+    EXPECT_EQ(glueFace.font.value.color.value.a, 200);
+    EXPECT_EQ(glueFace.font.value.color.value.b, 201);
+    EXPECT_EQ(glueFace.font.value.color.value.c, 202);
+    EXPECT_EQ(glueFace.font.value.offset.none, 0);
+    EXPECT_EQ(glueFace.font.value.offset.value.x, 10);
+    EXPECT_EQ(glueFace.font.value.offset.value.y, 20);
+    EXPECT_EQ(glueFace.font.value.space.none, 0);
+    EXPECT_EQ(glueFace.font.value.space.value.x, 0);
+    EXPECT_EQ(glueFace.font.value.space.value.y, 0);
+    EXPECT_EQ(glueFace.font.value.align.none, 0);
+    EXPECT_EQ(glueFace.font.value.align.value, FONT_LEFT);
+    EXPECT_EQ(glueFace.font.value.valign.none, 0);
+    EXPECT_EQ(glueFace.font.value.valign.value, FONT_TOP);
+    EXPECT_EQ(glueFace.font.value.shadow.none, 0);
+    EXPECT_EQ(glueFace.font.value.shadow.value.x, 1);
+    EXPECT_EQ(glueFace.font.value.shadow.value.y, 1);
+    EXPECT_EQ(glueFace.font.value.path.none, 0);
+    EXPECT_STREQ(glueFace.font.value.path.value, "/usr/share/font/fun.ttf");
 }
 
 } // anonymous namespace

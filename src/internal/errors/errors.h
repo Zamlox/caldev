@@ -12,7 +12,7 @@
     constexpr int ERR_CODE_NAME = CODE;                         \
     constexpr const char* MSG_##ERR_CODE_NAME = MESSAGE;
 
-MAKE_ERR(SUCCESS, 0, "Success !")
+MAKE_ERR(OK, 0, "Success !")
 /** GUI */
 MAKE_ERR(ERR_GUI_INVALID_THREAD_TYPE,       -1, "ERR ! Invalid thread type !")
 MAKE_ERR(ERR_GUI_CANNOT_INITIALIZE,         -2, "ERR ! Cannot initialize GUI engine !")
