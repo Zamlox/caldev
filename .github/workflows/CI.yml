@@ -94,19 +94,19 @@ jobs:
       - name: Test product 64bit
         run: |
           cd src
-          bazel build --strip=always :unittests
-          ./bazel-bin/unittests
+          bazel build --strip=always :test_all
+          ./bazel-bin/test_all
       - name: Test Windows 32bit
         if: matrix.os == 'Windows'
         run: |
           cd src
-          bazel build --cpu=x64_x86_windows :unittests
-          ./bazel-bin/unittests
+          bazel build --cpu=x64_x86_windows :test_all
+          ./bazel-bin/test_all
           rebol -sqv tests\bindings\rebol2\tests.r
       - name: Test Linux 32bit
         if: matrix.os == 'Linux'
         run: |
           cd src
-          bazel build --config=i386_linux --strip=always :unittests
-          ./bazel-bin/unittests
+          bazel build --config=i386_linux --strip=always :test_all
+          ./bazel-bin/test_all
           rebol -sqv tests/bindings/rebol2/tests.r
