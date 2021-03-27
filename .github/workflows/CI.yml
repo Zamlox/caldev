@@ -40,6 +40,7 @@ jobs:
           cd ../rebsdev
           git fetch origin
           git checkout origin/main
+          git checkout -b main
           cd ../../..
           echo OS: ${{matrix.os}}
 
