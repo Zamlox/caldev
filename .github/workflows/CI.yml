@@ -15,6 +15,7 @@ jobs:
         run: |
           rm -rf src/extern/glfw
           rm -rf src/extern/imgui
+          rm -rf src/extern/rebsdev
       - name: Cleanup (Windows)
         if: matrix.os == 'Windows'
         run: |
