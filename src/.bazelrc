@@ -4,3 +4,6 @@ build:i386_linux --compiler=g++
 build:i386_linux --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
 
 build:i386_windows --cpu=x64_x86_windows
+
+build:clang_config --crosstool_top=//toolchain:clang_suite
+build:clang_config --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
