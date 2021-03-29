@@ -57,7 +57,7 @@ COPTS = [
         ]
     })
 LIBS_WINDOWS = [
-    "/SUBSYSTEM:WINDOWS", "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
+    "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
 ]
 LINKSHARED = True
 DEPS = [":caldevlib"]
@@ -118,7 +118,7 @@ cc_binary(
     deps = [":caldevlib"],
     copts = COPTS,
     linkstatic = 1,
-    linkopts = LINKOPTS,
+    linkopts = LINKOPTS + ["/SUBSYSTEM:WINDOWS"],
 )
 
 # tests
