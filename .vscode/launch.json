@@ -6,8 +6,8 @@
     "configurations": [
         {                                
             "name": "(test_all) caldev Launch",
-            "type": "cppdbg",
-            //"type": "cppvsdbg",
+            //"type": "cppdbg",
+            "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/bazel-bin/test_all",
             "stopAtEntry": false,
@@ -19,9 +19,7 @@
             },
             "linux": {
                 "MIMode": "gdb",
-                //"MIMode": "lldb",
                 "miDebuggerPath": "/usr/bin/gdb",
-                //"miDebuggerPath": "/usr/bin/lldb",
                 "sourceFileMap": {
                     "/proc/self/cwd/": "/home/iosif/work/caldev/src"
                  },
@@ -95,8 +93,8 @@
         },
         {                                
             "name": "(demo_gui) caldev Launch",
-            //"type": "cppdbg",
-            "type": "cppvsdbg",
+            "type": "cppdbg",
+            //"type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/src/bazel-bin/demo_gui",
             "stopAtEntry": false,
@@ -109,6 +107,9 @@
             "linux": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "/usr/bin/gdb",
+                "sourceFileMap": {
+                    "/proc/self/cwd/": "/home/iosif/work/caldev/src"
+                 },
             },
             "preLaunchTask": "demo_gui_debug_build",
             "logging": { "engineLogging": true },

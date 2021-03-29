@@ -49,7 +49,7 @@
             "args": [
                 "build",
                 "--config=i386_linux",
-                ":unittests",
+                ":test_all",
                 "--compilation_mode=dbg"
             ],
             "options": {
