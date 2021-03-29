@@ -113,5 +113,4 @@ jobs:
           cd src
           bazel build --config=i386_linux --strip=always :test_all
           ./bazel-bin/test_all
-          which rebol
           rebol -sqv tests/bindings/rebol2/tests.r
