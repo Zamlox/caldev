@@ -42,6 +42,17 @@ public:
         }}
     {}
 
+    /** see IWidgetStorage::remove() */
+    void remove(StorageKey idP) override
+    {
+        storageM.remove(idP);
+    }
+    /** see IWidgetStorage::count() */
+    size_t count() const override
+    {
+        return storageM.count();
+    }
+
     /** see IRender::render() */
     void render() override
     {

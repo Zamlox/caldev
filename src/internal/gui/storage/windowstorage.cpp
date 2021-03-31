@@ -17,15 +17,5 @@ WindowStorage::StorageKey WindowStorage::add(not_null<IWindow*> pWindowP)
     return id;
 }
 
-void WindowStorage::remove(WindowStorage::StorageKey idP)
-{
-    storageM.remove(idP);
-}
-
-size_t WindowStorage::count() const
-{
-    return storageM.count();
-}
-
 } // namespace Storage
 } // namespace GUI

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef WINDOWSTORAGE_H
-#define WINDOWSTORAGE_H
+#pragma once
 
 #include "internal/gui/storage/basewidgetstorage.h"
 #include "internal/gui/iwindow.h"
@@ -30,13 +29,7 @@ public:
 
     /** see IWidgetStorage::add() */
     StorageKey add(not_null<IWindow*> pWindowP) override;
-    /** see IWidgetStorage::remove() */
-    void remove(StorageKey idP) override;
-    /** see IWidgetStorage::count() */
-    size_t count() const override;
 };
 
 } // namespace Storage
 } // namespace Gui
-
-#endif // WINDOWSTORAGE_H
