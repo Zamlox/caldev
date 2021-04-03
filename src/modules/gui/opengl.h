@@ -6,13 +6,13 @@
  */
 
 #include "bindings/rebol2/cpp/font.h"
-#include "modules/gui/igui.h"
 #include "internal/os/thread.h"
 #include "internal/os/mutex.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/imgui/common.h"
+#include "internal/gui/storage/windowstorage.h"
+#include "modules/gui/igui.h"
 #include <GLFW/glfw3.h>
-#include <memory>
 
 namespace GUI
 {
@@ -90,6 +90,8 @@ private:
     bool isRuningInBkgThreadM;
     /** One instance for one main window  */
     static owner<OpenGL*> pEngineinstanceM;
+    /** Storage for windows */
+    Storage::WindowStorage windowsM;
 };
 
 } // namespace GUI

@@ -110,7 +110,7 @@ int OpenGL::createMainWindow(
                 );
                 pMainWidgetWindowM->setBgColor(::ImGui::ColorConvertU32ToFloat4(bgColorP));
                 pMainWidgetWindowM->makeMainWindow(pOsWindowM);
-                //TODO: windowsM.add(pMainWidgetWindowM.get());
+                windowsM.add(pMainWidgetWindowM);
                 return pMainWidgetWindowM->getId();
             }
         }
@@ -145,6 +145,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // Setup window
     if (glfwSetErrorCallback(glfw_error_callback); !glfwInit())
     {
+        fprintf(stderr, "glfwInit() error.\n");
         exit(1);
     }
 
