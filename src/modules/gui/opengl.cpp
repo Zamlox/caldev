@@ -173,7 +173,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     // set main storages in ImGuiContext
-    // pImGuiContext->Extension.pMainWindowStorage = &self->windowsM;
+    pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->windowsM;
     // pImGuiContext->Extension.pMainWidgetStorage = &self->widgetsM;
 
     //ImGuiIO& io = ::ImGui::GetIO();
