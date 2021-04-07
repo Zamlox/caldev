@@ -110,7 +110,6 @@ int OpenGL::createMainWindow(
                 );
                 pMainWidgetWindowM->setBgColor(::ImGui::ColorConvertU32ToFloat4(bgColorP));
                 pMainWidgetWindowM->makeMainWindow(pOsWindowM);
-                windowsM.add(pMainWidgetWindowM);
                 return pMainWidgetWindowM->getId();
             }
         }
@@ -173,7 +172,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     // set main storages in ImGuiContext
-    pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->windowsM;
+    pImGuiContext->Extension.pMainWindowStorage = pOpenGL->pMainWidgetWindowM->getWindowStorage();
     // pImGuiContext->Extension.pMainWidgetStorage = &self->widgetsM;
 
     //ImGuiIO& io = ::ImGui::GetIO();
@@ -301,6 +300,98 @@ Font* OpenGL::createFont(FaceFont const& rFontP)
     }
     
     return pFont;
+}
+
+Id OpenGL::createWidget(const char* pFaceDescriptionP)
+{
+    return widgetStub(pFaceDescriptionP, [=](GlueFace const& rFaceP, FaceCounters const& rCountersP){
+        return createWidget(rFaceP, rCountersP);
+    });
+}
+
+Id OpenGL::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP)
+{
+    if (!rFaceP.type.none)
+    {
+        switch(rFaceP.type.value)
+        {
+        case TYPE_LABEL:
+            break;
+        }
+    }
+    // TODO: draw effect by extracting effect elements using rCountersP.effectCount
+    // ...
+    return INVALID_WIDGET_ID;
+}
+
+bool OpenGL::parseFaceDescription(const char* faceDescriptionP, GlueFace& rFaceP, FaceCounters& rCountersP)
+{
+    if (void* pBlock; pBlock = parse_block(faceDescriptionP))
+    {
+        return (get_face_by_index(pBlock, &rFaceP, &rCountersP) == 0);
+    }
+    return false;
+}
+
+Id OpenGL::widgetStub(char const* pFaceDescriptionP, std::function<Id(GlueFace const&, FaceCounters const&)> widgetCreatorP)
+{
+    FaceCounters counters; 
+    if (GlueFace face; parseFaceDescription(pFaceDescriptionP, face, counters))
+    {
+        return widgetStub(face, widgetCreatorP, counters);
+    }
+    return INVALID_WIDGET_ID;
+}
+
+Id OpenGL::widgetStub(GlueFace const& rFaceP, std::function<Id(GlueFace const&, FaceCounters const&)> widgetCreatorP, FaceCounters& rCountersP)
+{
+    // render widget
+    Id result = widgetCreatorP(rFaceP, rCountersP);
+    // render widget children if it has
+    for (int i = 0; i < rCountersP.paneCount; i++)
+    {
+        GlueFace* pChild{nullptr};
+        GlueFace childFaces;
+        if (!rFaceP.pane.none && (get_face_pane_elem((void*)rFaceP.pane.value, i, (void**)&pChild) == SUCCESS) && !pChild->pane.none)
+        {
+            FaceCounters counters;
+            counters.paneCount = get_face_pane_count_by_index((void*)pChild->pane.value, FIELD_PANE, &childFaces);
+            void* pChildRaw{nullptr};
+            if (get_block_elem(rFaceP.pane.value, i, &pChildRaw) == SUCCESS)
+            {
+                counters.effectCount = get_face_effect_count_by_index(pChildRaw, FIELD_EFFECT, &childFaces);
+                widgetStub(*pChild, widgetCreatorP, counters);
+            }
+        }
+    }
+    return result;
+}
+
+template <typename T, typename TStorage>
+Id OpenGL::createStub(
+    GlueFace const& rFaceP, 
+    std::function<T*(GlueFace const&)> createP, 
+    std::function<void(void)> beforeUpdateP)
+{
+    Id idWidget{INVALID_WIDGET_ID};
+    if (T* pT = createP(rFaceP); pT)
+    {
+        if (beforeUpdateP)
+        {
+            beforeUpdateP();
+        }
+        // TODO: implement update() before calling this function
+        // ...
+        // pT->update(rFaceP);
+        if (!rFaceP.parent.none)
+        {
+            if (widgetsM.addChildFor(rFaceP.parent.value, pT))
+            {
+                idWidget = widgetsM.add(pT);
+            }
+        }
+    }
+    return idWidget;
 }
 
 } // namespace GUI

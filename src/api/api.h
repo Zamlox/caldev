@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __API_H__
-#define __API_H__
+#pragma once
 
 #include "api/imp/apiconst.h"
 #include "api/imp/apiface.h"
@@ -98,9 +97,7 @@ CALDEV_API void showMainWindow();
 /**
  * Create widget. Use this functon to create also child window.
  * 
- * @param  {Api::Face} faceP : face data for widget to be created
- * @return {int}             : id of created widget on success, ERR_GUI_INVALID_WIDGET otherwise
+ * @param  {const char*} faceP  : face description for widget to be created
+ * @return {int}                : id of created widget on success, ERR_GUI_INVALID_WIDGET otherwise
  */
-CALDEV_API int createWidget(Api::Face faceP);
-
-#endif // __API_H__
+CALDEV_API int createWidget(const char* faceP);

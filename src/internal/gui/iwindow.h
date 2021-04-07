@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IWINDOW_H__
-#define __GUI_IWINDOW_H__
+#pragma once
 
 #include "internal/gui/iwidget.h"
 #include "internal/gui/imgui/common.h"
@@ -77,9 +76,19 @@ public:
      * Main window is created by Os and we need to keep track of it.
      * @param  {void*} osWindowP : main window created by Os
      */
-    virtual void makeMainWindow(not_null<void*> osWindowP) = 0;    
+    virtual void makeMainWindow(not_null<void*> osWindowP) = 0;   
+
+    /**
+     * Add child window.
+     * 
+     * @param  {IWindow&} pWindowP : child window to add
+     */
+    virtual void addChild(IWindow& rWindowP) = 0;
+
+    /**
+     * Get window storage.
+     */
+    virtual void* getWindowStorage() = 0;
 };
 
 } // namespace GUI
-
-#endif // __GUI_IWINDOW_H__

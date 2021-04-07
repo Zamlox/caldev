@@ -72,4 +72,14 @@ void Window::render()
     implM.render();
 }
 
+void Window::addChild(IWindow& rWindowP)
+{
+    implM.addChild(rWindowP);
+}
+
+void* Window::getWindowStorage()
+{
+    return implM.getWindowStorage();
+}
+
 } // namespace GUI

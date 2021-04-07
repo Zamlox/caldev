@@ -64,6 +64,15 @@ public:
      * @param  {StorageKey} keyP : key of widget to be updated
      */
     virtual void update(StorageKey keyP) = 0;
+
+    /**
+     * Add child widget for a parent widget.
+     * 
+     * @param  {StorageKey} parentP : id of parent widger
+     * @param  {not_null<T*} >      : child widget to be added
+     * @return {bool}               : true if parent found, false otherwise
+     */
+    virtual bool addChildFor(StorageKey parentP, not_null<T*> pWidgetP) = 0;
 };
 
 } // namespace Storage

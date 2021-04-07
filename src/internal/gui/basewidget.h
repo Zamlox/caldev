@@ -3,13 +3,13 @@
  * Author: 		Iosif Haidu
  * Description: Base class for widgets
  *
- * Copyright 2020 Iosif Haidu - All rights reserved.
+ * Copyright 2021 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_BASEWIDGET_H__
-#define __GUI_BASEWIDGET_H__
+#pragma once
 
 #include "internal/gui/imgui/common.h"
+#include "internal/gui/storage/widgetstorage.h"
 #include <mutex>
 
 namespace GUI
@@ -43,7 +43,7 @@ public:
     }
     /**
      * Set visibility.
-     * @param  {bool} valueP : trur for visible, false otherwise
+     * @param  {bool} valueP : true for visible, false otherwise
      */
     void setVisible(bool valueP)
     {
@@ -67,7 +67,13 @@ public:
     {
         idM = idP;
     }
-    
+
+    /** see IWidget::addChild() */
+    void addChild(IWidget& rWidgetP) override
+    {
+        widgetsM.add(&rWidgetP);
+    }
+
 protected:
     /** Flag indicating widget visibility */
     bool visibleM;
@@ -87,8 +93,8 @@ protected:
     Color bgColorM;
     /** Mutex to synchronize render related operations */
     std::mutex syncRenderM;
+    /** Storage for child widgets */
+    Storage::WidgetStorage widgetsM;
 };
 
 } // namespace GUI
-
-#endif

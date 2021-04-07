@@ -5,11 +5,11 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IMGUI_WINDOW_H__
-#define __GUI_IMGUI_WINDOW_H__
+#pragma once
 
 #include "internal/gui/iwindow.h"
 #include "internal/gui/basewidget.h"
+#include "internal/gui/storage/windowstorage.h"
 #include "extern/imgui/imgui_internal.h"
 #include <GLFW/glfw3.h>
 
@@ -58,10 +58,14 @@ public:
     /**
      * Renders window on screen.
      * While rendering window and children we must protect 
-     * resurces and operations which might run in parallel
+     * resources and operations which might run in parallel
      * with management operations.
      */
     void render() override;
+    /** see IWindow::addChild() */
+    void addChild(IWindow& rWindowP) override;
+    /** see IWindow::getWindowStorage() */
+    void* getWindowStorage() override;
 
 private:
     /** Needed for ImGui::Begin() */
@@ -78,9 +82,9 @@ private:
     bool firstTimeRenderM;
     /** A reference to ImGui window */
     ImGuiWindow* pImGuiWindowM;
+    /** Storage for child windows */
+    Storage::WindowStorage windowsM;
 };
 
 } // namespace ImGui
 } // namespace GUI
-
-#endif // __GUI_IMGUI_WINDOW_H__

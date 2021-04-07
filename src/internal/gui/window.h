@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_WINDOW_H__
-#define __GUI_WINDOW_H__
+#pragma once
 
 #include "internal/gui/iwindow.h"
 #include "internal/gui/basewidget.h"
@@ -56,6 +55,10 @@ public:
      * Renders window on screen.
      */
     void render() override;
+    /** see IWindow::addChild() */
+    void addChild(IWindow& rWindowP) override;
+    /** see IWindow::getWindowStorage() */
+    void* getWindowStorage() override;
 
 private:
     /** Window implementation for ImGui */
@@ -63,5 +66,3 @@ private:
 };
 
 } // namespace GUI
-
-#endif // __GUI_WINDOW_H__

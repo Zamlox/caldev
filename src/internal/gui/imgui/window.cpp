@@ -148,5 +148,15 @@ void Window::render()
     }
 }
 
+void Window::addChild(IWindow& rWindowP)
+{
+    windowsM.add(&rWindowP);
+}
+
+void* Window::getWindowStorage()
+{
+    return &windowsM;
+}
+
 } // namespace ImGui
 } // namespace GUI

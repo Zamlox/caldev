@@ -10,9 +10,11 @@
 #include "internal/os/mutex.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/imgui/common.h"
-#include "internal/gui/storage/windowstorage.h"
+#include "internal/gui/storage/widgetstorage.h"
+#include "extern/rebsdev/src/glue/face/face.h"
 #include "modules/gui/igui.h"
 #include <GLFW/glfw3.h>
+#include <functional>
 
 namespace GUI
 {
@@ -52,6 +54,14 @@ public:
      */
     Font* createFont(FaceFont const& rFontP);
 
+    /**
+     * Create widget based on a face description.
+     * 
+     * @param  {char*} pFaceDescriptionP : face description.
+     * @return {Id}                      : id of widget
+     */
+    Id createWidget(const char* pFaceDescriptionP);
+
 private:
     /**
      * Code to run before returning back to caller after thread starts
@@ -62,7 +72,7 @@ private:
      * Code to run for GUI engine 
      * @param  {void*} pParamP : pass 'this' to have access to internal data
      */
-    static void* guiEngine(void*pParamP);
+    static void* guiEngine(void* pParamP);
 
     /** Renders main window */
     void mainWindowRender();
@@ -72,11 +82,55 @@ private:
     /** Callback for size */
     static void size_callback(GLFWwindow* window, int width, int height);
 
+    /**
+     * Create widget
+     * @param  {GlueFace} const : face object
+     * @return {Id}             : id of widget
+     */
+    Id createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP);
+    /**
+     * Parse face description and generates face object
+     * 
+     * @param  {char*} faceDescriptionP : description of face
+     * @param  {GlueFace} rFaceP        : face object
+     * @return {bool}                   : true if succedd, false otherwise
+     */
+    bool parseFaceDescription(const char* faceDescriptionP, GlueFace& rFaceP, FaceCounters& rCountersP);
+    /**
+     * Parse face description and calls widget creation function.
+     * 
+     * @param  {const char*}                                 : face description
+     * @param  {std::function<Id(GlueFace)>} widgetCreatorP  : widget creation function
+     * @return {Id}                                          : widget id
+     */
+    Id widgetStub(char const* pFaceDescriptionP, std::function<Id(GlueFace const&, FaceCounters const&)> widgetCreatorP);
+    /**
+     * Calls widget creation function. 
+     * 
+     * @param  {GlueFace} const                             : face object
+     * @param  {std::function<Id(GlueFace)>} widgetCreatorP : widget creation function
+     * @return {Id}                                         : widget id
+     */
+    Id widgetStub(GlueFace const& rFaceP, std::function<Id(GlueFace const&, FaceCounters const&)> widgetCreatorP, FaceCounters& rCountersP);
+    /**
+     * Create different widgets based on T.
+     * 
+     * @param  {GlueFace} const                          : face object
+     * @param  {std::function<T*} (GlueFace const&)      : creation sfunction
+     * @param  {std::function<void(void)>} beforeUpdateP : function to execute before creation
+     * @return {Id}                                      : id of widget
+     */
+    template <typename T, typename TStorage = Storage::WidgetStorage>
+    Id createStub(
+        GlueFace const& rFaceP, 
+        std::function<T*(GlueFace const&)> createP, 
+        std::function<void(void)> beforeUpdateP = nullptr);
+
     /** Separate thread to run GUI engine */
     Os::Thread threadM;
     /** Instance of os main window */
     GLFWwindow* pOsWindowM;
-    /** Main window widget */
+    /** Main window widget. Contain child windows and widgets */
     IWindow* pMainWidgetWindowM;
     /** Flag used to stop the engine */
     bool stopEngineM;
@@ -90,8 +144,8 @@ private:
     bool isRuningInBkgThreadM;
     /** One instance for one main window  */
     static owner<OpenGL*> pEngineinstanceM;
-    /** Storage for windows */
-    Storage::WindowStorage windowsM;
+    /** Storage for widgets */
+    Storage::WidgetStorage widgetsM;
 };
 
 } // namespace GUI

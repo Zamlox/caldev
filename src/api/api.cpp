@@ -71,7 +71,7 @@ void showMainWindow()
     pAPI->showMainWindow();
 }
 
-int createWidget(Api::Face faceP)
+int createWidget(const char* faceP)
 {
     return pAPI->createWidget(faceP);
 }

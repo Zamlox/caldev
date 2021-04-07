@@ -135,7 +135,7 @@ void ApiImp::showMainWindow()
     }
 }
 
-int ApiImp::createWidget(Api::Face const& faceP)
+int ApiImp::createWidget(const char* faceP)
 {
     if (pGuiEngineM.get())
     {

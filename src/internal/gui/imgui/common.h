@@ -20,6 +20,8 @@ using Id = ImGuiID;
 
 /** Initial value for widget id */
 constexpr Id START_WIDGET_ID{1};
+/** Invalid vidget id value */
+constexpr Id INVALID_WIDGET_ID = 0xFFFFFFFF;
 /** Maximum value for Id */
 constexpr unsigned int MAX_ID{UINT_MAX};
 

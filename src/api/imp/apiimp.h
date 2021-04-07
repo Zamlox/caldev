@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __API_APIIMP_H__
-#define __API_APIIMP_H__
+#pragma once
 
 #include "modules/gui/igui.h"
 #include "api/imp/apiconst.h"
@@ -103,10 +102,10 @@ public:
     /**
      * Create widget or chikd window
      * 
-     * @param  {Api::Face} faceP : face data for widget to be created
-     * @return {int}             : widget id on success or ERR_GUI_INVALID_WIDGET otherwise
+     * @param  {const char*} faceP  : face data for widget to be created
+     * @return {int}                : widget id on success or ERR_GUI_INVALID_WIDGET otherwise
      */
-    int createWidget(Api::Face const& faceP);
+    int createWidget(const char* faceP);
 
 private:
     /**
@@ -118,5 +117,3 @@ private:
 };
 
 } // namespace Api
-
-#endif // __API_APIIMP_H__

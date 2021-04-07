@@ -40,6 +40,9 @@ public:
             // TODO: implement 'update()' for widgets
             //widgetP->update();
         }}
+        , addChildFuncM{[](StorageElem parentP, StorageElem childP){
+            parentP->addChild(*childP);
+        }}
     {}
 
     /** see IWidgetStorage::remove() */
@@ -65,6 +68,12 @@ public:
         storageM.process(keyP, updateFuncM);
     }
 
+    /** see IWidgetStorage::addChildFor() */
+    bool addChildFor(StorageKey parentKeyP, not_null<T*> pWidgetP) override
+    {
+        return storageM.process2(parentKeyP, pWidgetP.get(), addChildFuncM);
+    }
+
 protected:
     /** Storage for widgets */
     Storage storageM;
@@ -72,6 +81,8 @@ protected:
     typename Storage::ProcessFunc renderFuncM;
     /** Function to update widget */
     typename Storage::ProcessFunc updateFuncM;
+    /** Function to add child widget */
+    typename Storage::ProcessFunc2 addChildFuncM;
 };
 
 } // namespace Storage
