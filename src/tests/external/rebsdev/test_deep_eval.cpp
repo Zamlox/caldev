@@ -91,6 +91,14 @@ TEST(DoDeepEvaluation, Face)
             shadow: 1x1                             \
             path: \"/usr/share/font/fun.ttf\"       \
         ]                                           \
+        para: make face/para [                      \
+            origin: 3x4                             \
+            margin: 5x6                             \
+            indent: 7x8                             \
+            tabs: 10                                \
+            wrap?: true                             \
+            scroll: 2x5                             \
+        ]                                           \
     ]");
     GlueFace glueFace;
     FaceCounters faceCounters;
@@ -104,7 +112,7 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.id.none, 0);
     EXPECT_EQ(glueFace.id.value, 11);
     EXPECT_EQ(glueFace.type.none, 0);
-    EXPECT_STREQ(glueFace.type.value, "face");
+    EXPECT_EQ(glueFace.type.value, TYPE_FACE);
     EXPECT_EQ(glueFace.offset.none, 0);
     EXPECT_EQ(glueFace.offset.value.x, 2);
     EXPECT_EQ(glueFace.offset.value.y, 3);
@@ -231,6 +239,24 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.font.value.shadow.value.y, 1);
     EXPECT_EQ(glueFace.font.value.path.none, 0);
     EXPECT_STREQ(glueFace.font.value.path.value, "/usr/share/font/fun.ttf");
+    // para
+    EXPECT_EQ(glueFace.para.none, 0);
+    EXPECT_EQ(glueFace.para.value.origin.none, 0);
+    EXPECT_EQ(glueFace.para.value.origin.value.x, 3);
+    EXPECT_EQ(glueFace.para.value.origin.value.y, 4);
+    EXPECT_EQ(glueFace.para.value.margin.none, 0);
+    EXPECT_EQ(glueFace.para.value.margin.value.x, 5);
+    EXPECT_EQ(glueFace.para.value.margin.value.y, 6);
+    EXPECT_EQ(glueFace.para.value.indent.none, 0);
+    EXPECT_EQ(glueFace.para.value.indent.value.x, 7);
+    EXPECT_EQ(glueFace.para.value.indent.value.y, 8);
+    EXPECT_EQ(glueFace.para.value.tabs.none, 0);
+    EXPECT_EQ(glueFace.para.value.tabs.value, 10);
+    EXPECT_EQ(glueFace.para.value.wrap.none, 0);
+    EXPECT_EQ(glueFace.para.value.wrap.value, 1);
+    EXPECT_EQ(glueFace.para.value.scroll.none, 0);
+    EXPECT_EQ(glueFace.para.value.scroll.value.x, 2);
+    EXPECT_EQ(glueFace.para.value.scroll.value.y, 5);
 }
 
 } // anonymous namespace
