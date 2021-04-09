@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_WINDOWS_THREAD_H__
-#define __OS_WINDOWS_THREAD_H__
+#pragma once
 
 #include "internal/os/ithread.h"
 #include "internal/os/windows/barrier.h"
@@ -70,5 +69,3 @@ private:
 
 } // namespace Windows
 } // namespace Os
-
-#endif // __OS_WINDOWS_THREAD_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_THREAD_H__
-#define __OS_THREAD_H__
+#pragma once
 
 #include "internal/os/ithread.h"
 #ifdef OS_WINDOWS
@@ -50,5 +49,3 @@ private:
 };
 
 } // namespace Os
-
-#endif // __OS_THREAD_H__

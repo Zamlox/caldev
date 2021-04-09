@@ -9,7 +9,6 @@
 
 #include "modules/gui/igui.h"
 #include "api/imp/apiconst.h"
-#include "api/imp/apiface.h"
 #include <memory>
 #include <gsl/string_span.h>
 

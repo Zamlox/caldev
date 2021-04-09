@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_LINUX_MUTEX_H__
-#define __OS_LINUX_MUTEX_H__
+#pragma once
 
 #include "internal/os/imutex.h"
 #include <pthread.h>
@@ -34,5 +33,3 @@ private:
 
 } // namespace Linux
 } // namespace Os
-
-#endif // __OS_LINUX_MUTEX_H__

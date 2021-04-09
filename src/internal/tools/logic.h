@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __TOOLS_LOGIC_H__
-#define __TOOLS_LOGIC_H__
+#pragma once
 
 #include "internal/errors/errors.h"
 #include <stdio.h>
@@ -98,5 +97,3 @@ private:
 };
 
 } // namespace Logic
-
-#endif // __TOOLS_LOGIC_H__

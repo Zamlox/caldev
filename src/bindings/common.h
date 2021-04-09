@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __BIND_COMMON_H__
-#define __BIND_COMMON_H__
+#pragma once
 
 namespace Bind
 {
@@ -201,5 +200,3 @@ protected:
 };
 
 } // namespace Bind
-
-#endif // __BIND_COMMON_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_IMUTEX_H__
-#define __OS_IMUTEX_H__
+#pragma once
 
 namespace Os
 {
@@ -28,5 +27,3 @@ public:
 };
 
 } // namespace OS
-
-#endif // __OS_IMUTEX_H__

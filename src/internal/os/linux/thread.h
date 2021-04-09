@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_LINUX_THREAD_H__
-#define __OS_LINUX_THREAD_H__
+#pragma once
 
 #include "internal/os/ithread.h"
 #include "internal/os/linux/barrier.h"
@@ -62,10 +61,7 @@ private:
     void* paramM;
     /** Used to signal caller that thread started to execute */
     Barrier barrierM;
-
 };
 
 } // namespace Linux
 } // namespace Os
-
-#endif // __OS_LINUX_THREAD_H__

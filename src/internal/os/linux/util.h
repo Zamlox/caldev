@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_LINUX_UTIL_H__
-#define __OS_LINUX_UTIL_H__
+#pragma once
 
 #include "internal/os/iutil.h"
 
@@ -30,5 +29,3 @@ public:
 
 } // namespace Linux
 } // namespace Os
-
-#endif // __OS_LINUX_UTIL_H__

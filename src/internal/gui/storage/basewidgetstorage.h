@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_BASEWIDGETSTORAGE_H__
-#define __GUI_BASEWIDGETSTORAGE_H__
+#pragma once
 
 #include "internal/gui/storage/iwidgetstorage.h"
 #include "internal/gui/irender.h"
@@ -37,7 +36,6 @@ public:
             widgetP->render();
         }}
         , updateFuncM{[](StorageElem widgetP){
-            // TODO: implement 'update()' for widgets
             //widgetP->update();
         }}
         , addChildFuncM{[](StorageElem parentP, StorageElem childP){
@@ -87,5 +85,3 @@ protected:
 
 } // namespace Storage
 } // namespace Gui
-
-#endif // __GUI_BASEWIDGETSTORAGE_H__

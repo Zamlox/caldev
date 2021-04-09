@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __TOOLS_PARAMSTREAM_H__
-#define __TOOLS_PARAMSTREAM_H__
+#pragma once
 
 #include <string>
 
@@ -27,5 +26,3 @@ private:
 };
 
 } // namespace Tools
-
-#endif // __TOOLS_PARAMSTREAM_H__

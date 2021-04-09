@@ -85,6 +85,7 @@ public:
     void update(GlueFace const& rFaceP) override
     {
         syncRenderM.lock();
+        
         // color
         if (!rFaceP.color.none)
         {

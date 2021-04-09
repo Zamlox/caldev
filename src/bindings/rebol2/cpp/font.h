@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __BIND_REBOL2_FONT_H__
-#define __BIND_REBOL2_FONT_H__
+#pragma once
 
 #include "internal/tools/safemap.h"
 #include "internal/gui/imgui/common.h"
@@ -33,5 +32,3 @@ using FontsMap = Tools::SafeMap<std::string, FontInfo>;
 
 bool operator ==(FaceFont const& rOp1P, FaceFont const& rOp2P);
 bool operator !=(FaceFont const& rOp1P, FaceFont const& rOp2P);
-
-#endif // __BIND_REBOL2_FONT_H__

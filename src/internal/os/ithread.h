@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_ITHREAD_H__
-#define __OS_ITHREAD_H__
+#pragma once
 
 #include <functional>
 
@@ -47,5 +46,3 @@ public:
 };
 
 } // namespace Os
-
-#endif // __OS_ITHREAD_H__

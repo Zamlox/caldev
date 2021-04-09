@@ -6,8 +6,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IWIDGETSTORAGE_H__
-#define __GUI_IWIDGETSTORAGE_H__
+#pragma once
 
 #include "extern/imgui/imgui.h"
 #include <gsl/pointers.h>
@@ -77,5 +76,3 @@ public:
 
 } // namespace Storage
 } // namespace GUI
-
-#endif  // __GUI_IWIDGETSTORAGE_H__

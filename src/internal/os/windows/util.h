@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_WINDOWS_UTIL_H__
-#define __OS_WINDOWS_UTIL_H__
+#pragma once
 
 #include "internal/os/iutil.h"
 #include <windows.h>
@@ -33,5 +32,3 @@ public:
 
 } // namespace Windows
 } // namespace Os
-
-#endif //__OS_WINDOWS_UTIL_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IGUI_H__
-#define __GUI_IGUI_H__
+#pragma once
 
 #include <gsl/string_span.h>
 
@@ -79,5 +78,3 @@ public:
 };
 
 } // namespace GUI
-
-#endif // __GUI_IGUI_H__

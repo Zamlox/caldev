@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __TOOLS_SAFEMAP_H__
-#define __TOOLS_SAFEMAP_H__
+#pragma once
 
 #include "internal/os/mutex.h"
 #include <map>
@@ -114,5 +113,3 @@ private:
 };
 
 } // namespace Tools
-
-#endif // __TOOLS_SAFEMAP_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IMGUI_COMMON_H__
-#define __GUI_IMGUI_COMMON_H__
+#pragma once
 
 #include "extern/imgui/imgui.h"
 #include <GLFW/glfw3.h>
@@ -91,5 +90,3 @@ void InitNewFrame();
 void RenderDrawData(void* pDataP);
 
 } // namespace GUI
-
-#endif // __GUI_IMGUI_COMMON_H__

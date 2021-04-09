@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IRENDER_H__
-#define __GUI_IRENDER_H__
+#pragma once
 
 namespace GUI
 {
@@ -27,5 +26,3 @@ public:
 };
 
 } // namespace GUI
-
-#endif // __GUI_IRENDER_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_MUTEX_H__
-#define __OS_MUTEX_H__
+#pragma once
 
 #include "internal/os/imutex.h"
 #ifdef OS_WINDOWS
@@ -37,5 +36,3 @@ private:
 };
 
 } // namespace Os
-
-#endif // __OS_MUTEX_H__

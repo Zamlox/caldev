@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __GUI_IWIDGETFACTORY_H__
-#define __GUI_IWIDGETFACTORY_H__
+#pragma once
 
 #include "internal/gui/iwidget.h"
 #include "internal/gui/iwindow.h"
@@ -39,5 +38,3 @@ public:
 };
 
 } // namespace GUI
-
-#endif // __GUI_IWIDGETFACTORY_H__

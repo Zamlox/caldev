@@ -8,7 +8,6 @@
 #pragma once
 
 #include "api/imp/apiconst.h"
-#include "api/imp/apiface.h"
 
 #ifdef _WIN32
     #ifdef CALDEV_EXPORT

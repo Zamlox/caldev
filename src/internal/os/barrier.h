@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_BARRIER_H__
-#define __OS_BARRIER_H__
+#pragma once
 
 #include "internal/os/ibarrier.h"
 #ifdef OS_WINDOWS
@@ -37,5 +36,3 @@ private:
 };
 
 } // namespace Os
-
-#endif // __OS_BARRIER_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __OS_IUTIL_H__
-#define __OS_IUTIL_H__
+#pragma once
 
 namespace Os
 {
@@ -38,5 +37,3 @@ public:
 };
 
 } // namespace Os
-
-#endif // __OS_IUTIL_H__

@@ -5,8 +5,7 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#ifndef __API_APICONST_H__
-#define __API_APICONST_H__
+#pragma once
 
 namespace Api
 {
@@ -31,5 +30,4 @@ enum class GuiEngineExecutionType {
 
 } // namespace Api
 
-#endif // __API_APICONST_H__
    
