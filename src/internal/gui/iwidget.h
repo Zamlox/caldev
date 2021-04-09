@@ -9,6 +9,7 @@
 
 #include "internal/gui/imgui/common.h"
 #include "internal/gui/irender.h"
+#include "extern/rebsdev/src/glue/face/face.h"
 
 namespace GUI
 {
@@ -46,6 +47,13 @@ public:
      * @param  {IWidget&} pWidgetP : child widget to add
      */
     virtual void addChild(IWidget& rWidgetP) = 0;
+
+    /**
+     *  Update widget.
+     * 
+     * @param  {GlueFace} const : face to update
+     */
+    virtual void update(GlueFace const& rFaceP) = 0;
 };
 
 } // namespace GUI
