@@ -10,6 +10,7 @@
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
+#include "extern/rebsdev/src/glue/face/face.h"
 #include <sstream>
 
 extern "C" FaceFont gDefaultFont;
