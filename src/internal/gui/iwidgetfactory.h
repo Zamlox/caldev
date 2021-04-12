@@ -35,6 +35,21 @@ public:
      * @param  {IWindow*} pWindowP : Window to be destroyed
      */
     virtual void destroyWindow(owner<IWindow*>& pWindowP) = 0;
+    /**
+     * Destroy a widget.
+     * 
+     * @param  {IWidget*} pWidgetP : widget to be destroyed
+     */
+    virtual void destroyWidget(owner<IWidget*>& pWidgetP) = 0;
+
+    /**
+     * Create label widget.
+     * 
+     * @param  {char*} textP    : text of label
+     * @param  {ImFont*} pFontP : font for label
+     * @return {IWidget*}       : widget created, nullptr otherwise
+     */
+    //virtual IWidget* createLabel(const char* textP, ImFont* pFontP) = 0;
 };
 
 } // namespace GUI

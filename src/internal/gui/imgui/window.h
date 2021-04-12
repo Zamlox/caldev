@@ -9,7 +9,6 @@
 
 #include "internal/gui/iwindow.h"
 #include "internal/gui/basewidget.h"
-#include "internal/gui/storage/windowstorage.h"
 #include "extern/imgui/imgui_internal.h"
 #include <GLFW/glfw3.h>
 
@@ -62,10 +61,6 @@ public:
      * with management operations.
      */
     void render() override;
-    /** see IWindow::addChild() */
-    void addChild(IWindow& rWindowP) override;
-    /** see IWindow::getWindowStorage() */
-    void* getWindowStorage() override;
 
 private:
     /** Needed for ImGui::Begin() */
@@ -82,8 +77,6 @@ private:
     bool firstTimeRenderM;
     /** A reference to ImGui window */
     ImGuiWindow* pImGuiWindowM;
-    /** Storage for child windows */
-    Storage::WindowStorage windowsM;
 };
 
 } // namespace ImGui

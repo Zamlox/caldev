@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "internal/gui/imgui/common.h"
 #include <gsl/string_span.h>
 
 namespace GUI
@@ -75,6 +76,14 @@ public:
      * Show main window
      */
     virtual void showMainWindow() = 0;
+
+    /**
+     * Create widget based on a face description.
+     * 
+     * @param  {char*} pFaceDescriptionP : face description.
+     * @return {Id}                      : id of widget
+     */
+    virtual Id createWidget(const char* pFaceDescriptionP) = 0;
 };
 
 } // namespace GUI

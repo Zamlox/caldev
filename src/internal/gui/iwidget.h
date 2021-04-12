@@ -42,13 +42,6 @@ public:
     virtual void setId(Id idP) = 0;
 
     /**
-     * Add child widgets.
-     * 
-     * @param  {IWidget&} pWidgetP : child widget to add
-     */
-    virtual void addChild(IWidget& rWidgetP) = 0;
-
-    /**
      *  Update widget.
      * 
      * @param  {GlueFace} const : face to update

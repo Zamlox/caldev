@@ -77,18 +77,6 @@ public:
      * @param  {void*} osWindowP : main window created by Os
      */
     virtual void makeMainWindow(not_null<void*> osWindowP) = 0;   
-
-    /**
-     * Add child window.
-     * 
-     * @param  {IWindow&} pWindowP : child window to add
-     */
-    virtual void addChild(IWindow& rWindowP) = 0;
-
-    /**
-     * Get window storage.
-     */
-    virtual void* getWindowStorage() = 0;
 };
 
 } // namespace GUI
