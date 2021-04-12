@@ -9,10 +9,8 @@
 #pragma once
 
 #include "internal/gui/imgui/common.h"
-#include "internal/gui/storage/widgetstorage.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/rebsdev/src/glue/face/rebtypes.h"
-#include <mutex>
 
 extern "C" Para gDefaultPara;
 
@@ -75,17 +73,9 @@ public:
         idM = idP;
     }
 
-    /** see IWidget::addChild() */
-    void addChild(IWidget& rWidgetP) override
-    {
-        widgetsM.add(&rWidgetP);
-    }
-
     /** see IWidget::update() */
     void update(GlueFace const& rFaceP) override
     {
-        syncRenderM.lock();
-        
         // color
         if (!rFaceP.color.none)
         {
@@ -166,8 +156,6 @@ public:
                 isWrapM = (gDefaultPara.wrap.value != 0) ? true : false;
             }
         }
-
-        syncRenderM.unlock();
     }
 
 protected:
@@ -193,10 +181,6 @@ protected:
     Align alignM;
     /** Wrap flag */
     bool isWrapM;
-    /** Mutex to synchronize render related operations */
-    std::mutex syncRenderM;
-    /** Storage for child widgets */
-    Storage::WidgetStorage widgetsM;
 };
 
 } // namespace GUI

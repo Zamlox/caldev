@@ -55,10 +55,6 @@ public:
      * Renders window on screen.
      */
     void render() override;
-    /** see IWindow::addChild() */
-    void addChild(IWindow& rWindowP) override;
-    /** see IWindow::getWindowStorage() */
-    void* getWindowStorage() override;
 
 private:
     /** Window implementation for ImGui */

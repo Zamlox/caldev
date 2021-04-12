@@ -87,7 +87,6 @@ void Window::render()
     if (visibleM && isOpenM)
     {
         {
-            const std::lock_guard<std::mutex> lock{syncRenderM};
             // initialize window attributes
             if (firstTimeRenderM)
             {
@@ -135,9 +134,6 @@ void Window::render()
             ::ImGui::SetWindowSize(titleM.c_str(), pContext->Extension.mainSize);        
         }
 
-        // TODO: render children
-        // ...
-
         // End window
         ::ImGui::End();
         if (pFontM) ::ImGui::PopFont();    
@@ -146,16 +142,6 @@ void Window::render()
     {
         glfwSetWindowShouldClose(osWindowM, true);
     }
-}
-
-void Window::addChild(IWindow& rWindowP)
-{
-    windowsM.add(&rWindowP);
-}
-
-void* Window::getWindowStorage()
-{
-    return &windowsM;
 }
 
 } // namespace ImGui

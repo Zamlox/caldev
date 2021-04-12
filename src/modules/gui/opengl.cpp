@@ -10,7 +10,9 @@
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
+extern "C" {
 #include "extern/rebsdev/src/glue/face/face.h"
+}
 #include <sstream>
 
 extern "C" FaceFont gDefaultFont;
@@ -33,9 +35,8 @@ OpenGL::OpenGL()
     , pOsWindowM{nullptr}
     , pMainWidgetWindowM{nullptr}
     , stopEngineM{false}
-    , fontsM{&syncBeforeFrameStartsM}
-    , newFontAddedM{false}
     , isRuningInBkgThreadM{true}
+    , rendererM{syncBeforeFrameStartsM}
 {
     
 }
@@ -162,7 +163,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     glfwSwapInterval(1);
 
     ImGuiContext* pImGuiContext = ::ImGui::CreateContext();
-    // TODO: pImGuiContext->Extension.fontsUsed = &self->fontsM;
+    // TODO: pImGuiContext->Extension.fontsUsed = &self->fontsM;    - is it needed ???
 
     // Initial styling
     // Setup Dear ImGui style
@@ -173,7 +174,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     // set main storages in ImGuiContext
-    pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->widgetsM;
+    //pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->widgetsM;
     // pImGuiContext->Extension.pMainWidgetStorage = &self->widgetsM;
 
     //ImGuiIO& io = ::ImGui::GetIO();
@@ -211,33 +212,28 @@ void* OpenGL::guiEngine(void* pParamP)
     return nullptr;
 }
 
-void OpenGL::mainWindowRender()
-{
-    if (pMainWidgetWindowM)
-    {
-        pMainWidgetWindowM->render();
-    }
-}
-
 void OpenGL::draw()
 {
     assert(pOsWindowM);
 
     syncBeforeFrameStartsM.lock();
 
-    if (newFontAddedM)
+    if (rendererM.getNewFontAdded())
     {
         ImGui_ImplOpenGL2_InvalidateFont();
-        newFontAddedM = false;
+        rendererM.setNewFontAdded(false);
     }
     // Start Dear ImGui frame
     InitNewFrame();
     ::ImGui::NewFrame();
 
-    // Display widgets here
-    // It's enough to render only main window object. The render function
-    //  will recursively render its children.
-    mainWindowRender();
+    // Display main window
+    if (pMainWidgetWindowM)
+    {
+        pMainWidgetWindowM->render();
+    }
+    // Display widgets
+    rendererM.render();
 
     // Uncomment below to display FPS in title bar.
     //std::stringstream ss;
@@ -271,128 +267,6 @@ void OpenGL::size_callback(GLFWwindow* window, int width, int height)
     assert(pImGuiContext);
     pImGuiContext->Extension.mainSize = ImVec2{static_cast<float>(width), static_cast<float>(height)};
     OpenGL::pEngineinstanceM->draw();
-}
-
-Font* OpenGL::createFont(FaceFont const& rFontP)
-{
-    Font* pFont{nullptr};
-    ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
-    assert(pImGuiContext);
-    Bind::Rebol2::FontInfo fontInfo;
-    Bind::Rebol2::Text const& fontName{rFontP.path.value};
-    if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
-    {
-        static ImFontConfig fntConfig;
-        syncBeforeFrameStartsM.lock();
-        pFont = pImGuiContext->IO.Fonts->AddFontFromFileTTF(
-            fontName.c_str()
-            , rFontP.size.none ? gDefaultFont.size.value : rFontP.size.value
-            , &fntConfig
-        );
-        fontInfo.faceFontM = rFontP;
-        fontInfo.pFontM = pFont;
-        fontsM.add(fontName, fontInfo);
-        newFontAddedM = true;
-        syncBeforeFrameStartsM.unlock();
-    }
-    else
-    {
-        pFont = fontInfo.pFontM;
-    }
-    
-    return pFont;
-}
-
-Id OpenGL::createWidget(const char* pFaceDescriptionP)
-{
-    return widgetStub(pFaceDescriptionP, [=](GlueFace const& rFaceP, FaceCounters const& rCountersP){
-        return createWidget(rFaceP, rCountersP);
-    });
-}
-
-Id OpenGL::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP)
-{
-    if (!rFaceP.type.none)
-    {
-        switch(rFaceP.type.value)
-        {
-        case TYPE_LABEL:
-            break;
-        }
-    }
-    // TODO: draw effect by extracting effect elements using rCountersP.effectCount
-    // ...
-    return INVALID_WIDGET_ID;
-}
-
-bool OpenGL::parseFaceDescription(const char* faceDescriptionP, GlueFace& rFaceP, FaceCounters& rCountersP)
-{
-    if (void* pBlock; pBlock = parse_block(faceDescriptionP))
-    {
-        return (get_face_by_index(pBlock, &rFaceP, &rCountersP) == 0);
-    }
-    return false;
-}
-
-Id OpenGL::widgetStub(char const* pFaceDescriptionP, std::function<Id(GlueFace const&, FaceCounters const&)> widgetCreatorP)
-{
-    FaceCounters counters; 
-    if (GlueFace face; parseFaceDescription(pFaceDescriptionP, face, counters))
-    {
-        return widgetStub(face, widgetCreatorP, counters);
-    }
-    return INVALID_WIDGET_ID;
-}
-
-Id OpenGL::widgetStub(GlueFace const& rFaceP, std::function<Id(GlueFace const&, FaceCounters const&)> widgetCreatorP, FaceCounters& rCountersP)
-{
-    // render widget
-    Id result = widgetCreatorP(rFaceP, rCountersP);
-    // render widget children if it has
-    for (int i = 0; i < rCountersP.paneCount; i++)
-    {
-        GlueFace* pChild{nullptr};
-        GlueFace childFaces;
-        if (!rFaceP.pane.none && (get_face_pane_elem((void*)rFaceP.pane.value, i, (void**)&pChild) == SUCCESS) && !pChild->pane.none)
-        {
-            FaceCounters counters;
-            counters.paneCount = get_face_pane_count_by_index((void*)pChild->pane.value, FIELD_PANE, &childFaces);
-            void* pChildRaw{nullptr};
-            if (get_block_elem(rFaceP.pane.value, i, &pChildRaw) == SUCCESS)
-            {
-                counters.effectCount = get_face_effect_count_by_index(pChildRaw, FIELD_EFFECT, &childFaces);
-                widgetStub(*pChild, widgetCreatorP, counters);
-            }
-        }
-    }
-    return result;
-}
-
-template <typename T, typename TStorage>
-Id OpenGL::createStub(
-    GlueFace const& rFaceP, 
-    std::function<T*(GlueFace const&)> createP, 
-    std::function<void(void)> beforeUpdateP)
-{
-    Id idWidget{INVALID_WIDGET_ID};
-    if (T* pT = createP(rFaceP); pT)
-    {
-        if (beforeUpdateP)
-        {
-            beforeUpdateP();
-        }
-        // TODO: implement update() before calling this function
-        // ...
-        // pT->update(rFaceP);
-        if (!rFaceP.parent.none)
-        {
-            if (widgetsM.addChildFor(rFaceP.parent.value, pT))
-            {
-                idWidget = widgetsM.add(pT);
-            }
-        }
-    }
-    return idWidget;
 }
 
 } // namespace GUI

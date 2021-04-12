@@ -28,9 +28,21 @@ public:
     owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP) override;
     /** see IWidgetFactory::destroyWindow() */
     void destroyWindow(owner<IWindow*>& pWindowP) override;
+    /** see IWidgetFactory::destroyWidget() */
+    void destroyWidget(owner<IWidget*>& pWidgetP) override;
+
+    /** see IWidgetFactory::createLabel() */
+    //IWidget* createLabel(const char* textP, ImFont* pFontP);
     
 private:
     WidgetFactory();
+    /**
+     * Setup widget.
+     * 
+     * @param  {IWidget*} pWidgetP : widget to setup
+     * @return {IWidget*}          : same widget as pWidgetP
+     */
+    IWidget* setupWidget(IWidget* pWidgetP);
 
     static IWidgetFactory* pInstanceM;
     /** Unique indx for widgets */
