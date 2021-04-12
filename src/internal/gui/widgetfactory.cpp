@@ -53,12 +53,10 @@ void WidgetFactory::destroyWidget(owner<IWidget*>& pWidgetP)
     delete pWidgetP;
     pWidgetP = nullptr;
 }
-
 IWidget* WidgetFactory::createLabel(const char* textP, ImFont* pFontP)
 {
     return setupWidget(new Widget::Label(textP, pFontP));
 }
-
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)
 {
     if (pWidgetP != nullptr)
