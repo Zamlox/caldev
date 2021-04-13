@@ -11,14 +11,14 @@
 namespace GUI
 {
 
-IWidgetFactory* WidgetFactory::pInstanceM{nullptr};
+WidgetFactory* WidgetFactory::pInstanceM{nullptr};
 
 WidgetFactory::WidgetFactory()
     : indexM{0}
 {
 }
 
-IWidgetFactory& WidgetFactory::instance()
+WidgetFactory& WidgetFactory::instance()
 {
     if (pInstanceM == nullptr)
     {

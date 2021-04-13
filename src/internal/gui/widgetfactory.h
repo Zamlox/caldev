@@ -7,7 +7,9 @@
 
 #pragma once
 
-#include "internal/gui/iwidgetfactory.h"
+#include "internal/gui/iwindow.h"
+#include "internal/gui/iwidget.h"
+#include "extern/GSL/include/gsl/string_span.h"
 
 namespace GUI
 {
@@ -15,21 +17,21 @@ namespace GUI
 /**
  * Factory for widgets
  */
-class WidgetFactory : public IWidgetFactory
+class WidgetFactory
 {
 public:
     /**
      * Get unique instance.
-     * @return {IWidgetFactory}  : instance of IWidgetFactory
+     * @return {WidgetFactory}  : instance of WidgetFactory
      */
-    static IWidgetFactory& instance();
+    static WidgetFactory& instance();
     
     /** see IWidgetFactory::createWindow() */
-    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP) override;
+    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP);
     /** see IWidgetFactory::destroyWindow() */
-    void destroyWindow(owner<IWindow*>& pWindowP) override;
+    void destroyWindow(owner<IWindow*>& pWindowP);
     /** see IWidgetFactory::destroyWidget() */
-    void destroyWidget(owner<IWidget*>& pWidgetP) override;
+    void destroyWidget(owner<IWidget*>& pWidgetP);
 
     /** see IWidgetFactory::createLabel() */
     //IWidget* createLabel(const char* textP, ImFont* pFontP);
@@ -44,7 +46,7 @@ private:
      */
     IWidget* setupWidget(IWidget* pWidgetP);
 
-    static IWidgetFactory* pInstanceM;
+    static WidgetFactory* pInstanceM;
     /** Unique indx for widgets */
     Id indexM;
 };

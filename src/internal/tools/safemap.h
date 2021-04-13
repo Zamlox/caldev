@@ -29,8 +29,6 @@ private:
 
 public:
     using ProcessFunc = std::function<void(TVALUE&)>;
-    using ProcessFunc2 = std::function<void(TVALUE&, TVALUE&)>;
-    using ProcessFunc3 = std::function<void(TVALUE&, GlueFace const&)>;
 
     SafeMap()
     : pSyncExternalM{&syncMapM}
@@ -71,30 +69,6 @@ public:
         if ((found = getElem(rKeyP, elem)))
         {
             funcP(elem);
-        }
-        pSyncExternalM->unlock();
-        return found;
-    }
-    bool process2(TKEY const rKeyP, TVALUE valueP, ProcessFunc2 funcP)
-    {
-        bool found{false};
-        TVALUE elem;
-        pSyncExternalM->lock();
-        if ((found = getElem(rKeyP, elem)))
-        {
-            funcP(elem, valueP);
-        }
-        pSyncExternalM->unlock();
-        return found;
-    }
-    bool process3(TKEY const rKeyP, GlueFace const& rFaceP, ProcessFunc3 funcP)
-    {
-        bool found{false};
-        TVALUE elem;
-        pSyncExternalM->lock();
-        if ((found = getElem(rKeyP, elem)))
-        {
-            funcP(elem, rFaceP);
         }
         pSyncExternalM->unlock();
         return found;
