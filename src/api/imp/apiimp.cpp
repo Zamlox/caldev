@@ -135,11 +135,11 @@ void ApiImp::showMainWindow()
     }
 }
 
-int ApiImp::createWidget(const char* faceP)
+int ApiImp::createWidget(const char* pFaceDescriptionP)
 {
     if (pGuiEngineM.get())
     {
-        
+        return pGuiEngineM->createWidget(pFaceDescriptionP);
     }
     return 0;
 }

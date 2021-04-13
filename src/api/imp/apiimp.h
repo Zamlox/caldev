@@ -101,10 +101,10 @@ public:
     /**
      * Create widget or chikd window
      * 
-     * @param  {const char*} faceP  : face data for widget to be created
-     * @return {int}                : widget id on success or ERR_GUI_INVALID_WIDGET otherwise
+     * @param  {const char*} pFaceDescriptionP  : face data for widget to be created
+     * @return {int}                            : widget id on success or ERR_GUI_INVALID_WIDGET otherwise
      */
-    int createWidget(const char* faceP);
+    int createWidget(const char* pFaceDescriptionP);
 
 private:
     /**
