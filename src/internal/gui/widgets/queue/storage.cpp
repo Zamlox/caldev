@@ -23,20 +23,20 @@ Storage::~Storage()
     }
 }
 
-void Storage::add(IWidget* pWidgetP, Id parentIdP)
+Storage::Index Storage::add(IWidget* pWidgetP, Id parentIdP)
 {
     StorageElem elem;
     elem.widget.pWidget = pWidgetP;
     elem.type = GuiElemType::Widget;
-    add(elem, pWidgetP->getId(), parentIdP);
+    return add(elem, pWidgetP->getId(), parentIdP);
 }
 
-void Storage::add(IWindow* pWindowP, Id parentIdP)
+Storage::Index Storage::add(IWindow* pWindowP, Id parentIdP)
 {
     StorageElem elem;
     elem.widget.pWindow = pWindowP;
     elem.type = GuiElemType::Widget;
-    add(elem, pWindowP->getId(), parentIdP);
+    return add(elem, pWindowP->getId(), parentIdP);
 }
 
 void Storage::remove(IWidget* pWidgetP)
@@ -54,42 +54,45 @@ Storage::Container const& Storage::getElements()
     return widgetsM;
 }
 
-void Storage::add(StorageElem& rElemP, Id idP, Id parentIdP)
+Storage::Index Storage::add(StorageElem& rElemP, Id idP, Id parentIdP)
 {
+    Storage::Index result{widgetsM.end()};
     if (widgetsM.empty())
     {
-        rElemP.parentId = INVALID_WIDGET_ID;
+        rElemP.parentId = PARENT_NONE;
         rElemP.childFirst = widgetsM.end();
         rElemP.childLast = widgetsM.end();
         widgetsM.push_back(rElemP);
-        lookupM.insert(std::make_pair(idP, widgetsM.begin()));
+        result = widgetsM.begin();
+        lookupM.insert(std::make_pair(idP, result));
     }
     else
     {
         Lookup::const_iterator it{lookupM.find(parentIdP)};
         if (it == lookupM.end())
         {
-            rElemP.parentId = INVALID_WIDGET_ID;
+            rElemP.parentId = PARENT_NONE;
             rElemP.childFirst = widgetsM.end();
             rElemP.childLast = widgetsM.end();
-            lookupM.insert(
-                std::make_pair(
-                    idP,
-                    widgetsM.insert(widgetsM.end(), rElemP)
-                )
-            );
+            result = widgetsM.insert(widgetsM.end(), rElemP);
+            lookupM.insert(std::make_pair(idP, result));
         }
         else
         {
             rElemP.parentId = parentIdP;
-            it->second->childLast = widgetsM.insert(++it->second->childLast, rElemP);
+            Storage::Index newLast{it->second->childLast};
+            if (newLast != widgetsM.end()) ++newLast;
+            result = it->second->childLast = widgetsM.insert(newLast, rElemP);
             lookupM.insert(std::make_pair(idP, it->second->childLast));
             if (it->second->childFirst == widgetsM.end())
             {
                 it->second->childFirst = it->second->childLast;
+                it->second->childLast->childFirst = widgetsM.end();
+                it->second->childLast->childLast = widgetsM.end();
             }
         }
     }
+    return result;
 }
 
 void Storage::remove(Id idP)

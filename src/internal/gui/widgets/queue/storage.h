@@ -54,7 +54,7 @@ public:
      * @param  {IWidget*} pWidgetP : widget to add
      * @param  {Id} parentIdP      : id of a parent widget
      */
-    void add(IWidget* pWidgetP, Id parentIdP);
+    Index add(IWidget* pWidgetP, Id parentIdP);
     
     /**
      * Add window as child for a parent window.
@@ -62,7 +62,7 @@ public:
      * @param  {IWindow*} pWindowP : window to add 
      * @param  {Id} parentIdP      : id of a parent window
      */
-    void add(IWindow* pWindowP, Id parentIdP);
+    Index add(IWindow* pWindowP, Id parentIdP);
 
     /**
      * Remove widget from storage
@@ -93,7 +93,7 @@ private:
      * @param  {Id} idP             : id of widget
      * @param  {Id} parentIdP       : id of parent widget
      */
-    void add(StorageElem& rElemP, Id idP, Id parentIdP);
+    Index add(StorageElem& rElemP, Id idP, Id parentIdP);
 
     /**
      * Remove storage element.
