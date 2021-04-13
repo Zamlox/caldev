@@ -51,10 +51,11 @@ public:
     void setBgColor(Color const& rColorP) override;
     /** see IWindow::makeMainWindow() */
     void makeMainWindow(not_null<void*> osWindowP) override;
-    /**
-     * Renders window on screen.
-     */
-    void render() override;
+
+    /** see IRender::beginRender() */
+    void beginRender() override;
+    /** see IRender::endRender() */
+    void endRender() override;
 
 private:
     /** Window implementation for ImGui */

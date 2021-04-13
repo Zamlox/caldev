@@ -112,6 +112,7 @@ int OpenGL::createMainWindow(
                 );
                 pMainWidgetWindowM->setBgColor(::ImGui::ColorConvertU32ToFloat4(bgColorP));
                 pMainWidgetWindowM->makeMainWindow(pOsWindowM);
+                rendererM.addMainWindow(pMainWidgetWindowM);
                 return pMainWidgetWindowM->getId();
             }
         }
@@ -212,7 +213,7 @@ void* OpenGL::guiEngine(void* pParamP)
     glfwDestroyWindow(pOpenGL->pOsWindowM);
     pOpenGL->pOsWindowM = nullptr;
     glfwTerminate();
-    WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
+    //WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
 
     return nullptr;
 }
@@ -235,10 +236,9 @@ void OpenGL::draw()
     // Display main window
     if (pMainWidgetWindowM)
     {
-        pMainWidgetWindowM->render();
+        // Display widgets
+        rendererM.render();
     }
-    // Display widgets
-    rendererM.render();
 
     // Uncomment below to display FPS in title bar.
     //std::stringstream ss;

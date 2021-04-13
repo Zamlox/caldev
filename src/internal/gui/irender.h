@@ -20,9 +20,14 @@ public:
     IRender() = default;
 
     /**
-     * Renders a widget.
+     * Begin rendering a widget.
      */
-    virtual void render() = 0;
+    virtual void beginRender() = 0;
+
+    /**
+     * End rendering a widget
+     */
+    virtual void endRender() = 0;
 };
 
 } // namespace GUI

@@ -33,18 +33,22 @@ REBOL [
 do %../../../bindings/rebol2/caldev.r
 
 context [
+    id-win: none
     test-main-window: does [
         caldev-init
         gui-init GUIType/OpenGL GuiEngineExecutionType/Bkg-Thread
         gui-start
-        either (create-main-window "Rebol2 Main Window" 250 250 400 400 10100 1) > 0 [
+        either (id-win: create-main-window "Rebol2 Main Window" 250 250 400 400 10100 1) > 0 [
 
             label: make face! [
                 type: 'label        ;'
                 offset: 0x0
                 size: 10x10
                 text: "Label:"
+                parent: id-win
             ]
+            probe label
+            probe id-win
             create-widget mold label
 
             print "Wait for 10 seconds..."

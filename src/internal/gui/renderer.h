@@ -22,7 +22,12 @@ class Renderer
 {
 public:
     Renderer(Os::Mutex& rFrameSynchronizerP);
-
+    /**
+     * Add main window to stirage.
+     * 
+     * @param  {IWindow*} pMainWindowP : instance of main window
+     */
+    void addMainWindow(IWindow* pMainWindowP);
     /** Command related */
     /**
      * Create widget.
@@ -65,6 +70,12 @@ public:
     bool getNewFontAdded() const;
 
 private:
+    /**
+     * Renders recursively children of a widget.
+     * 
+     * @param  {StorageElem} const : storage element for a widget
+     */
+    void renderino(Widget::StorageElem const& rElemP);
     /**
      * Parse face description and generates face object
      * 
@@ -126,6 +137,8 @@ private:
 
     /** Storage for widgets */
     Widget::Storage widgetsM;
+    /** Root widgets, without parents */
+    std::list<Widget::Storage::Index> rootWidgetsM;
     /** Commands queue */
     Widget::Command commandsM;
     /** Mutex used to synchrnize operations with frames */

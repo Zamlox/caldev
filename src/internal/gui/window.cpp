@@ -67,9 +67,14 @@ void Window::makeMainWindow(not_null<void*> osWindowP)
     implM.makeMainWindow(osWindowP);
 }
 
-void Window::render()
+void Window::beginRender()
 {
-    implM.render();
+    implM.beginRender();
+}
+
+void Window::endRender()
+{
+    implM.endRender();
 }
 
 } // namespace GUI

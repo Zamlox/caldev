@@ -19,7 +19,10 @@ class Label : public Base<IWidget>
 public:
     Label(const char* textP, ImFont* pFontP);
 
-    void render() override;
+    /** see IRender::beginRender() */
+    void beginRender() override;
+    /** see IRender::endRender() */
+    void endRender() override;
 
 private:
     std::string textM;

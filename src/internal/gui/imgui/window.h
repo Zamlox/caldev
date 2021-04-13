@@ -54,13 +54,11 @@ public:
     void setBgColor(Color const& rColorP) override;
     /** see IWindow::makeMainWindow() */
     void makeMainWindow(not_null<void*> osWindowP) override;
-    /**
-     * Renders window on screen.
-     * While rendering window and children we must protect 
-     * resources and operations which might run in parallel
-     * with management operations.
-     */
-    void render() override;
+
+    /** see IRender::beginRender() */
+    void beginRender() override;
+    /** see IRender::endRender() */
+    void endRender() override;
 
 private:
     /** Needed for ImGui::Begin() */

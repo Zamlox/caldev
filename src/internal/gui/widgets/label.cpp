@@ -17,12 +17,11 @@ Label::Label(const char* textP, ImFont* pFontP)
     //replace(textM, "^/", "\n");
 }
 
-void Label::render()
+void Label::beginRender()
 {
     ImGuiID id;
     if (visibleM)
     {
-        /*
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         window->DC.CursorPos.x = window->DC.CursorStartPos.x + xM;
         window->DC.CursorPos.y = window->DC.CursorStartPos.y + yM;
@@ -34,11 +33,17 @@ void Label::render()
             , ImRect(xM, yM, xM + widthM, yM + heightM)
             , (isWrapM) ? widthM : 0.0
         );
-        */
         
         if (pFontM) ImGui::PushFont(pFontM);
         //ImGui::TextBox(textM.c_str(), &attrib);
         ImGui::LabelText(textM.c_str(), "");
+    }
+}
+
+void Label::endRender()
+{
+    if (visibleM)
+    {
         if (pFontM) ImGui::PopFont();
     }
 }

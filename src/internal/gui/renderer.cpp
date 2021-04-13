@@ -24,6 +24,14 @@ Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
 
 }
 
+void Renderer::addMainWindow(IWindow* pMainWindowP)
+{
+    commandsM.set(
+        Widget::WidgetCommand::Create, 
+        PARENT_NONE, 
+        pMainWindowP);    
+}
+
 Id Renderer::createWidget(const char* pFaceDescriptionP)
 {
     return widgetStub(pFaceDescriptionP, [=](GlueFace const& rFaceP, FaceCounters const& rCountersP)->Id{
@@ -47,22 +55,27 @@ void Renderer::render()
     Widget::CommandElem command = commandsM.get();
     if (command.getType() != Widget::WidgetCommand::None)
     {
+        Widget::Storage::Index itElem;
         switch(command.getType())
         {
         case Widget::WidgetCommand::Create:
             if (command.getGuiType() == Widget::GuiElemType::Widget)
-                widgetsM.add(command.getWidget(), command.getParentId());
+                itElem = widgetsM.add(command.getWidget(), command.getParentId());
             else
-                widgetsM.add(command.getWindow(), command.getParentId());            
+                itElem = widgetsM.add(command.getWindow(), command.getParentId());            
+            if (command.getParentId() == PARENT_NONE)
+            {
+                rootWidgetsM.push_back(itElem);
+            }
             break;
         }
         // TODO: execute command
         // ...
     }
     // Render elements
-    for (auto const& rElem : widgetsM.getElements())
+    for (auto itElem : rootWidgetsM)
     {
-        rElem.widget.pWidget->render();
+        renderino(*itElem);
     }
 }
 
@@ -74,6 +87,21 @@ void Renderer::setNewFontAdded(bool valueP)
 bool Renderer::getNewFontAdded() const
 {
     return newFontAddedM;
+}
+
+void Renderer::renderino(Widget::StorageElem const& rElemP)
+{
+    rElemP.widget.pWidget->beginRender();
+    Widget::Storage::Index itEnd{rElemP.childLast};
+    if (itEnd != widgetsM.getElements().end())
+    {
+        ++itEnd;
+    }
+    for (Widget::Storage::Index it = rElemP.childFirst; it != itEnd; ++it)
+    {
+        renderino(*it);
+    }
+    rElemP.widget.pWidget->endRender();
 }
 
 bool Renderer::parseFaceDescription(const char* faceDescriptionP, GlueFace& rFaceP, FaceCounters& rCountersP)
