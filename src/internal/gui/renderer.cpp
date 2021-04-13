@@ -163,7 +163,9 @@ Font* Renderer::createFont(FaceFont const& rFontP)
     ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
     assert(pImGuiContext);
     Bind::Rebol2::FontInfo fontInfo;
-    Bind::Rebol2::Text const& fontName{rFontP.path.value};
+    Bind::Rebol2::Text fontName{rFontP.path.value};
+    if (rFontP.path.none)
+        fontName = "D:\\work\\caldev\\src\\extern\\imgui\\misc\\fonts\\DroidSans.ttf";
     if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
     {
         static ImFontConfig fntConfig;

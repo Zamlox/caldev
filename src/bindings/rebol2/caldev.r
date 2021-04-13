@@ -66,6 +66,10 @@ func-caldev: func [ specs identifier ][
 ; library functions
 
 caldev-funcs: [
+    caldev-init [
+        "Initialize library"
+    ] "init_lib"
+
     gui-init [ 
         "Initialize GUI engine"
         type    [ integer! ] "A GUIType value"
@@ -99,6 +103,12 @@ caldev-funcs: [
     show-main-window [
         "Show main window"
     ] "showMainWindow"
+
+    create-widget [
+        "Create widget from molded face. Returns widget id."
+        molded-face [ string! ]
+        return:     [ integer! ]
+    ] "createWidget"
 ]
 
 
@@ -106,4 +116,62 @@ caldev-funcs: [
 
 foreach [ name spec lib-func ] caldev-funcs [
     set name func-caldev spec lib-func
+]
+
+face!: make object! [
+    type: 'face
+    offset: 0x0
+    size: 100x100
+    span: none
+    pane: none
+    text: none
+    color: 200.200.200
+    image: none
+    effect: none
+    data: none
+    edge: make object! [
+        color: 200.200.200
+        image: none
+        effect: none
+        size: 2x2
+    ]
+    font: make object! [
+        name: "arial"
+        style: none
+        size: 12
+        color: 0.0.0
+        offset: 2x2
+        space: 0x0
+        align: 'center
+        valign: 'center
+        shadow: none
+        path: none
+    ]
+    para: make object! [
+        origin: 2x2
+        margin: 2x2
+        indent: 0x0
+        tabs: 40
+        wrap?: true
+        scroll: 0x0
+    ]
+    feel: make object! [
+        redraw: none
+        detect: none
+        over: none
+        engage: none
+    ]
+    saved-area: none
+    rate: none
+    show?: true
+    options: none
+    parent-face: none
+    old-offset: none
+    old-size: none
+    line-list: none
+    changes: none
+    face-flags: 0
+    action: none
+    id: none
+    parent: none
 ]

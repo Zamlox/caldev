@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/label.h"
+#include "extern/imgui/imgui.h"
 
 namespace GUI {
 namespace Widget {
@@ -21,6 +22,7 @@ void Label::render()
     ImGuiID id;
     if (visibleM)
     {
+        /*
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         window->DC.CursorPos.x = window->DC.CursorStartPos.x + xM;
         window->DC.CursorPos.y = window->DC.CursorStartPos.y + yM;
@@ -32,9 +34,11 @@ void Label::render()
             , ImRect(xM, yM, xM + widthM, yM + heightM)
             , (isWrapM) ? widthM : 0.0
         );
+        */
         
         if (pFontM) ImGui::PushFont(pFontM);
         //ImGui::TextBox(textM.c_str(), &attrib);
+        ImGui::LabelText(textM.c_str(), "");
         if (pFontM) ImGui::PopFont();
     }
 }

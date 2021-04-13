@@ -42,17 +42,12 @@ TEST(DoDeepEvaluation, SubBlocks)
 
 TEST(DoDeepEvaluation, Face)
 {
-    void* pBlock = parse_block("make face [      \
-        pane: [                                     \
-            make object! [                          \
-                id: 12                              \
-            ]                                       \
-        ]                                           \
-        id: 11                                      \
-        type: 'face                                 \
+    void* pBlock = parse_block("make object! [\n      \
+        type: 'face\n                                 \
         offset: 2x3                                 \
         size: 12x13                                 \
         span: 1x4                                   \
+        pane: none                                  \
         text: \"Window_1\"                          \
         color: 1.2.3                                \
         image: make image! 2x2                      \
@@ -99,6 +94,20 @@ TEST(DoDeepEvaluation, Face)
             wrap?: true                             \
             scroll: 2x5                             \
         ]                                           \
+        feel: none                                  \
+        saved-area: none                            \
+        rate: none                                  \
+        show?: true                                 \
+        options: none                               \
+        parent-face: none                           \
+        old-offset: none                            \
+        old-size: none                              \
+        line-list: none                             \
+        changes: none                               \
+        face-flags: none                            \
+        action: none                                \
+        id: 11\n                                    \
+        parent: none                                \
     ]");
     GlueFace glueFace;
     FaceCounters faceCounters;
