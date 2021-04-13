@@ -3,7 +3,7 @@
  */
 
 #include "internal/gui/renderer.h"
-//#include "internal/gui/widgets/label.h"
+#include "internal/gui/widgets/label.h"
 #include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
@@ -92,8 +92,7 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
         switch(rFaceP.type.value)
         {
         case TYPE_LABEL:
-            //return createLabel(rFaceP);
-            break;
+            return createLabel(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -188,7 +187,6 @@ Font* Renderer::createFont(FaceFont const& rFontP)
     return pFont;
 }
 
-/*
 Id Renderer::createLabel(GlueFace const& rFaceP)
 {
     return createStub<IWidget>(
@@ -201,6 +199,5 @@ Id Renderer::createLabel(GlueFace const& rFaceP)
         }
     );
 }
-*/
 
 } // namespace GUI

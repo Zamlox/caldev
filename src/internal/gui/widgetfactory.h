@@ -34,7 +34,7 @@ public:
     void destroyWidget(owner<IWidget*>& pWidgetP);
 
     /** see IWidgetFactory::createLabel() */
-    //IWidget* createLabel(const char* textP, ImFont* pFontP);
+    IWidget* createLabel(const char* textP, ImFont* pFontP);
     
 private:
     WidgetFactory();

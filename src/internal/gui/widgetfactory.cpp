@@ -5,7 +5,7 @@
 #include "internal/gui/widgetfactory.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/gui/window.h"
-//#include "internal/gui/widgets/label.h"
+#include "internal/gui/widgets/label.h"
 #include <string>
 
 namespace GUI
@@ -53,12 +53,12 @@ void WidgetFactory::destroyWidget(owner<IWidget*>& pWidgetP)
     delete pWidgetP;
     pWidgetP = nullptr;
 }
-/*
+
 IWidget* WidgetFactory::createLabel(const char* textP, ImFont* pFontP)
 {
     return setupWidget(new Widget::Label(textP, pFontP));
 }
-*/
+
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)
 {
     if (pWidgetP != nullptr)
