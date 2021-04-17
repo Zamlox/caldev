@@ -44,7 +44,7 @@ context [
                 type: 'label        ;'
                 offset: 10x10
                 size: 350x240
-                color: 200.38.100
+                color: 200.38.100.255
                 text: rejoin ["a" newline "Text sample aaaa bbbbb cccc dddd  eee eee e e e efffff f f f ff f ffffff mmmmmmm kkkk kk kkk k  aaaa kk" newline "Groovie !" ]
                 ;text: rejoin ["a" newline "Text sample" newline "b !" ]
                 font: make face!/font [

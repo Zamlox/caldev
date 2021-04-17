@@ -83,7 +83,7 @@ public:
             bgColorM.x = rFaceP.color.value.a / 255.0;
             bgColorM.y = rFaceP.color.value.b / 255.0;
             bgColorM.z = rFaceP.color.value.c / 255.0;
-            bgColorM.w = 1;
+            bgColorM.w = rFaceP.color.value.d / 255.0;;
         }
         // size
         if (!rFaceP.size.none)
