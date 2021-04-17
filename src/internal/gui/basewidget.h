@@ -11,6 +11,7 @@
 #include "internal/gui/imgui/common.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/rebsdev/src/glue/face/rebtypes.h"
+#include <string>
 
 extern "C" Para gDefaultPara;
 
@@ -159,6 +160,14 @@ public:
     }
 
 protected:
+    std::string& replace(std::string& s, const std::string& from, const std::string& to)
+    {
+        if(!from.empty())
+            for(size_t pos = 0; (pos = s.find(from, pos)) != std::string::npos; pos += to.size())
+                s.replace(pos, from.size(), to);
+        return s;
+    }
+
     /** Flag indicating widget visibility */
     bool visibleM;
     /** Widget id */
