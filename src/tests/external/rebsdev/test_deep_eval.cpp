@@ -66,7 +66,7 @@ TEST(DoDeepEvaluation, Face)
             ]                                       \
         ]                                           \
         data: none                                  \
-        edge: make face/edge [                      \
+        edge: make face!/edge [                      \
             color: 100.101.102                      \
             size: 5x6                               \
             image: none                             \
@@ -74,7 +74,7 @@ TEST(DoDeepEvaluation, Face)
                 bevel bezel nurbs                   \
             ]                                       \
         ]                                           \
-        font: make face/font [                      \
+        font: make face!/font [                      \
             name: \"Arial\"                         \
             style: 'bold                            \
             size: 16                                \
@@ -86,7 +86,7 @@ TEST(DoDeepEvaluation, Face)
             shadow: 1x1                             \
             path: \"/usr/share/font/fun.ttf\"       \
         ]                                           \
-        para: make face/para [                      \
+        para: make face!/para [                      \
             origin: 3x4                             \
             margin: 5x6                             \
             indent: 7x8                             \
@@ -131,7 +131,7 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.span.none, 0);
     EXPECT_EQ(glueFace.span.value.x, 1);
     EXPECT_EQ(glueFace.span.value.y, 4);
-    EXPECT_EQ(faceCounters.paneCount, 1);
+    EXPECT_EQ(faceCounters.paneCount, NONE);
     EXPECT_EQ(glueFace.text.none, 0);
     EXPECT_STREQ(glueFace.text.value, "Window_1");
     EXPECT_EQ(glueFace.color.none, 0);

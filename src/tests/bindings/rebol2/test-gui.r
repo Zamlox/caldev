@@ -47,8 +47,6 @@ context [
                 text: "Label:"
                 parent: id-win
             ]
-            probe label
-            probe id-win
             create-widget mold label
 
             print "Wait for 10 seconds..."
