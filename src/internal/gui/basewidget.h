@@ -107,7 +107,7 @@ public:
                 frColorM.x = color.a / 255.0;
                 frColorM.y = color.b / 255.0;
                 frColorM.z = color.c / 255.0;
-                frColorM.w = 1;
+                frColorM.w = color.d / 255.0;;
             }
             // horizontal align
             if (!rFaceP.font.value.align.none)

@@ -50,7 +50,7 @@ context [
                 font: make face!/font [
                     name: "arial"
                     size: 20
-                    color: 200.200.200
+                    color: 200.200.200.255
                     align: 'right
                     valign: 'top
                 ]
