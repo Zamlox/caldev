@@ -101,6 +101,8 @@ int OpenGL::createMainWindow(
                 | WindowFlags_NoDecoration
                 | WindowFlags_NoBringToFrontOnFocus
                 | WindowFlags_NoBorder
+                | WindowFlags_NoResize
+                | WindowFlags_NoMove
                 , nullptr
             );
             if (pMainWidgetWindowM)
@@ -233,17 +235,17 @@ void OpenGL::draw()
     InitNewFrame();
     ::ImGui::NewFrame();
 
+    // Uncomment below to display FPS in title bar.
+    //std::stringstream ss;
+    //ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
+    //glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
+
     // Display main window
     if (pMainWidgetWindowM)
     {
         // Display widgets
         rendererM.render();
     }
-
-    // Uncomment below to display FPS in title bar.
-    //std::stringstream ss;
-    //ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
-    //glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
 
     // Rendering
     ::ImGui::Render();

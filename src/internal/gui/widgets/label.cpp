@@ -13,8 +13,7 @@ Label::Label(const char* textP, ImFont* pFontP)
     , textM{textP}
 {
     // TODO: replacement must be done on rebol side
-    // ...
-    //replace(textM, "^/", "\n");
+    replace(textM, "^/", "\n");
 }
 
 void Label::beginRender()
@@ -35,8 +34,8 @@ void Label::beginRender()
         );
         
         if (pFontM) ImGui::PushFont(pFontM);
-        //ImGui::TextBox(textM.c_str(), &attrib);
-        ImGui::LabelText(textM.c_str(), "");
+        ImGui::TextBox(textM.c_str(), &attrib);
+        //ImGui::LabelText(textM.c_str(), "");
     }
 }
 

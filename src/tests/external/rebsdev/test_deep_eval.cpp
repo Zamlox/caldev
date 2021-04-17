@@ -141,7 +141,8 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.image.none, 0);
     EXPECT_EQ(glueFace.image.value.width, 2);
     EXPECT_EQ(glueFace.image.value.height, 2);
-    EXPECT_EQ(glueFace.image.value.length, glueFace.image.value.width * glueFace.image.value.height * colorChannels);
+    //EXPECT_EQ(glueFace.image.value.length, glueFace.image.value.width * glueFace.image.value.height * colorChannels);
+    EXPECT_EQ(glueFace.image.value.length, glueFace.image.value.width * glueFace.image.value.height * 3);
     EXPECT_EQ(faceCounters.effectCount, 3);
     // effect
     EXPECT_EQ(get_face_effect_elem(0, &pEffect), SUCCESS);

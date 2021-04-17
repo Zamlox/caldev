@@ -11,6 +11,7 @@
 #include "internal/gui/imgui/common.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/rebsdev/src/glue/face/rebtypes.h"
+#include <string>
 
 extern "C" Para gDefaultPara;
 
@@ -82,7 +83,7 @@ public:
             bgColorM.x = rFaceP.color.value.a / 255.0;
             bgColorM.y = rFaceP.color.value.b / 255.0;
             bgColorM.z = rFaceP.color.value.c / 255.0;
-            bgColorM.w = 1;
+            bgColorM.w = rFaceP.color.value.d / 255.0;;
         }
         // size
         if (!rFaceP.size.none)
@@ -106,7 +107,7 @@ public:
                 frColorM.x = color.a / 255.0;
                 frColorM.y = color.b / 255.0;
                 frColorM.z = color.c / 255.0;
-                frColorM.w = 1;
+                frColorM.w = color.d / 255.0;;
             }
             // horizontal align
             if (!rFaceP.font.value.align.none)
@@ -159,6 +160,14 @@ public:
     }
 
 protected:
+    std::string& replace(std::string& s, const std::string& from, const std::string& to)
+    {
+        if(!from.empty())
+            for(size_t pos = 0; (pos = s.find(from, pos)) != std::string::npos; pos += to.size())
+                s.replace(pos, from.size(), to);
+        return s;
+    }
+
     /** Flag indicating widget visibility */
     bool visibleM;
     /** Widget id */

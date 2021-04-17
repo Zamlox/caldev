@@ -42,15 +42,32 @@ context [
 
             label: make face! [
                 type: 'label        ;'
-                offset: 0x0
-                size: 10x10
-                text: "Label:"
+                offset: 10x10
+                size: 350x240
+                color: 200.38.100.255
+                text: rejoin ["a" newline "Text sample aaaa bbbbb cccc dddd  eee eee e e e efffff f f f ff f ffffff mmmmmmm kkkk kk kkk k  aaaa kk" newline "Groovie !" ]
+                ;text: rejoin ["a" newline "Text sample" newline "b !" ]
+                font: make face!/font [
+                    name: "arial"
+                    size: 20
+                    color: 200.200.200.255
+                    align: 'right
+                    valign: 'top
+                ]
+                para: make face!/para [
+                    origin: 2x2
+                    margin: 2x2
+                    indent: 0x0
+                    tabs: 40
+                    wrap?: true
+                    scroll: 0x0
+                ]
                 parent: id-win
             ]
             create-widget mold label
 
             print "Wait for 10 seconds..."
-            wait 10
+            wait 100
         ][ alert "Something wrong happened while creating main window !" quit/return -1 ]
         gui-stop
     ]
