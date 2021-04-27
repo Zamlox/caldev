@@ -5,6 +5,7 @@
 #include "internal/gui/renderer.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/widgetfactory.h"
+#include "internal/os/lock_guard.h"
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 
@@ -68,6 +69,16 @@ void Renderer::render()
                 rootWidgetsM.push_back(itElem);
             }
             break;
+        case Widget::WidgetCommand::Update:
+            {
+                Os::lock_guard guard{syncWidgetsM};
+            }
+            break;
+        case Widget::WidgetCommand::Remove:
+            {
+                Os::lock_guard guard{syncWidgetsM};
+            }
+            break;
         }
         // TODO: execute command
         // ...
@@ -87,6 +98,12 @@ void Renderer::setNewFontAdded(bool valueP)
 bool Renderer::getNewFontAdded() const
 {
     return newFontAddedM;
+}
+
+void Renderer::executeSync(std::function<void()> funcP)
+{
+    Os::lock_guard guard{syncWidgetsM};
+    funcP();
 }
 
 void Renderer::renderino(Widget::StorageElem const& rElemP)

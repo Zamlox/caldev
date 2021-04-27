@@ -12,6 +12,7 @@
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/os/mutex.h"
+#include <functional>
 
 namespace GUI {
 
@@ -68,6 +69,13 @@ public:
      * @return {bool}  : value of flag
      */
     bool getNewFontAdded() const;
+
+    /**
+     * Execute function using synchronization objects.
+     * 
+     * @param  {std::function<void()>} funcP : lambda function to be executed
+     */
+    void executeSync(std::function<void()> funcP);
 
 private:
     /**
@@ -147,6 +155,8 @@ private:
     Bind::Rebol2::FontsMap fontsM;
     /** Flag indicating new font has been added */
     bool newFontAddedM;
+    /** Synchronization object for operating on widgets fromother threads and renderer thread */
+    Os::Mutex syncWidgetsM;
 };
 
 } // namespace GUI
