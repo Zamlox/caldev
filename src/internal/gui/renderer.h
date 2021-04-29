@@ -70,12 +70,9 @@ public:
      */
     bool getNewFontAdded() const;
 
-    /**
-     * Execute function using synchronization objects.
-     * 
-     * @param  {std::function<void()>} funcP : lambda function to be executed
-     */
-    void executeSync(std::function<void()> funcP);
+    Os::Mutex& getWidgetsSync();
+    IWidget* getWidget(Id idP);
+    IWindow* getWindow(Id idP);
 
 private:
     /**
@@ -158,5 +155,20 @@ private:
     /** Synchronization object for operating on widgets fromother threads and renderer thread */
     Os::Mutex syncWidgetsM;
 };
+
+inline Os::Mutex& Renderer::getWidgetsSync()
+{
+    return syncWidgetsM;
+}
+
+inline IWidget* Renderer::getWidget(Id idP)
+{
+    return widgetsM.getElement(idP);
+}
+
+inline IWindow* Renderer::getWindow(Id idP)
+{
+    return static_cast<IWindow*>(widgetsM.getElement(idP));
+}
 
 } // namespace GUI

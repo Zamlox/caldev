@@ -8,6 +8,7 @@
 #pragma once
 
 #include "extern/imgui/imgui.h"
+#include "extern/imgui/imgui_internal.h"
 #include <GLFW/glfw3.h>
 #include <limits.h>
 

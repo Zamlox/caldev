@@ -9,6 +9,7 @@
 
 #include "internal/gui/iwidget.h"
 #include "internal/gui/imgui/common.h"
+#include "internal/gui/iresize.h"
 #include <gsl/pointers.h>
 
 namespace GUI
@@ -77,6 +78,46 @@ public:
      * @param  {void*} osWindowP : main window created by Os
      */
     virtual void makeMainWindow(not_null<void*> osWindowP) = 0;   
+
+    // resize related
+    virtual IResize& getResizeBorder(int indexP) = 0;
+    virtual bool isAlreadyBorderResizing(int& rBorderP) const = 0;
+    virtual IResize& getResizeCorner(int indexP) = 0;
+    virtual bool isAlreadyCornerResizing(int& rCornerP) const = 0;
+    virtual void moveTop(
+            ImVec2& rPosTargetP,
+            ImVec2& rSizeTargetP,
+            ImRect const& visibility_rect,
+            ImVec2 const& visibility_padding,
+            ImVec2 const& rMousePosP,
+            ImVec2 const& rMouseDeltaP,
+            int minSizeYP,
+            int minOffsYP) = 0;
+    virtual void moveBottom(
+            ImVec2& rPosTargetP,
+            ImVec2& rSizeTargetP,
+            ImRect const& visibility_rect,
+            ImVec2 const& rMousePosP,
+            ImVec2 const& rMouseDeltaP,
+            int maxSizeYP,
+            int minOffsYP) = 0;
+    virtual void moveLeft(
+            ImVec2& rPosTargetP,
+            ImVec2& rSizeTargetP,
+            ImRect const& visibility_rect,
+            ImVec2 const& visibility_padding,
+            ImVec2 const& rMousePosP,
+            ImVec2 const& rMouseDeltaP,
+            int minSizeXP,
+            int minOffsXP) = 0;
+    virtual void moveRight(
+            ImVec2& rPosTargetP,
+            ImVec2& rSizeTargetP,
+            ImRect const& visibility_rect,
+            ImVec2 const& rMousePosP,
+            ImVec2 const& rMouseDeltaP,
+            int maxSizeXP,
+            int minOffsXP) = 0;
 };
 
 } // namespace GUI

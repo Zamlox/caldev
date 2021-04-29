@@ -182,8 +182,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     // set main storages in ImGuiContext
-    //pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->widgetsM;
-    // pImGuiContext->Extension.pMainWidgetStorage = &self->widgetsM;
+    pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->rendererM;
 
     //ImGuiIO& io = ::ImGui::GetIO();
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls

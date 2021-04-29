@@ -1,10 +1,36 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
-
 config_setting(
     name = "x86_windows",
     values = { "cpu": "x64_x86_windows" }
 )
+
+# ImGui
+SRCS_IMGUI = [
+    "extern/imgui/examples/imgui_impl_opengl2.cpp",
+    "extern/imgui/examples/imgui_impl_glfw.cpp",
+    "extern/imgui/examples/imgui_impl_glfw.h",
+    "extern/imgui/examples/imgui_impl_opengl2.h",
+    "extern/imgui/misc/cpp/imgui_stdlib.h",
+    "extern/imgui/misc/cpp/imgui_stdlib.cpp",
+    "extern/imgui/imgui.h",
+    "extern/imgui/imgui.cpp",
+    "extern/imgui/imgui_draw.cpp",
+    "extern/imgui/imconfig.h",
+    "extern/imgui/imgui_internal.h",
+    "extern/imgui/imstb_textedit.h",
+    "extern/imgui/imstb_rectpack.h",
+    "extern/imgui/imstb_truetype.h",
+    "extern/imgui/imgui_widgets.cpp",
+]
+COPTS_IMGUI = [
+    "-Iextern/glfw/include",
+    "-Iextern/imgui",
+    "-Iextern/imgui/examples",
+    "-Iextern/GSL/include",
+]
+
+# caldev
 COPTS_WINDOWS = [
     "-DOS_WINDOWS",
     "-std:c++17",
@@ -35,7 +61,7 @@ SRCS = glob([
         "extern/GSL/include/gsl/span.h",
         "extern/GSL/include/gsl/byte.h",
         "extern/GSL/include/gsl/util.h",
-    ]
+    ] + SRCS_IMGUI
 COPTS = [
         "-I.",
         "-Iextern/glfw/include",
@@ -55,7 +81,7 @@ COPTS = [
             "-DOS_LINUX",
             "-std=c++17",
         ]
-    })
+    }) + COPTS_IMGUI
 LIBS_WINDOWS = [
     "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
 ]
@@ -84,8 +110,6 @@ cc_library(
             "//extern/glfw:glfw",
         ],
     }) + [
-        "//extern/imgui:imgui",
-    ] + [
         "//extern/rebsdev:reblib",
     ],
     visibility = ["//visibility:public"],

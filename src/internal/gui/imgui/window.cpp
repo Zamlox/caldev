@@ -148,5 +148,160 @@ void Window::endRender()
     }
 }
 
+IResize& Window::getResizeBorder(int indexP)
+{
+    return resizeBordersM[indexP];
+}
+
+bool Window::isAlreadyBorderResizing(int& rBorderP) const
+{
+    rBorderP = -1;
+    for (int i = 0; i < COUNT_BORDERS; i++)
+    {
+        if (resizeBordersM[i].getStarted())
+        {
+            rBorderP = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+IResize& Window::getResizeCorner(int indexP)
+{
+    return resizeCornersM[indexP];
+}
+
+bool Window::isAlreadyCornerResizing(int& rCornerP) const
+{
+    rCornerP = -1;
+    for (int i = 0; i < COUNT_CORNERS; i++)
+    {
+        if (resizeCornersM[i].getStarted())
+        {
+            rCornerP = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+void Window::moveTop(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& visibility_padding,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int minSizeYP,
+    int minOffsYP)
+{
+    // printf("Pos: (%f, %f), vis_rect: MousePos: (%f, %f), Max(%f, %f), Title height: %f\n\r", pImGuiWindowM->Pos.x, pImGuiWindowM->Pos.y, rMousePosP.x, rMousePosP.y, visibility_rect.Max.x, visibility_rect.Max.y, pImGuiWindowM->TitleBarHeight());
+    if (rMousePosP.y - rMouseDeltaP.y <= visibility_rect.Max.y)
+    {
+        if ((rSizeTargetP.y > minSizeYP) || (rMousePosP.y <= rPosTargetP.y))
+        {
+            if (rMousePosP.y - rMouseDeltaP.y + minSizeYP > rPosTargetP.y + rSizeTargetP.y)
+                rPosTargetP.y = rPosTargetP.y + rSizeTargetP.y - minSizeYP ;
+            else
+                rPosTargetP.y = rMousePosP.y - rMouseDeltaP.y;
+            if (rPosTargetP.y < minOffsYP)
+            {
+                // when drag top out of border stop at MIN_OFFS_BORDER
+                rPosTargetP.y = minOffsYP;
+                rSizeTargetP.y = yM + heightM - minOffsYP;
+            }
+            else
+                // otherwise enlarge window
+                rSizeTargetP.y = yM + heightM - rPosTargetP.y;
+        }
+    }
+    else
+    {
+        if (rPosTargetP.y + rSizeTargetP.y >= visibility_rect.Max.y + visibility_padding.y)
+            rPosTargetP.y = visibility_rect.Max.y;
+    }
+}
+
+void Window::moveBottom(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int maxSizeYP,
+    int minOffsYP)
+{
+    if (rMousePosP.y + rMouseDeltaP.y >= visibility_rect.Min.y)
+    {
+        if (rMousePosP.y > maxSizeYP)
+            rSizeTargetP.y = maxSizeYP - yM - minOffsYP;
+        else
+            rSizeTargetP.y = rMousePosP.y - yM + rMouseDeltaP.y;
+    }
+    else
+    {
+        rSizeTargetP.y = visibility_rect.Min.y - rPosTargetP.y;
+    }
+}
+
+void Window::moveLeft(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& visibility_padding,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int minSizeXP,
+    int minOffsXP)
+{
+    if (rMousePosP.x - rMouseDeltaP.x <= visibility_rect.Max.x)
+    {
+        if ((rSizeTargetP.x > minSizeXP) || (rMousePosP.x < rPosTargetP.x))
+        {
+            if (rMousePosP.x - rMouseDeltaP.x + minSizeXP > rPosTargetP.x + rSizeTargetP.x)
+                rPosTargetP.x = rPosTargetP.x + rSizeTargetP.x - minSizeXP;
+            else
+                rPosTargetP.x = rMousePosP.x - rMouseDeltaP.x;
+            if (rPosTargetP.x < minOffsXP)
+            {
+                // when drag left out of border stop at minOffsXP
+                rPosTargetP.x = minOffsXP;
+                rSizeTargetP.x = xM + widthM - minOffsXP;
+            }
+            else
+                // otherwise enlarge window
+                rSizeTargetP.x = xM + widthM - rPosTargetP.x;
+        }
+    }
+    else
+    {
+        if (rPosTargetP.x + rSizeTargetP.x > visibility_rect.Max.x + visibility_padding.x)
+            rPosTargetP.x = visibility_rect.Max.x;
+    }
+}
+
+void Window::moveRight(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int maxSizeXP,
+    int minOffsXP)
+{
+    if (rMousePosP.x + rMouseDeltaP.x >= visibility_rect.Min.x)
+    {
+        if (rMousePosP.x > maxSizeXP)
+            rSizeTargetP.x = maxSizeXP - xM - minOffsXP;
+        else
+            rSizeTargetP.x = rMousePosP.x - xM + rMouseDeltaP.x;
+    }
+    else
+    {
+        rSizeTargetP.x = visibility_rect.Min.x - rPosTargetP.x;
+    }
+}
+
 } // namespace ImGui
 } // namespace GUI

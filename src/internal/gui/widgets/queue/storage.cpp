@@ -54,6 +54,16 @@ Storage::Container const& Storage::getElements()
     return widgetsM;
 }
 
+IWidget* Storage::getElement(Id idP)
+{
+    Lookup::const_iterator itLookup = lookupM.find(idP);
+    if (itLookup != lookupM.end())
+    {
+        return itLookup->second->widget.pWidget;
+    }
+    return nullptr;
+}
+
 Storage::Index Storage::add(StorageElem& rElemP, Id idP, Id parentIdP)
 {
     Storage::Index result{widgetsM.end()};

@@ -100,12 +100,6 @@ bool Renderer::getNewFontAdded() const
     return newFontAddedM;
 }
 
-void Renderer::executeSync(std::function<void()> funcP)
-{
-    Os::lock_guard guard{syncWidgetsM};
-    funcP();
-}
-
 void Renderer::renderino(Widget::StorageElem const& rElemP)
 {
     rElemP.widget.pWidget->beginRender();

@@ -77,4 +77,74 @@ void Window::endRender()
     implM.endRender();
 }
 
+IResize& Window::getResizeBorder(int indexP)
+{
+    return implM.getResizeBorder(indexP);
+}
+
+bool Window::isAlreadyBorderResizing(int& rBorderP) const
+{
+    return implM.isAlreadyBorderResizing(rBorderP);
+}
+
+IResize& Window::getResizeCorner(int indexP)
+{
+    return implM.getResizeCorner(indexP);
+}
+
+bool Window::isAlreadyCornerResizing(int& rCornerP) const
+{
+    return implM.isAlreadyCornerResizing(rCornerP);
+}
+
+void Window::moveTop(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& visibility_padding,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int minSizeYP,
+    int minOffsYP)
+{
+    implM.moveTop(rPosTargetP, rSizeTargetP, visibility_rect, visibility_padding, rMousePosP, rMouseDeltaP, minSizeYP, minOffsYP);
+}
+
+void Window::moveBottom(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int maxSizeYP,
+    int minOffsYP)
+{
+    implM.moveBottom(rPosTargetP, rSizeTargetP, visibility_rect, rMousePosP, rMouseDeltaP, maxSizeYP, minOffsYP);
+}
+
+void Window::moveLeft(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& visibility_padding,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int minSizeXP,
+    int minOffsXP)
+{
+    implM.moveLeft(rPosTargetP, rSizeTargetP, visibility_rect, visibility_padding, rMousePosP, rMouseDeltaP, minSizeXP, minOffsXP);
+}
+
+void Window::moveRight(
+    ImVec2& rPosTargetP,
+    ImVec2& rSizeTargetP,
+    ImRect const& visibility_rect,
+    ImVec2 const& rMousePosP,
+    ImVec2 const& rMouseDeltaP,
+    int maxSizeXP,
+    int minOffsXP)
+{
+    implM.moveRight(rPosTargetP, rSizeTargetP, visibility_rect, rMousePosP, rMouseDeltaP, maxSizeXP, minOffsXP);
+}
+
 } // namespace GUI
