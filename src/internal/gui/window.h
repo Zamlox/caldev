@@ -8,7 +8,6 @@
 #pragma once
 
 #include "internal/gui/iwindow.h"
-#include "internal/gui/basewidget.h"
 #include "internal/gui/imgui/window.h"
 
 namespace GUI
@@ -17,7 +16,7 @@ namespace GUI
 /**
  * Implementation of IWindow
  */
-class Window : public Base<IWindow>
+class Window : public IWindow
 {
 public:
     /**
@@ -96,6 +95,11 @@ public:
         ImVec2 const& rMouseDeltaP,
         int maxSizeXP,
         int minOffsXP) override;
+
+
+    Id getId() const override;
+    void setId(Id idP) override;
+    void update(GlueFace const& rFaceP) override;
 
 private:
     /** Window implementation for ImGui */

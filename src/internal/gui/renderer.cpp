@@ -130,6 +130,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
     {
         switch(rFaceP.type.value)
         {
+        case TYPE_WINDOW:
+            return createWindow(rFaceP);
         case TYPE_LABEL:
             return createLabel(rFaceP);
         }
@@ -224,6 +226,20 @@ Font* Renderer::createFont(FaceFont const& rFontP)
     }
     
     return pFont;
+}
+
+Id Renderer::createWindow(GlueFace const& rFaceP)
+{
+    return createStub<IWindow>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            return WidgetFactory::instance().createWindow(
+                (rFaceP.text.none) ? "" : rFaceP.text.value
+                , WindowFlags_None      // TODO: find a way to specify flags within face decription
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+            );
+        }
+    );
 }
 
 Id Renderer::createLabel(GlueFace const& rFaceP)

@@ -133,12 +133,19 @@ private:
     Font* createFont(FaceFont const& rFontP);
 
     /**
+     * Create window.
+     * 
+     * @param  {GlueFace} const : window face
+     * @return {Id}             : id of window
+     */
+    Id  createWindow(GlueFace const& rFaceP);
+    /**
      * Create label.
      * 
      * @param  {GlueFace} const : label face
+     * @return {Id}             : id of label
      */
     Id  createLabel(GlueFace const& rFaceP);
-
 
     /** Storage for widgets */
     Widget::Storage widgetsM;

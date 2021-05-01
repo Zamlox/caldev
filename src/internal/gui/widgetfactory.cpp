@@ -63,6 +63,7 @@ IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)
     {
         pWidgetP->setId(++indexM);
     }
-    return pWidgetP;}
+    return pWidgetP;
+}
 
 } // namespace GUI

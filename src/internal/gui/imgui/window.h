@@ -21,7 +21,7 @@ namespace ImGui
 /**
  * Implementation of IWindow
  */
-class Window : Base<IWindow>
+class Window : public Base<IWindow>
 {
 public:
     /**
@@ -110,6 +110,7 @@ private:
     int flagsM;
     /** Window font */
     Font *pFontM;
+    bool fontPushedM;
     /** Reference to OS window if this is main window, nullptr otherwise */
     GLFWwindow* osWindowM;
     /** Flag indicating if render() was called for the first time */

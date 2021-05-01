@@ -14,8 +14,9 @@ Window::Window(const char* titleP, int flagsP, Font* pFontP)
     : isOpenM{true}
     , flagsM{flagsP}
     , pFontM{pFontP}
+    , fontPushedM{false}
     , osWindowM{nullptr}
-    , firstTimeRenderM{false}
+    , firstTimeRenderM{true}
     , pImGuiWindowM{nullptr}
 {
     titleM.append(titleP);
@@ -108,13 +109,13 @@ void Window::beginRender()
         // set extra id
         ::ImGui::SetNextWindowExtraId(idM);
         // set font
-        if (pFontM) ::ImGui::PushFont(pFontM);
-        // create window
-        if (!::ImGui::Begin(titleM.c_str(), &isOpenM, flagsM))
+        if (pFontM)
         {
-            fprintf(stderr, "Cannot create window: %s, %ud\n", titleM.c_str(), flagsM);
-            exit(1);
+            fontPushedM = true;
+            ::ImGui::PushFont(pFontM);
         }
+        // create window
+        ::ImGui::Begin(titleM.c_str(), &isOpenM, flagsM);
         // get ImGui window for further references
         if (firstTimeRenderM)
         {
@@ -140,11 +141,16 @@ void Window::beginRender()
 
 void Window::endRender()
 {
-    if (visibleM && isOpenM)
+    if (visibleM)
     {
+        visibleM = isOpenM;
+        if (fontPushedM)
+        {
+            fontPushedM = false;
+            ::ImGui::PopFont();    
+        }
         // End window
         ::ImGui::End();
-        if (pFontM) ::ImGui::PopFont();    
     }
 }
 

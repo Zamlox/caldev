@@ -39,7 +39,7 @@ int Window::getHeight() const
 
 void Window::setSize(int width, int height)
 {
-    implM.setSize(width, heightM);
+    implM.setSize(width, height);
 }
 
 const char* Window::getTitle() const
@@ -145,6 +145,21 @@ void Window::moveRight(
     int minOffsXP)
 {
     implM.moveRight(rPosTargetP, rSizeTargetP, visibility_rect, rMousePosP, rMouseDeltaP, maxSizeXP, minOffsXP);
+}
+
+Id Window::getId() const
+{
+    return implM.getId();
+}
+
+void Window::setId(Id idP)
+{
+    implM.setId(idP);
+}
+
+void Window::update(GlueFace const& rFaceP)
+{
+    implM.update(rFaceP);
 }
 
 } // namespace GUI
