@@ -38,14 +38,14 @@ context [
         caldev-init
         gui-init GUIType/OpenGL GuiEngineExecutionType/Bkg-Thread
         gui-start
-        either (id-win: create-main-window "Rebol2 Main Window" 100 100 600 700 10100 1) > 0 [
+        either (id-win: create-main-window "Rebol2 Main Window" 100 100 900 700 10100 1) > 0 [
 
-            window: make face! [
+            window1: make face! [
                 type: 'window   ;'
                 offset: 30x30
                 size: 300x300
                 color: 128.234.34.255
-                text: "Test Window"
+                text: "Window 1"
                 font: make face!/font [
                     name: "arial"
                     size: 20
@@ -55,7 +55,23 @@ context [
                 ]
                 parent: id-win
             ]
-            create-widget mold window
+            create-widget mold window1
+            window2: make face! [
+                type: 'window   ;'
+                offset: 130x130
+                size: 300x300
+                color: 28.34.34.155
+                text: "Window 2"
+                font: make face!/font [
+                    name: "arial"
+                    size: 20
+                    color: 200.200.200.255
+                    align: 'right
+                    valign: 'top
+                ]
+                parent: id-win
+            ]
+            create-widget mold window2
 
             label: make face! [
                 type: 'label        ;'
