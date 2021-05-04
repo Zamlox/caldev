@@ -10,7 +10,7 @@ namespace GUI
 namespace ImGui
 {
 
-Window::Window(const char* titleP, int flagsP, Font* pFontP)
+Window::Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP)
     : isOpenM{true}
     , flagsM{flagsP}
     , pFontM{pFontP}
@@ -19,6 +19,8 @@ Window::Window(const char* titleP, int flagsP, Font* pFontP)
     , firstTimeRenderM{true}
     , pImGuiWindowM{nullptr}
 {
+    idM = idP;
+    parentIdM = parentIdP;
     titleM.append(titleP);
 }
 
@@ -107,7 +109,7 @@ void Window::beginRender()
         ::ImGui::SetNextWindowBgColor(bgColor);
         ::ImGui::SetNextWindowBgAlpha(((bgColor & IM_COL32_A_MASK) >> IM_COL32_A_SHIFT) / 255.0);
         // set extra id
-        ::ImGui::SetNextWindowExtraId(idM);
+        //::ImGui::SetNextWindowExtraId(idM);
         // set font
         if (pFontM)
         {
@@ -115,7 +117,7 @@ void Window::beginRender()
             ::ImGui::PushFont(pFontM);
         }
         // create window
-        ::ImGui::Begin(titleM.c_str(), &isOpenM, flagsM);
+        ::ImGui::Begin(titleM.c_str(), &isOpenM, flagsM, &idM, (parentIdM != PARENT_NONE) ? &parentIdM : nullptr);
         // get ImGui window for further references
         if (firstTimeRenderM)
         {

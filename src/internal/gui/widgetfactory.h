@@ -34,7 +34,7 @@ public:
      * @param  {Font*} pFontP      : font for window
      * @return {owner<IWindow>*}   : instance of created window
      */
-    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP);
+    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP = PARENT_NONE);
     /**
      * Destroy window.
      * 

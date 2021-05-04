@@ -38,7 +38,7 @@ context [
         caldev-init
         gui-init GUIType/OpenGL GuiEngineExecutionType/Bkg-Thread
         gui-start
-        either (id-win: create-main-window "Rebol2 Main Window" 100 100 900 700 10100 1) > 0 [
+        either (id-win: create-main-window "Rebol2 Main Window" 100 100 900 700 -2147483646 1) > 0 [
 
             window1: make face! [
                 type: 'window   ;'
@@ -99,7 +99,7 @@ context [
             ]
             create-widget mold label
 
-            print "Wait for 10 seconds..."
+            print "Wait for 100 seconds..."
             wait 100
         ][ alert "Something wrong happened while creating main window !" quit/return -1 ]
         gui-stop

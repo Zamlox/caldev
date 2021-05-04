@@ -18,6 +18,7 @@ SRCS_IMGUI = [
     "extern/imgui/imgui_draw.cpp",
     "extern/imgui/imconfig.h",
     "extern/imgui/imgui_internal.h",
+    "extern/imgui/imgui_internal.cpp",
     "extern/imgui/imstb_textedit.h",
     "extern/imgui/imstb_rectpack.h",
     "extern/imgui/imstb_truetype.h",

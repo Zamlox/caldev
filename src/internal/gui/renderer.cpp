@@ -237,6 +237,7 @@ Id Renderer::createWindow(GlueFace const& rFaceP)
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , WindowFlags_None      // TODO: find a way to specify flags within face decription
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+                , rFaceP.parent.none ? PARENT_NONE : rFaceP.parent.value
             );
         }
     );

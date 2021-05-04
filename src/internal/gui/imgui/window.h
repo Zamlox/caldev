@@ -31,7 +31,7 @@ public:
      * @param  {int} flagsP     : window flags creation
      * @param  {Font*} pFontP   : font to be used
      */
-    Window(const char* titleP, int flagsP, Font* pFontP);
+    Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP);
 
     /** see IWindow::getPosX() */
     int getPosX() const override;

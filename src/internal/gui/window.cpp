@@ -7,8 +7,8 @@
 namespace GUI
 {
 
-Window::Window(const char* titleP, int flagsP, Font* pFontP)
-    : implM{titleP, flagsP, pFontP}
+Window::Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP)
+    : implM{titleP, flagsP, pFontP, idP, parentIdP}
 {
 }
 

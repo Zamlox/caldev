@@ -97,12 +97,15 @@ int OpenGL::createMainWindow(
         {
             pMainWidgetWindowM = WidgetFactory::instance().createWindow(
                 titleP
+                , WindowFlags_None
+                /*
                 , WindowFlags_NoNav
                 | WindowFlags_NoDecoration
                 | WindowFlags_NoBringToFrontOnFocus
                 | WindowFlags_NoBorder
                 | WindowFlags_NoResize
                 | WindowFlags_NoMove
+                */
                 , nullptr
             );
             if (pMainWidgetWindowM)
@@ -254,7 +257,7 @@ void OpenGL::draw()
     ImVec4 clearColor = ImVec4(1.0f, 0.0f, 0.0f, 0.0f);
     if (pMainWidgetWindowM)
     {
-        clearColor = pMainWidgetWindowM->getBgColor();
+        //clearColor = pMainWidgetWindowM->getBgColor();
     }
     glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
