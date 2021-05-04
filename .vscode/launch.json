@@ -26,13 +26,6 @@
             },
             "preLaunchTask": "bazel_debug_build",
             "logging": { "engineLogging": true },
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
         },
         {                                
             "name": "(test_all) caldev linux 32bit Launch",
@@ -46,13 +39,6 @@
             "miDebuggerPath": "/usr/bin/gdb",
             "preLaunchTask": "bazel_debug_build_linux_32bit",
             "logging": { "engineLogging": true },
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
         },
         {                                
             "name": "(test_all) caldev windows 32bit Launch",
@@ -64,13 +50,6 @@
             "externalConsole": false,
             "preLaunchTask": "bazel_debug_build_windows_32bit",
             "logging": { "engineLogging": true },
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
         },
         {                                
             "name": "(Rebol2) caldev windows 32bit Launch",
@@ -83,13 +62,6 @@
             "externalConsole": false,
             "preLaunchTask": "bazel_debug_build_windows_32bit",
             "logging": { "engineLogging": true },
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
         },
         {                                
             "name": "(demo_gui) caldev Launch",
