@@ -97,15 +97,13 @@ int OpenGL::createMainWindow(
         {
             pMainWidgetWindowM = WidgetFactory::instance().createWindow(
                 titleP
-                , WindowFlags_None
-                /*
+                //, WindowFlags_None
                 , WindowFlags_NoNav
                 | WindowFlags_NoDecoration
                 | WindowFlags_NoBringToFrontOnFocus
                 | WindowFlags_NoBorder
                 | WindowFlags_NoResize
                 | WindowFlags_NoMove
-                */
                 , nullptr
             );
             if (pMainWidgetWindowM)
