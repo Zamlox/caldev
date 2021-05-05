@@ -10,6 +10,7 @@
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
+#include "extern/imgui/examples/imgui_impl_glfw.h"
 extern "C" {
 #include "extern/rebsdev/src/glue/face/face.h"
 }
@@ -212,10 +213,14 @@ void* OpenGL::guiEngine(void* pParamP)
 
         pOpenGL->draw();
     }
-    glfwDestroyWindow(pOpenGL->pOsWindowM);
+    // Cleanup
     pOpenGL->pOsWindowM = nullptr;
+    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(pOpenGL->pOsWindowM);
     glfwTerminate();
-    //WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
 
     return nullptr;
 }
@@ -273,7 +278,7 @@ void OpenGL::size_callback(GLFWwindow* window, int width, int height)
     ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
     assert(pImGuiContext);
     pImGuiContext->Extension.mainSize = ImVec2{static_cast<float>(width), static_cast<float>(height)};
-    OpenGL::pEngineinstanceM->draw();
+    //OpenGL::pEngineinstanceM->draw();
 }
 
 } // namespace GUI
