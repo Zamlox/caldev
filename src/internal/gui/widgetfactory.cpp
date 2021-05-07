@@ -28,16 +28,16 @@ WidgetFactory& WidgetFactory::instance()
     return *pInstanceM;
 }
 
-owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* pFontP)
+owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP)
 {
     StringBuffer buffer;
     owner<IWindow*> pWindow{nullptr};
     if (indexM != MAX_ID)
     {
         buffer.appendf("%s###%d", titleP, ++indexM);
-        pWindow = new Window(buffer.c_str(), flags, pFontP);
+        pWindow = new Window(buffer.c_str(), flags, pFontP, indexM, parentIdP);
         assert(pWindow);
-        pWindow->setId(indexM);
+        //pWindow->setId(indexM);
     }
     return pWindow;
 }
@@ -63,6 +63,7 @@ IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)
     {
         pWidgetP->setId(++indexM);
     }
-    return pWidgetP;}
+    return pWidgetP;
+}
 
 } // namespace GUI

@@ -18,6 +18,8 @@ namespace GUI
 constexpr int MIN_SIZE_X{100};
 /** Minimum size on y */
 constexpr int MIN_SIZE_Y{100};
+/** Minimum offset for border */
+constexpr int MIN_OFFS_BORDER{1};
 
 /**
  * Widget interface

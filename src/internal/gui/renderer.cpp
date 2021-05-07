@@ -5,6 +5,7 @@
 #include "internal/gui/renderer.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/widgetfactory.h"
+#include "internal/os/lock_guard.h"
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 
@@ -68,6 +69,16 @@ void Renderer::render()
                 rootWidgetsM.push_back(itElem);
             }
             break;
+        case Widget::WidgetCommand::Update:
+            {
+                Os::lock_guard guard{syncWidgetsM};
+            }
+            break;
+        case Widget::WidgetCommand::Remove:
+            {
+                Os::lock_guard guard{syncWidgetsM};
+            }
+            break;
         }
         // TODO: execute command
         // ...
@@ -119,6 +130,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
     {
         switch(rFaceP.type.value)
         {
+        case TYPE_WINDOW:
+            return createWindow(rFaceP);
         case TYPE_LABEL:
             return createLabel(rFaceP);
         }
@@ -213,6 +226,21 @@ Font* Renderer::createFont(FaceFont const& rFontP)
     }
     
     return pFont;
+}
+
+Id Renderer::createWindow(GlueFace const& rFaceP)
+{
+    return createStub<IWindow>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            return WidgetFactory::instance().createWindow(
+                (rFaceP.text.none) ? "" : rFaceP.text.value
+                , WindowFlags_SubWindow      // TODO: find a way to specify flags within face decription
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+                , rFaceP.parent.none ? PARENT_NONE : rFaceP.parent.value
+            );
+        }
+    );
 }
 
 Id Renderer::createLabel(GlueFace const& rFaceP)

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "extern/imgui/imgui.h"
+#include "extern/imgui/imgui_internal.h"
 #include <GLFW/glfw3.h>
 #include <limits.h>
 
@@ -73,7 +74,8 @@ using WindowFlags = enum {
     WindowFlags_ChildMenu                   = ::ImGuiWindowFlags_ChildMenu,
 
     // [Additional]
-    WindowFlags_NoBorder                    = ::ImGuiWindowFlags_NoBorder
+    WindowFlags_NoBorder                    = ::ImGuiWindowFlags_NoBorder,
+    WindowFlags_SubWindow                   = ::ImGuiWindowFlags_SubWindow,
 
     // [Obsolete]
     //ImGuiWindowFlags_ShowBorders          = 1 << 7,   // --> Set style.FrameBorderSize=1.0f or style.WindowBorderSize=1.0f to enable borders around items or windows.

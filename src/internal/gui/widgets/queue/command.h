@@ -20,7 +20,8 @@ namespace Widget {
 enum class WidgetCommand {
     None,
     Create,
-    Update
+    Update,
+    Remove
 };
 
 /** Gui element type */

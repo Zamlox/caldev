@@ -85,6 +85,8 @@ public:
      */
     Container const& getElements();
 
+    IWidget* getElement(Id idP);
+
 private:
     /**
      * Add a storage element.

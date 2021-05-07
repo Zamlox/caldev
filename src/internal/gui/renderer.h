@@ -12,6 +12,7 @@
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/os/mutex.h"
+#include <functional>
 
 namespace GUI {
 
@@ -68,6 +69,10 @@ public:
      * @return {bool}  : value of flag
      */
     bool getNewFontAdded() const;
+
+    Os::Mutex& getWidgetsSync();
+    IWidget* getWidget(Id idP);
+    IWindow* getWindow(Id idP);
 
 private:
     /**
@@ -128,12 +133,19 @@ private:
     Font* createFont(FaceFont const& rFontP);
 
     /**
+     * Create window.
+     * 
+     * @param  {GlueFace} const : window face
+     * @return {Id}             : id of window
+     */
+    Id  createWindow(GlueFace const& rFaceP);
+    /**
      * Create label.
      * 
      * @param  {GlueFace} const : label face
+     * @return {Id}             : id of label
      */
     Id  createLabel(GlueFace const& rFaceP);
-
 
     /** Storage for widgets */
     Widget::Storage widgetsM;
@@ -147,6 +159,23 @@ private:
     Bind::Rebol2::FontsMap fontsM;
     /** Flag indicating new font has been added */
     bool newFontAddedM;
+    /** Synchronization object for operating on widgets fromother threads and renderer thread */
+    Os::Mutex syncWidgetsM;
 };
+
+inline Os::Mutex& Renderer::getWidgetsSync()
+{
+    return syncWidgetsM;
+}
+
+inline IWidget* Renderer::getWidget(Id idP)
+{
+    return widgetsM.getElement(idP);
+}
+
+inline IWindow* Renderer::getWindow(Id idP)
+{
+    return static_cast<IWindow*>(widgetsM.getElement(idP));
+}
 
 } // namespace GUI

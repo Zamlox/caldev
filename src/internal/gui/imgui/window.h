@@ -9,6 +9,7 @@
 
 #include "internal/gui/iwindow.h"
 #include "internal/gui/basewidget.h"
+#include "internal/gui/resize.h"
 #include "extern/imgui/imgui_internal.h"
 #include <GLFW/glfw3.h>
 
@@ -20,7 +21,7 @@ namespace ImGui
 /**
  * Implementation of IWindow
  */
-class Window : Base<IWindow>
+class Window : public Base<IWindow>
 {
 public:
     /**
@@ -30,7 +31,7 @@ public:
      * @param  {int} flagsP     : window flags creation
      * @param  {Font*} pFontP   : font to be used
      */
-    Window(const char* titleP, int flagsP, Font* pFontP);
+    Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP);
 
     /** see IWindow::getPosX() */
     int getPosX() const override;
@@ -60,6 +61,46 @@ public:
     /** see IRender::endRender() */
     void endRender() override;
 
+    // resize related
+    IResize& getResizeBorder(int indexP) override;
+    bool isAlreadyBorderResizing(int& rBorderP) const override;
+    IResize& getResizeCorner(int indexP) override;
+    bool isAlreadyCornerResizing(int& rCornerP) const override;
+    void moveTop(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& visibility_padding,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int minSizeYP,
+        int minOffsYP) override;
+    void moveBottom(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int maxSizeYP,
+        int minOffsYP) override;
+    void moveLeft(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& visibility_padding,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int minSizeXP,
+        int minOffsXP) override;
+    void moveRight(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int maxSizeXP,
+        int minOffsXP) override;
+
 private:
     /** Needed for ImGui::Begin() */
     bool isOpenM;
@@ -69,12 +110,17 @@ private:
     int flagsM;
     /** Window font */
     Font *pFontM;
+    bool fontPushedM;
     /** Reference to OS window if this is main window, nullptr otherwise */
     GLFWwindow* osWindowM;
     /** Flag indicating if render() was called for the first time */
     bool firstTimeRenderM;
     /** A reference to ImGui window */
     ImGuiWindow* pImGuiWindowM;
+
+    // resize related
+    Resize resizeBordersM[COUNT_BORDERS];
+    Resize resizeCornersM[COUNT_CORNERS];
 };
 
 } // namespace ImGui

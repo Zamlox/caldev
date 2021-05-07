@@ -54,6 +54,16 @@ Storage::Container const& Storage::getElements()
     return widgetsM;
 }
 
+IWidget* Storage::getElement(Id idP)
+{
+    Lookup::const_iterator itLookup = lookupM.find(idP);
+    if (itLookup != lookupM.end())
+    {
+        return itLookup->second->widget.pWidget;
+    }
+    return nullptr;
+}
+
 Storage::Index Storage::add(StorageElem& rElemP, Id idP, Id parentIdP)
 {
     Storage::Index result{widgetsM.end()};
@@ -68,12 +78,12 @@ Storage::Index Storage::add(StorageElem& rElemP, Id idP, Id parentIdP)
     }
     else
     {
+        rElemP.childFirst = widgetsM.end();
+        rElemP.childLast = widgetsM.end();
         Lookup::const_iterator it{lookupM.find(parentIdP)};
         if (it == lookupM.end())
         {
             rElemP.parentId = PARENT_NONE;
-            rElemP.childFirst = widgetsM.end();
-            rElemP.childLast = widgetsM.end();
             result = widgetsM.insert(widgetsM.end(), rElemP);
             lookupM.insert(std::make_pair(idP, result));
         }

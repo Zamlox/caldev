@@ -8,7 +8,6 @@
 #pragma once
 
 #include "internal/gui/iwindow.h"
-#include "internal/gui/basewidget.h"
 #include "internal/gui/imgui/window.h"
 
 namespace GUI
@@ -17,7 +16,7 @@ namespace GUI
 /**
  * Implementation of IWindow
  */
-class Window : public Base<IWindow>
+class Window : public IWindow
 {
 public:
     /**
@@ -27,7 +26,7 @@ public:
      * @param  {int} flagsP     : window flags creation
      * @param  {Font*} pFontP   : font to be used
      */
-    Window(const char* titleP, int flagsP, Font* pFontP);
+    Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP);
 
     /** see IWindow::getPosX() */
     int getPosX() const override;
@@ -56,6 +55,51 @@ public:
     void beginRender() override;
     /** see IRender::endRender() */
     void endRender() override;
+
+    // resize related
+    IResize& getResizeBorder(int indexP) override;
+    bool isAlreadyBorderResizing(int& rBorderP) const override;
+    IResize& getResizeCorner(int indexP) override;
+    bool isAlreadyCornerResizing(int& rCornerP) const override;
+    void moveTop(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& visibility_padding,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int minSizeYP,
+        int minOffsYP) override;
+    void moveBottom(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int maxSizeYP,
+        int minOffsYP) override;
+    void moveLeft(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& visibility_padding,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int minSizeXP,
+        int minOffsXP) override;
+    void moveRight(
+        ImVec2& rPosTargetP,
+        ImVec2& rSizeTargetP,
+        ImRect const& visibility_rect,
+        ImVec2 const& rMousePosP,
+        ImVec2 const& rMouseDeltaP,
+        int maxSizeXP,
+        int minOffsXP) override;
+
+
+    Id getId() const override;
+    void setId(Id idP) override;
+    void update(GlueFace const& rFaceP) override;
 
 private:
     /** Window implementation for ImGui */

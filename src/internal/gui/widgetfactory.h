@@ -26,9 +26,20 @@ public:
      */
     static WidgetFactory& instance();
     
-    /** see IWidgetFactory::createWindow() */
-    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP);
-    /** see IWidgetFactory::destroyWindow() */
+    /**
+     * Create window.
+     * 
+     * @param  {czstring<>} titleP : title of window
+     * @param  {int} flags         : flags for window creation
+     * @param  {Font*} pFontP      : font for window
+     * @return {owner<IWindow>*}   : instance of created window
+     */
+    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP = PARENT_NONE);
+    /**
+     * Destroy window.
+     * 
+     * @param  {owner<IWindow*} > : instance of window to be destroyed
+     */
     void destroyWindow(owner<IWindow*>& pWindowP);
     /** see IWidgetFactory::destroyWidget() */
     void destroyWidget(owner<IWidget*>& pWidgetP);

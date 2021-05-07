@@ -28,6 +28,7 @@ public:
     Base()
         : visibleM{true}
         , idM{START_WIDGET_ID}
+        , parentIdM{PARENT_NONE}
         , pFontM{nullptr}
         , xM{0}
         , yM{0}
@@ -172,6 +173,8 @@ protected:
     bool visibleM;
     /** Widget id */
     Id idM;
+    /** Parent widget id */
+    Id parentIdM;
     /** Font */
     Font* pFontM;
     /** X position of top-left corner */

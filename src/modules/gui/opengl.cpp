@@ -10,6 +10,7 @@
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
+#include "extern/imgui/examples/imgui_impl_glfw.h"
 extern "C" {
 #include "extern/rebsdev/src/glue/face/face.h"
 }
@@ -97,6 +98,7 @@ int OpenGL::createMainWindow(
         {
             pMainWidgetWindowM = WidgetFactory::instance().createWindow(
                 titleP
+                //, WindowFlags_None
                 , WindowFlags_NoNav
                 | WindowFlags_NoDecoration
                 | WindowFlags_NoBringToFrontOnFocus
@@ -182,8 +184,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     // set main storages in ImGuiContext
-    //pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->widgetsM;
-    // pImGuiContext->Extension.pMainWidgetStorage = &self->widgetsM;
+    pImGuiContext->Extension.pMainWindowStorage = &pOpenGL->rendererM;
 
     //ImGuiIO& io = ::ImGui::GetIO();
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -212,10 +213,14 @@ void* OpenGL::guiEngine(void* pParamP)
 
         pOpenGL->draw();
     }
-    glfwDestroyWindow(pOpenGL->pOsWindowM);
+    // Cleanup
     pOpenGL->pOsWindowM = nullptr;
+    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(pOpenGL->pOsWindowM);
     glfwTerminate();
-    //WidgetFactory::instance().destroyWindow(pOpenGL->pMainWidgetWindowM);
 
     return nullptr;
 }
@@ -255,7 +260,7 @@ void OpenGL::draw()
     ImVec4 clearColor = ImVec4(1.0f, 0.0f, 0.0f, 0.0f);
     if (pMainWidgetWindowM)
     {
-        clearColor = pMainWidgetWindowM->getBgColor();
+        //clearColor = pMainWidgetWindowM->getBgColor();
     }
     glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -273,7 +278,7 @@ void OpenGL::size_callback(GLFWwindow* window, int width, int height)
     ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
     assert(pImGuiContext);
     pImGuiContext->Extension.mainSize = ImVec2{static_cast<float>(width), static_cast<float>(height)};
-    OpenGL::pEngineinstanceM->draw();
+    //OpenGL::pEngineinstanceM->draw();
 }
 
 } // namespace GUI
