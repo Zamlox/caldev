@@ -43,6 +43,23 @@
             },
         },
         {
+            "label": "bazel_debug_rebsdev",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                ":test_rebsdev",
+                "--compilation_mode=dbg"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            }, 
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
             "label": "bazel_debug_build_linux_32bit",
             "type": "shell",
             "command": "bazel",
