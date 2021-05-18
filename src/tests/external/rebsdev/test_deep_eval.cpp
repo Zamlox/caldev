@@ -42,8 +42,8 @@ TEST(DoDeepEvaluation, SubBlocks)
 
 TEST(DoDeepEvaluation, Face)
 {
-    void* pBlock = parse_block("make object! [\n      \
-        type: 'face\n                                 \
+    void* pBlock = parse_block("make object! [      \
+        type: 'area                                 \
         offset: 2x3                                 \
         size: 12x13                                 \
         span: 1x4                                   \
@@ -86,7 +86,7 @@ TEST(DoDeepEvaluation, Face)
             shadow: 1x1                             \
             path: \"/usr/share/font/fun.ttf\"       \
         ]                                           \
-        para: make face!/para [                      \
+        para: make face!/para [                     \
             origin: 3x4                             \
             margin: 5x6                             \
             indent: 7x8                             \
@@ -94,11 +94,20 @@ TEST(DoDeepEvaluation, Face)
             wrap?: true                             \
             scroll: 2x5                             \
         ]                                           \
-        feel: none                                  \
+        feel: make face!/feel [                     \
+            redraw: func [face action pos] [        \
+                print [\"Redraw:\" action pos]      \
+            ]                                       \
+            detect: none                            \
+            over: none                              \
+            engage: none                            \
+        ]                                           \
         saved-area: none                            \
         rate: none                                  \
         show?: true                                 \
-        options: none                               \
+        options: [                                  \
+            noblank hexadecimal password            \
+        ]                                           \
         parent-face: none                           \
         old-offset: none                            \
         old-size: none                              \
@@ -109,6 +118,13 @@ TEST(DoDeepEvaluation, Face)
         id: 11\n                                    \
         parent: none                                \
     ]");
+    /*
+    pBlock = parse_block("make object! [      \
+        options: [                                  \
+            decimal             \
+        ]                                           \
+    ]");
+    */
     GlueFace glueFace;
     FaceCounters faceCounters;
     int colorChannels;
@@ -121,7 +137,7 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.id.none, 0);
     EXPECT_EQ(glueFace.id.value, 11);
     EXPECT_EQ(glueFace.type.none, 0);
-    EXPECT_EQ(glueFace.type.value, TYPE_FACE);
+    EXPECT_EQ(glueFace.type.value, TYPE_AREA);
     EXPECT_EQ(glueFace.offset.none, 0);
     EXPECT_EQ(glueFace.offset.value.x, 2);
     EXPECT_EQ(glueFace.offset.value.y, 3);
@@ -267,6 +283,15 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.para.value.scroll.none, 0);
     EXPECT_EQ(glueFace.para.value.scroll.value.x, 2);
     EXPECT_EQ(glueFace.para.value.scroll.value.y, 5);
+    // feel
+    EXPECT_EQ(glueFace.feel.none, 0);
+    EXPECT_EQ(glueFace.feel.value.redraw.none, 0);
+    EXPECT_EQ(glueFace.feel.value.detect.none, 1);
+    EXPECT_EQ(glueFace.feel.value.over.none, 1);
+    EXPECT_EQ(glueFace.feel.value.engage.none, 1);
+    // options
+    EXPECT_EQ(glueFace.options.none, 0);
+    EXPECT_EQ(glueFace.options.value.area, AREA_CHARS_NOBLANK | AREA_CHARS_HEXADECIMAL | AREA_PASSWORD);
 }
 
 } // anonymous namespace
