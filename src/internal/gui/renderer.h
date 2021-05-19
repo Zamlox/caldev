@@ -146,6 +146,13 @@ private:
      * @return {Id}             : id of label
      */
     Id  createLabel(GlueFace const& rFaceP);
+    /**
+     * Create area.
+     * 
+     * @param  {GlueFace} const : area face
+     * @return {Id}             : id of area
+     */
+    Id  createArea(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;

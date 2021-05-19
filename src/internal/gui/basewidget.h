@@ -85,6 +85,9 @@ public:
             bgColorM.y = rFaceP.color.value.b / 255.0;
             bgColorM.z = rFaceP.color.value.c / 255.0;
             bgColorM.w = rFaceP.color.value.d / 255.0;;
+            bgColorRGBM = bgColorM;
+            alphaM = bgColorRGBM.w;
+            bgColorRGBM.w = 1.0;
         }
         // size
         if (!rFaceP.size.none)
@@ -160,6 +163,21 @@ public:
         }
     }
 
+    void SetStyleFgColor()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        styleTempM.Colors[ImGuiCol_Text] = style.Colors[ImGuiCol_Text];
+        styleTempM.Alpha = style.Alpha;
+        style.Colors[ImGuiCol_Text] = frColorM;
+        style.Alpha = 1.0;
+    }
+    void RestoreStyleFgColor()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.Colors[ImGuiCol_Text] = styleTempM.Colors[ImGuiCol_Text];
+        style.Alpha = styleTempM.Alpha;
+    }
+
 protected:
     std::string& replace(std::string& s, const std::string& from, const std::string& to)
     {
@@ -185,14 +203,20 @@ protected:
     int widthM;
     /** Height of window */
     int heightM;
-    /** Background color */
+    /** Background color with alpha channel */
     Color bgColorM;
+    /** Background color without alpha channel */
+    Color bgColorRGBM;
+    /** Alpha channel for background color bgColorRGBM */
+    float alphaM;
     /* Foreground color */
     Color frColorM;
     /** Alignment */
     Align alignM;
     /** Wrap flag */
     bool isWrapM;
+    /** Style used to save temporary values from current active style */
+    ImGuiStyle styleTempM;
 };
 
 } // namespace GUI

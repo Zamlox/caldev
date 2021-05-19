@@ -134,6 +134,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
             return createWindow(rFaceP);
         case TYPE_LABEL:
             return createLabel(rFaceP);
+        case TYPE_AREA:
+            return createArea(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -251,6 +253,20 @@ Id Renderer::createLabel(GlueFace const& rFaceP)
             return WidgetFactory::instance().createLabel(
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+            );
+        }
+    );
+}
+
+Id Renderer::createArea(GlueFace const& rFaceP)
+{
+    return createStub<IWidget>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            return WidgetFactory::instance().createArea(
+                (rFaceP.text.none) ? "" : rFaceP.text.value
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+                , rFaceP.options.value.area
             );
         }
     );
