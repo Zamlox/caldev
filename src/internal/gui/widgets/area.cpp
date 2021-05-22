@@ -64,13 +64,9 @@ void Area::beginRender()
         window->DC.CursorPos.x = window->DC.CursorStartPos.x + xM;
         window->DC.CursorPos.y = window->DC.CursorStartPos.y + yM;
         // store extra attributes
-        WidgetAttribs attrib(
-            ImGui::ColorConvertFloat4ToU32(bgColorM)
-            , ImGui::ColorConvertFloat4ToU32(frColorM)
-            , alignM
-            , ImRect(xM, yM, xM + widthM, yM + heightM)
-            , (isWrapM) ? widthM : 0.0
-        );
+        WidgetAttribs attrib;
+        attrib.externId = idM;
+        attrib.parentExternId = ImGui::GetCurrentWindow()->ExternID;
         
         if (pFontM) ImGui::PushFont(pFontM);
 
@@ -79,7 +75,7 @@ void Area::beginRender()
         if (alphaM != 0.0)
             ImGui::SetNextWindowBgAlpha(alphaM);
         SetStyleFgColor();
-        ImGui::InputTextMultiline("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, ImVec2(widthM, heightM), styleM, InputTextCallback, this);
+        ImGui::InputTextMultiline("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, ImVec2(widthM, heightM), styleM, InputTextCallback, this, &attrib);
         RestoreStyleFgColor();
     }
 }
