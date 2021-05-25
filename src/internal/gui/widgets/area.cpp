@@ -70,7 +70,6 @@ void Area::beginRender()
         
         if (pFontM) ImGui::PushFont(pFontM);
 
-        ImGui::SetNextWindowPos(ImVec2(xM, yM));
         ImGui::SetNextWindowBgColor(ImGui::ColorConvertFloat4ToU32(bgColorRGBM));
         if (alphaM != 0.0)
             ImGui::SetNextWindowBgAlpha(alphaM);
