@@ -39,7 +39,7 @@ OpenGL::OpenGL()
     , isRuningInBkgThreadM{true}
     , rendererM{syncBeforeFrameStartsM}
 {
-    
+    ::ImGui::createLog();
 }
 
 bool OpenGL::init(bool bkgThreadP)
