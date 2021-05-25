@@ -38,7 +38,11 @@ context [
         caldev-init
         gui-init GUIType/OpenGL GuiEngineExecutionType/Bkg-Thread
         gui-start
-        either (id-win: create-main-window "Rebol2 Main Window" 100 100 900 700 -2147483646 1) > 0 [
+        main-x: 100
+        main-y: 100
+        main-width: 1400
+        main-height: 700
+        either (id-win: create-main-window "Rebol2 Main Window" main-x main-y main-width main-height -2147483646 1) > 0 [
 
             window1: make face! [
                 type: 'window   ;'
@@ -98,6 +102,34 @@ context [
                 parent: id-win
             ]
             create-widget mold label
+
+            area-start-x: label/size/x + 20
+            area-height: 200
+            area: make face! [
+                type: 'area        ;'
+                offset: as-pair area-start-x 10
+                size: as-pair main-width - area-start-x area-height
+                color: 100.138.100.170
+                text: rejoin ["a" newline "Text sample aaaa bbbbb cccc dddd  eee eee e e e efffff f f f ff f ffffff mmmmmmm kkkk kk kkk k  aaaa kk" newline "Groovie !" ]
+                font: make face!/font [
+                    name: "arial"
+                    size: 20
+                    color: 200.200.200.255
+                    align: 'right
+                    valign: 'top
+                ]
+
+                options: [ uppercase ]
+                parent: 1
+            ]
+            create-widget mold area
+{
+            area1: make area [
+                offset: 0x400
+                text: "Hello World"
+            ]
+            create-widget mold area1
+}
 
             print "Wait for 100 seconds..."
             wait 100
