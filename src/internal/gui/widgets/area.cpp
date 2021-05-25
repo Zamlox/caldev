@@ -49,7 +49,7 @@ int InputTextCallback(ImGuiInputTextCallbackData* data)
 Area::Area(const char* textP, ImFont* pFontP, int styleP)
     : Base{pFontP}
     , textBufferM{textP}
-    , styleM{styleP}
+    , styleM{styleP | AREA_CALLBACK_RESIZE}
 {
     // TODO: replacement must be done on rebol side
     replace(textBufferM, "^/", "\n");
