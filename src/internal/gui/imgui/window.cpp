@@ -138,7 +138,6 @@ void Window::beginRender()
             // create log widget
             float logHeight{200.0};
             ::ImGui::createLogArea(0, heightM - logHeight, widthM, logHeight);
-            //::ImGui::printLog("This is it %d\n", 10);
             // =======================
         }
     }
