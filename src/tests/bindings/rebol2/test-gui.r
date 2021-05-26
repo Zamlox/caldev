@@ -139,10 +139,10 @@ context [
                 offset: 100x400
                 size: 200x0
                 color: 100.138.100.170
-                text: "Hello World"
+                text: ""
                 font: fontD
-                options: none
-                parent: 2
+                options: [ uppercase hint "Hint text"]
+                parent: 1
             ]
             create-widget mold field
 

@@ -291,7 +291,7 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.feel.value.engage.none, 1);
     // options
     EXPECT_EQ(glueFace.options.none, 0);
-    EXPECT_EQ(glueFace.options.value.area, AREA_CHARS_UPPERCASE);
+    EXPECT_EQ(glueFace.options.value->block.pOptions[0].value.iValue, AREA_CHARS_UPPERCASE);
 }
 
 } // anonymous namespace
