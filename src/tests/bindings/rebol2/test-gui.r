@@ -47,7 +47,7 @@ context [
             window1: make face! [
                 type: 'window   ;'
                 offset: 30x30
-                size: 300x300
+                size: 600x300
                 color: 128.234.34.255
                 text: "Window 1"
                 font: make face!/font [
@@ -63,7 +63,7 @@ context [
             window2: make face! [
                 type: 'window   ;'
                 offset: 130x130
-                size: 300x300
+                size: 600x300
                 color: 28.34.34.155
                 text: "Window 2"
                 font: make face!/font [
