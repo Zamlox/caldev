@@ -70,7 +70,7 @@ public:
      * @param  {int} styleP     : style of widget
      * @return {IWidget*}       : widget instance
      */
-    IWidget* createField(const char* textP, ImFont* pFontP, int styleP);
+    IWidget* createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
 
 private:
     WidgetFactory();

@@ -8,8 +8,9 @@
 namespace GUI {
 namespace Widget {
 
-Field::Field(const char* textP, ImFont* pFontP, int styleP)
+Field::Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
     : Area(textP, pFontP, styleP)
+    , pHintM{pHintP}
 {
     // TODO: replacement must be done on rebol side
     replace(textBufferM, "^/", "\n");
@@ -23,7 +24,15 @@ bool Field::InputText()
     attrib.parentExternId = ImGui::GetCurrentWindow()->ExternID;
     ImGui::SetNextItemWidth((float)widthM);
     SetStyleBgColor();
-    bool bres = ImGui::InputText("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, styleM, InputTextCallback, this, &attrib);
+    bool bres{false};
+    if (pHintM)
+    {
+        bres = ImGui::InputTextWithHint("", pHintM, (char*)textBufferM.c_str(), textBufferM.capacity() + 1, styleM, InputTextCallback, this, &attrib);
+    }
+    else
+    {
+        bres = ImGui::InputText("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, styleM, InputTextCallback, this, &attrib);
+    }
     RestoreStyleBgColor();
     return bres;
 }

@@ -66,9 +66,6 @@ void Area::beginRender()
         
         if (pFontM) ImGui::PushFont(pFontM);
 
-        ImGui::SetNextWindowBgColor(ImGui::ColorConvertFloat4ToU32(bgColorRGBM));
-        if (alphaM != 0.0)
-            ImGui::SetNextWindowBgAlpha(alphaM);
         SetStyleFgColor();
         InputText();
         RestoreStyleFgColor();
@@ -85,6 +82,9 @@ void Area::endRender()
 
 bool Area::InputText()
 {
+    ImGui::SetNextWindowBgColor(ImGui::ColorConvertFloat4ToU32(bgColorRGBM));
+    if (alphaM != 0.0)
+        ImGui::SetNextWindowBgAlpha(alphaM);
     // store extra attributes
     WidgetAttribs attrib;
     attrib.externId = idM;

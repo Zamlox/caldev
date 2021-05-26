@@ -17,12 +17,13 @@ namespace Widget {
 class Field : public Area
 {
 public:
-    Field(const char* textP, ImFont* pFontP, int styleP);
+    Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP = nullptr);
 
     friend int InputTextCallback(ImGuiInputTextCallbackData* data);
 
 protected:
     bool InputText() override;
+    const char* pHintM;
 };
 
 } // namespace Widget

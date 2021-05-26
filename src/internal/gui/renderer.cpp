@@ -268,10 +268,11 @@ Id Renderer::createArea(GlueFace const& rFaceP)
             return WidgetFactory::instance().createArea(
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
-                , rFaceP.options.value.area
+                , (rFaceP.options.value->count) ? rFaceP.options.value->block.pOptions[0].value.iValue : AREA_NONE
             );
         }
     );
+   return 0;
 }
 
 Id Renderer::createField(GlueFace const& rFaceP)
@@ -279,10 +280,25 @@ Id Renderer::createField(GlueFace const& rFaceP)
     return createStub<IWidget>(
         rFaceP,
         [=](GlueFace const& rFaceP){
+            int area{AREA_NONE};
+            const char* hint{nullptr};
+            if (rFaceP.options.none == 0)
+            {
+                for (int i = 0; i < rFaceP.options.value->count; i++)
+                {
+                    if (rFaceP.options.value->block.pOptions[i].type == OPTIONS_TYPE_AREA)
+                        area = rFaceP.options.value->block.pOptions[i].value.iValue;
+                    else if (rFaceP.options.value->block.pOptions[i].type == OPTIONS_TYPE_FIELD_HINT)
+                    {
+                        hint = rFaceP.options.value->block.pOptions[i].value.sValue;
+                    }
+                }
+            }
             return WidgetFactory::instance().createField(
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
-                , rFaceP.options.value.area     // use same opetion value as for area widget
+                , area
+                , hint
             );
         }
     );
