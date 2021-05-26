@@ -14,6 +14,8 @@
 
 namespace GUI {
 namespace Widget {
+
+int InputTextCallback(ImGuiInputTextCallbackData* data);
     
 class Area : public Base<IWidget>
 {
@@ -27,7 +29,9 @@ public:
 
     friend int InputTextCallback(ImGuiInputTextCallbackData* data);
 
-private:
+protected:
+    virtual bool InputText();
+
     std::string textBufferM;
     int styleM;
 

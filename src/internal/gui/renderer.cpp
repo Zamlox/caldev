@@ -136,6 +136,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
             return createLabel(rFaceP);
         case TYPE_AREA:
             return createArea(rFaceP);
+        case TYPE_FIELD:
+            return createField(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -267,6 +269,20 @@ Id Renderer::createArea(GlueFace const& rFaceP)
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
                 , rFaceP.options.value.area
+            );
+        }
+    );
+}
+
+Id Renderer::createField(GlueFace const& rFaceP)
+{
+    return createStub<IWidget>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            return WidgetFactory::instance().createField(
+                (rFaceP.text.none) ? "" : rFaceP.text.value
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+                , rFaceP.options.value.area     // use same opetion value as for area widget
             );
         }
     );

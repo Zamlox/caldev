@@ -7,6 +7,7 @@
 #include "internal/gui/window.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/widgets/area.h"
+#include "internal/gui/widgets/field.h"
 #include <string>
 
 namespace GUI
@@ -62,6 +63,11 @@ IWidget* WidgetFactory::createLabel(const char* textP, ImFont* pFontP)
 IWidget* WidgetFactory::createArea(const char* textP, ImFont* pFontP, int styleP)
 {
     return setupWidget(new Widget::Area(textP, pFontP, styleP));
+}
+
+IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int styleP)
+{
+    return setupWidget(new Widget::Field(textP, pFontP, styleP));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)

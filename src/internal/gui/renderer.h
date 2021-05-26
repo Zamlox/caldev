@@ -153,6 +153,13 @@ private:
      * @return {Id}             : id of area
      */
     Id  createArea(GlueFace const& rFaceP);
+    /**
+     * Create field.
+     * 
+     * @param  {GlueFace} const : field face
+     * @return {Id}             : id of field
+     */
+    Id  createField(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;
