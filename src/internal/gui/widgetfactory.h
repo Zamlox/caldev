@@ -41,11 +41,26 @@ public:
      * @param  {owner<IWindow*} > : instance of window to be destroyed
      */
     void destroyWindow(owner<IWindow*>& pWindowP);
-    /** see IWidgetFactory::destroyWidget() */
+    /** Destroy widget */
     void destroyWidget(owner<IWidget*>& pWidgetP);
 
-    /** see IWidgetFactory::createLabel() */
+    /**
+     * Create label widget.
+     * 
+     * @param  {char*} textP    : text to display
+     * @param  {ImFont*} pFontP : font of text
+     * @return {IWidget*}       : widget instance
+     */
     IWidget* createLabel(const char* textP, ImFont* pFontP);
+    /**
+     * Create area widget.
+     * 
+     * @param  {char*} textP    : text to display
+     * @param  {ImFont*} pFontP : font of text
+     * @param  {int} styleP     : style of widget
+     * @return {IWidget*}       : widget instance
+     */
+    IWidget* createArea(const char* textP, ImFont* pFontP, int styleP);
     
 private:
     WidgetFactory();

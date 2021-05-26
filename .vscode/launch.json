@@ -52,6 +52,29 @@
             "logging": { "engineLogging": true },
         },
         {                                
+            "name": "(test_rebsdev) caldev Launch",
+            //"type": "cppdbg",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/bazel-bin/test_rebsdev",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/src/bazel-bin",
+            "externalConsole": false,
+            "osx": {
+                "MIMode": "lldb",
+                "miDebuggerPath": "/Applications/Xcode.app/Contents/Developer/usr/bin/lldb-mi",
+            },
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
+                "sourceFileMap": {
+                    "/proc/self/cwd/": "/home/iosif/work/caldev/src"
+                 },
+            },
+            "preLaunchTask": "bazel_debug_rebsdev",
+            "logging": { "engineLogging": true },
+        },
+        {                                
             "name": "(Rebol2) caldev windows 32bit Launch",
             "type": "cppvsdbg",
             "request": "launch",

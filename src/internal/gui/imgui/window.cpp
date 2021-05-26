@@ -132,7 +132,13 @@ void Window::beginRender()
             ImGuiContext* pContext = ::ImGui::GetCurrentContext();
             pContext->Extension.pImguiMainWindow = ::ImGui::GetCurrentWindow();
             ::ImGui::SetWindowPos(titleM.c_str(), ImVec2(xM, yM));
-            ::ImGui::SetWindowSize(titleM.c_str(), pContext->Extension.mainSize);        
+            ::ImGui::SetWindowSize(titleM.c_str(), pContext->Extension.mainSize);    
+            // =======================
+            // DEBUG
+            // create log widget
+            float logHeight{200.0};
+            ::ImGui::createLogArea(0, heightM - logHeight, widthM, logHeight);
+            // =======================
         }
     }
     else if (!isOpenM && osWindowM)
