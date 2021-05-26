@@ -178,6 +178,21 @@ public:
         style.Alpha = styleTempM.Alpha;
     }
 
+    void SetStyleBgColor()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        styleTempM.Colors[ImGuiCol_FrameBg] = style.Colors[ImGuiCol_FrameBg];
+        styleTempM.Alpha = style.Alpha;
+        style.Colors[ImGuiCol_FrameBg] = bgColorRGBM;
+        style.Alpha = alphaM;
+    }
+    void RestoreStyleBgColor()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.Colors[ImGuiCol_FrameBg] = styleTempM.Colors[ImGuiCol_FrameBg];
+        style.Alpha = styleTempM.Alpha;
+    }
+
 protected:
     std::string& replace(std::string& s, const std::string& from, const std::string& to)
     {

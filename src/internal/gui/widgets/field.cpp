@@ -21,7 +21,11 @@ bool Field::InputText()
     WidgetAttribs attrib;
     attrib.externId = idM;
     attrib.parentExternId = ImGui::GetCurrentWindow()->ExternID;
-    return ImGui::InputText("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, styleM, InputTextCallback, this, &attrib);
+    ImGui::SetNextItemWidth((float)widthM);
+    SetStyleBgColor();
+    bool bres = ImGui::InputText("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, styleM, InputTextCallback, this, &attrib);
+    RestoreStyleBgColor();
+    return bres;
 }
 
 

@@ -23,10 +23,6 @@ public:
 
 protected:
     bool InputText() override;
-
-    std::string textBufferM;
-    int styleM;
-
 };
 
 } // namespace Widget
