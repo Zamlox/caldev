@@ -44,6 +44,15 @@ context [
         main-height: 700
         either (id-win: create-main-window "Rebol2 Main Window" main-x main-y main-width main-height -2147483646 1) > 0 [
 
+            fontD: make face!/font [
+                name: "arial"
+                size: 20
+                color: 255.255.255.255
+                align: 'right
+                valign: 'top
+            ]
+
+
             window1: make face! [
                 type: 'window   ;'
                 offset: 30x30
@@ -123,13 +132,20 @@ context [
                 parent: 1
             ]
             create-widget mold area
-{
-            area1: make area [
-                offset: 0x400
+
+
+            field: make face! [
+                type: 'field        ;'
+                offset: 100x400
+                size: 200x0
+                color: 100.138.100.170
                 text: "Hello World"
+                font: fontD
+                options: none
+                parent: 2
             ]
-            create-widget mold area1
-}
+            create-widget mold field
+
 
             print "Wait for 100 seconds..."
             wait 100
