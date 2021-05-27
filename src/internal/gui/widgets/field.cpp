@@ -8,12 +8,17 @@
 namespace GUI {
 namespace Widget {
 
-Field::Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
+Field::Field(const char* textP, ImFont* pFontP, int styleP)
     : Area(textP, pFontP, styleP)
-    , pHintM{pHintP}
 {
     // TODO: replacement must be done on rebol side
     replace(textBufferM, "^/", "\n");
+}
+
+Field::Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
+    : Field(textP, pFontP, styleP)
+{
+    pHintM = pHintP;
 }
 
 bool Field::InputText()

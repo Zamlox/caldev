@@ -280,14 +280,14 @@ Id Renderer::createField(GlueFace const& rFaceP)
     return createStub<IWidget>(
         rFaceP,
         [=](GlueFace const& rFaceP){
-            int area{AREA_NONE};
+            int areaFlags{AREA_NONE};
             const char* hint{nullptr};
             if (rFaceP.options.none == 0)
             {
                 for (int i = 0; i < rFaceP.options.value->count; i++)
                 {
                     if (rFaceP.options.value->block.pOptions[i].type == OPTIONS_TYPE_AREA)
-                        area = rFaceP.options.value->block.pOptions[i].value.iValue;
+                        areaFlags = rFaceP.options.value->block.pOptions[i].value.iValue;
                     else if (rFaceP.options.value->block.pOptions[i].type == OPTIONS_TYPE_FIELD_HINT)
                     {
                         hint = rFaceP.options.value->block.pOptions[i].value.sValue;
@@ -297,7 +297,7 @@ Id Renderer::createField(GlueFace const& rFaceP)
             return WidgetFactory::instance().createField(
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
-                , area
+                , areaFlags
                 , hint
             );
         }

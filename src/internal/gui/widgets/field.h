@@ -17,7 +17,24 @@ namespace Widget {
 class Field : public Area
 {
 public:
-    Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP = nullptr);
+    
+    /**
+     * Construcor for field. 
+     * 
+     * @param  {char*} textP    : initial text
+     * @param  {ImFont*} pFontP : font
+     * @param  {int} styleP     : style
+     */
+    Field(const char* textP, ImFont* pFontP, int styleP);
+    /**
+     * Constructor for foeld with hint text. 
+     * 
+     * @param  {char*} textP    : initial text
+     * @param  {ImFont*} pFontP : font
+     * @param  {int} styleP     : style
+     * @param  {char*} pHintP   : hint text
+     */
+    Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
 
     friend int InputTextCallback(ImGuiInputTextCallbackData* data);
 
