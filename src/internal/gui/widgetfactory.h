@@ -62,6 +62,16 @@ public:
      */
     IWidget* createArea(const char* textP, ImFont* pFontP, int styleP);
     
+    /**
+     * Create field widget.
+     * 
+     * @param  {char*} textP    : text to display
+     * @param  {ImFont*} pFontP : font of text
+     * @param  {int} styleP     : style of widget
+     * @return {IWidget*}       : widget instance
+     */
+    IWidget* createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
+
 private:
     WidgetFactory();
     /**

@@ -63,18 +63,11 @@ void Area::beginRender()
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         window->DC.CursorPos.x = window->DC.CursorStartPos.x + xM;
         window->DC.CursorPos.y = window->DC.CursorStartPos.y + yM;
-        // store extra attributes
-        WidgetAttribs attrib;
-        attrib.externId = idM;
-        attrib.parentExternId = ImGui::GetCurrentWindow()->ExternID;
         
         if (pFontM) ImGui::PushFont(pFontM);
 
-        ImGui::SetNextWindowBgColor(ImGui::ColorConvertFloat4ToU32(bgColorRGBM));
-        if (alphaM != 0.0)
-            ImGui::SetNextWindowBgAlpha(alphaM);
         SetStyleFgColor();
-        ImGui::InputTextMultiline("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, ImVec2(widthM, heightM), styleM, InputTextCallback, this, &attrib);
+        InputText();
         RestoreStyleFgColor();
     }
 }
@@ -85,6 +78,18 @@ void Area::endRender()
     {
         if (pFontM) ImGui::PopFont();
     }
+}
+
+bool Area::InputText()
+{
+    ImGui::SetNextWindowBgColor(ImGui::ColorConvertFloat4ToU32(bgColorRGBM));
+    if (alphaM != 0.0)
+        ImGui::SetNextWindowBgAlpha(alphaM);
+    // store extra attributes
+    WidgetAttribs attrib;
+    attrib.externId = idM;
+    attrib.parentExternId = ImGui::GetCurrentWindow()->ExternID;
+    return ImGui::InputTextMultiline("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, ImVec2(widthM, heightM), styleM, InputTextCallback, this, &attrib);
 }
 
 } // namespace Widget
