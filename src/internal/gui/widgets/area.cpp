@@ -80,6 +80,15 @@ void Area::endRender()
     }
 }
 
+void Area::update(GlueFace const& rFaceP)
+{
+    Base<IWidget>::update(rFaceP);
+    if (!rFaceP.text.none)
+    {
+        textBufferM = rFaceP.text.value;
+    }
+}
+
 bool Area::InputText()
 {
     ImGui::SetNextWindowBgColor(ImGui::ColorConvertFloat4ToU32(bgColorRGBM));
