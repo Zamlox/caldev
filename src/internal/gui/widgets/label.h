@@ -23,6 +23,8 @@ public:
     void beginRender() override;
     /** see IRender::endRender() */
     void endRender() override;
+    /** see IWidget::update() */
+    void update(GlueFace const& rFaceP) override;
 
 private:
     std::string textM;
