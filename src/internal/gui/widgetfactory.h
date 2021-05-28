@@ -68,6 +68,15 @@ public:
      * @param  {char*} textP    : text to display
      * @param  {ImFont*} pFontP : font of text
      * @param  {int} styleP     : style of widget
+     */
+    IWidget* createField(const char* textP, ImFont* pFontP, int styleP);
+    /**
+     * Create field widget with text hint.
+     * 
+     * @param  {char*} textP    : text to display
+     * @param  {ImFont*} pFontP : font of text
+     * @param  {int} styleP     : style of widget
+     * @param  {char*} pHintP   : hint text
      * @return {IWidget*}       : widget instance
      */
     IWidget* createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);

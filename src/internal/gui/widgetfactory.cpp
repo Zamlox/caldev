@@ -67,7 +67,8 @@ IWidget* WidgetFactory::createArea(const char* textP, ImFont* pFontP, int styleP
 
 IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
 {
-    return setupWidget(new Widget::Field(textP, pFontP, styleP, pHintP));
+    return (pHintP) ? setupWidget(new Widget::Field(textP, pFontP, styleP, pHintP))
+                    : setupWidget(new Widget::Field(textP, pFontP, styleP));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)
