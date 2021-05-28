@@ -21,6 +21,15 @@ Field::Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
     pHintM = pHintP;
 }
 
+void Field::update(GlueFace const& rFaceP)
+{
+    Base<IWidget>::update(rFaceP);
+    if (!rFaceP.text.none)
+    {
+        textBufferM = rFaceP.text.value;
+    }
+}
+
 bool Field::InputText()
 {
     // store extra attributes
