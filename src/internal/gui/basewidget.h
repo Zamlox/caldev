@@ -163,34 +163,47 @@ public:
         }
     }
 
-    void SetStyleFgColor()
+    void SetStyleFgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        styleTempM.Colors[ImGuiCol_Text] = style.Colors[ImGuiCol_Text];
-        styleTempM.Alpha = style.Alpha;
-        style.Colors[ImGuiCol_Text] = frColorM;
+        styleCacheM.push_back(style);
+        style.Colors[colorIndexP] = frColorM;
         style.Alpha = 1.0;
     }
-    void RestoreStyleFgColor()
+    void RestoreStyleFgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_Text] = styleTempM.Colors[ImGuiCol_Text];
-        style.Alpha = styleTempM.Alpha;
+        style.Colors[colorIndexP] = styleCacheM.back().Colors[colorIndexP];
+        style.Alpha = styleCacheM.back().Alpha;
+        styleCacheM.pop_back();
     }
 
-    void SetStyleBgColor()
+    void SetStyleBgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        styleTempM.Colors[ImGuiCol_FrameBg] = style.Colors[ImGuiCol_FrameBg];
-        styleTempM.Alpha = style.Alpha;
-        style.Colors[ImGuiCol_FrameBg] = bgColorRGBM;
+        styleCacheM.push_back(style);
+        style.Colors[colorIndexP] = bgColorRGBM;
         style.Alpha = alphaM;
     }
-    void RestoreStyleBgColor()
+    void RestoreStyleBgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_FrameBg] = styleTempM.Colors[ImGuiCol_FrameBg];
-        style.Alpha = styleTempM.Alpha;
+        style.Colors[colorIndexP] = styleCacheM.back().Colors[colorIndexP];
+        style.Alpha = styleCacheM.back().Alpha;
+        styleCacheM.pop_back();
+    }
+
+    void SetStyleFramePadding()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        styleCacheM.push_back(style);
+        style.FramePadding = ImVec2(0.0f, 0.0f);
+    }
+    void RestoreStyleFramePadding()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.FramePadding = styleCacheM.back().FramePadding;
+        styleCacheM.pop_back();
     }
 
 protected:
@@ -231,7 +244,7 @@ protected:
     /** Wrap flag */
     bool isWrapM;
     /** Style used to save temporary values from current active style */
-    ImGuiStyle styleTempM;
+    ImVector<ImGuiStyle> styleCacheM;
 };
 
 } // namespace GUI
