@@ -66,9 +66,9 @@ void Area::beginRender()
         
         if (pFontM) ImGui::PushFont(pFontM);
 
-        SetStyleFgColor();
+        SetStyleFgColor(ImGuiCol_Text);
         InputText();
-        RestoreStyleFgColor();
+        RestoreStyleFgColor(ImGuiCol_Text);
     }
 }
 

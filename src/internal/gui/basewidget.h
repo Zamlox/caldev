@@ -163,33 +163,33 @@ public:
         }
     }
 
-    void SetStyleFgColor()
+    void SetStyleFgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        styleTempM.Colors[ImGuiCol_Text] = style.Colors[ImGuiCol_Text];
+        styleTempM.Colors[colorIndexP] = style.Colors[colorIndexP];
         styleTempM.Alpha = style.Alpha;
-        style.Colors[ImGuiCol_Text] = frColorM;
+        style.Colors[colorIndexP] = frColorM;
         style.Alpha = 1.0;
     }
-    void RestoreStyleFgColor()
+    void RestoreStyleFgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_Text] = styleTempM.Colors[ImGuiCol_Text];
+        style.Colors[colorIndexP] = styleTempM.Colors[colorIndexP];
         style.Alpha = styleTempM.Alpha;
     }
 
-    void SetStyleBgColor()
+    void SetStyleBgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        styleTempM.Colors[ImGuiCol_FrameBg] = style.Colors[ImGuiCol_FrameBg];
+        styleTempM.Colors[colorIndexP] = style.Colors[colorIndexP];
         styleTempM.Alpha = style.Alpha;
-        style.Colors[ImGuiCol_FrameBg] = bgColorRGBM;
+        style.Colors[colorIndexP] = bgColorRGBM;
         style.Alpha = alphaM;
     }
-    void RestoreStyleBgColor()
+    void RestoreStyleBgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_FrameBg] = styleTempM.Colors[ImGuiCol_FrameBg];
+        style.Colors[colorIndexP] = styleTempM.Colors[colorIndexP];
         style.Alpha = styleTempM.Alpha;
     }
 
