@@ -47,5 +47,14 @@ void Label::endRender()
     }
 }
 
+void Label::update(GlueFace const& rFaceP)
+{
+    Base<IWidget>::update(rFaceP);
+    if (!rFaceP.text.none)
+    {
+        textM = rFaceP.text.value;
+    }
+}
+
 } // namespace Widget
 } // namespace Gui

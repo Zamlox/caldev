@@ -26,6 +26,8 @@ public:
     void beginRender() override;
     /** see IRender::endRender() */
     void endRender() override;
+    /** see IWidget::update() */
+    void update(GlueFace const& rFaceP) override;
 
     friend int InputTextCallback(ImGuiInputTextCallbackData* data);
 
