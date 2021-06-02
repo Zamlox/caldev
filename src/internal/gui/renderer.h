@@ -160,6 +160,13 @@ private:
      * @return {Id}             : id of field
      */
     Id  createField(GlueFace const& rFaceP);
+    /**
+     * Create button.
+     * 
+     * @param  {GlueFace} const : button face
+     * @return {Id}             : id of field
+     */
+    Id  createButton(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;

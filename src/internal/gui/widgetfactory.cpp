@@ -2,12 +2,13 @@
  * Copyright 2020 Iosif Haidu - All rights reserved.
  */
 
-#include "internal/gui/widgetfactory.h"
 #include "internal/gui/imgui/common.h"
-#include "internal/gui/window.h"
-#include "internal/gui/widgets/label.h"
+#include "internal/gui/widgetfactory.h"
 #include "internal/gui/widgets/area.h"
+#include "internal/gui/widgets/button.h"
 #include "internal/gui/widgets/field.h"
+#include "internal/gui/widgets/label.h"
+#include "internal/gui/window.h"
 #include <string>
 
 namespace GUI
@@ -69,6 +70,11 @@ IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int style
 {
     return (pHintP) ? setupWidget(new Widget::Field(textP, pFontP, styleP, pHintP))
                     : setupWidget(new Widget::Field(textP, pFontP, styleP));
+}
+
+IWidget* WidgetFactory::createButton(const char* textP, ImFont* pFontP)
+{
+    return setupWidget(new Widget::Button(textP, pFontP));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)

@@ -80,6 +80,14 @@ public:
      * @return {IWidget*}       : widget instance
      */
     IWidget* createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
+    /**
+     * Create button widget.
+     * 
+     * @param  {char*} textP    : text of button
+     * @param  {ImFont*} pFontP : font for text
+     * @return {IWIdget*}       : widget instance
+     */
+    IWidget* createButton(const char* textP, ImFont* pFontP);
 
 private:
     WidgetFactory();

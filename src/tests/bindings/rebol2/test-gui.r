@@ -33,6 +33,15 @@ REBOL [
 do %../../../bindings/rebol2/caldev.r
 
 context [
+    build-widget: func [
+        descr   [ block! ]
+        /local widget
+    ][
+        widget: make face! descr
+        create-widget mold widget
+        widget
+    ]
+
     id-win: none
     test-main-window: does [
         caldev-init
@@ -53,7 +62,7 @@ context [
             ]
 
 
-            window1: make face! [
+            build-widget [
                 type: 'window   ;'
                 offset: 30x30
                 size: 600x300
@@ -68,8 +77,7 @@ context [
                 ]
                 parent: id-win
             ]
-            create-widget mold window1
-            window2: make face! [
+            build-widget [
                 type: 'window   ;'
                 offset: 130x130
                 size: 600x300
@@ -84,9 +92,8 @@ context [
                 ]
                 parent: id-win
             ]
-            create-widget mold window2
 
-            label: make face! [
+            label: build-widget [
                 type: 'label        ;'
                 offset: 10x10
                 size: 350x240
@@ -110,7 +117,6 @@ context [
                 ]
                 parent: id-win
             ]
-            create-widget mold label
 
             area-start-x: label/size/x + 20
             area-height: 200
@@ -129,12 +135,11 @@ context [
                 ]
 
                 options: [ uppercase ]
-                parent: 1
+                parent: id-win
             ]
             create-widget mold area
 
-
-            field: make face! [
+            build-widget [
                 type: 'field        ;'
                 offset: 100x400
                 size: 200x0
@@ -142,9 +147,21 @@ context [
                 text: ""
                 font: fontD
                 options: [ uppercase hint "Hint text"]
-                parent: 1
+                parent: id-win
             ]
-            create-widget mold field
+            build-widget [
+                type: 'button        ;'
+                offset: 100x350
+                size: 100x30
+                color: 100.138.100.170
+                text: "Buttonp"
+                font: make fontD [
+                    align: 'center
+                    valign: 'middle
+                ]
+                options: none
+                parent: id-win
+            ]
 
 
             print "Wait for 100 seconds..."

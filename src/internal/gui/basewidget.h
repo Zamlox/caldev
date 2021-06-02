@@ -166,31 +166,44 @@ public:
     void SetStyleFgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        styleTempM.Colors[colorIndexP] = style.Colors[colorIndexP];
-        styleTempM.Alpha = style.Alpha;
+        styleCacheM.push_back(style);
         style.Colors[colorIndexP] = frColorM;
         style.Alpha = 1.0;
     }
     void RestoreStyleFgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[colorIndexP] = styleTempM.Colors[colorIndexP];
-        style.Alpha = styleTempM.Alpha;
+        style.Colors[colorIndexP] = styleCacheM.back().Colors[colorIndexP];
+        style.Alpha = styleCacheM.back().Alpha;
+        styleCacheM.pop_back();
     }
 
     void SetStyleBgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        styleTempM.Colors[colorIndexP] = style.Colors[colorIndexP];
-        styleTempM.Alpha = style.Alpha;
+        styleCacheM.push_back(style);
         style.Colors[colorIndexP] = bgColorRGBM;
         style.Alpha = alphaM;
     }
     void RestoreStyleBgColor(int colorIndexP)
     {
         ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[colorIndexP] = styleTempM.Colors[colorIndexP];
-        style.Alpha = styleTempM.Alpha;
+        style.Colors[colorIndexP] = styleCacheM.back().Colors[colorIndexP];
+        style.Alpha = styleCacheM.back().Alpha;
+        styleCacheM.pop_back();
+    }
+
+    void SetStyleFramePadding()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        styleCacheM.push_back(style);
+        style.FramePadding = ImVec2(0.0f, 0.0f);
+    }
+    void RestoreStyleFramePadding()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.FramePadding = styleCacheM.back().FramePadding;
+        styleCacheM.pop_back();
     }
 
 protected:
@@ -231,7 +244,7 @@ protected:
     /** Wrap flag */
     bool isWrapM;
     /** Style used to save temporary values from current active style */
-    ImGuiStyle styleTempM;
+    ImVector<ImGuiStyle> styleCacheM;
 };
 
 } // namespace GUI
