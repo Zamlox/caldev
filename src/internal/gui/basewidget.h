@@ -25,6 +25,8 @@ template <typename T>
 class Base : public T
 {
 public:
+    using Style = ImGuiStyle;
+
     Base()
         : visibleM{true}
         , idM{START_WIDGET_ID}
@@ -38,6 +40,7 @@ public:
         , frColorM{0.0, 0.0, 0.0, 0.0}
         , alignM{0.5, 0.5}
         , isWrapM{false}
+        , pCurrentStyleM{nullptr}
     {
     }
     Base(Font* pFontP)
@@ -163,47 +166,31 @@ public:
         }
     }
 
+    void SaveCurrentStyle()
+    {
+        pCurrentStyleM = &ImGui::GetStyle();
+        styleCacheM.push_back(*pCurrentStyleM);
+    }
+    void RestoreStyle()
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        style = styleCacheM.back();
+        styleCacheM.pop_back();
+    }
+
     void SetStyleFgColor(int colorIndexP)
     {
-        ImGuiStyle& style = ImGui::GetStyle();
-        styleCacheM.push_back(style);
-        style.Colors[colorIndexP] = frColorM;
-        style.Alpha = 1.0;
+        pCurrentStyleM->Colors[colorIndexP] = frColorM;
+        pCurrentStyleM->Alpha = 1.0;
     }
-    void RestoreStyleFgColor(int colorIndexP)
-    {
-        ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[colorIndexP] = styleCacheM.back().Colors[colorIndexP];
-        style.Alpha = styleCacheM.back().Alpha;
-        styleCacheM.pop_back();
-    }
-
     void SetStyleBgColor(int colorIndexP)
     {
-        ImGuiStyle& style = ImGui::GetStyle();
-        styleCacheM.push_back(style);
-        style.Colors[colorIndexP] = bgColorRGBM;
-        style.Alpha = alphaM;
+        pCurrentStyleM->Colors[colorIndexP] = bgColorRGBM;
+        pCurrentStyleM->Alpha = alphaM;
     }
-    void RestoreStyleBgColor(int colorIndexP)
+    void SetStyleFramePadding(ImVec2 const& rPadP)
     {
-        ImGuiStyle& style = ImGui::GetStyle();
-        style.Colors[colorIndexP] = styleCacheM.back().Colors[colorIndexP];
-        style.Alpha = styleCacheM.back().Alpha;
-        styleCacheM.pop_back();
-    }
-
-    void SetStyleFramePadding()
-    {
-        ImGuiStyle& style = ImGui::GetStyle();
-        styleCacheM.push_back(style);
-        style.FramePadding = ImVec2(0.0f, 0.0f);
-    }
-    void RestoreStyleFramePadding()
-    {
-        ImGuiStyle& style = ImGui::GetStyle();
-        style.FramePadding = styleCacheM.back().FramePadding;
-        styleCacheM.pop_back();
+        pCurrentStyleM->FramePadding = rPadP;
     }
 
 protected:
@@ -244,7 +231,9 @@ protected:
     /** Wrap flag */
     bool isWrapM;
     /** Style used to save temporary values from current active style */
-    ImVector<ImGuiStyle> styleCacheM;
+    ImVector<Style> styleCacheM;
+    /** Current style */
+    Style* pCurrentStyleM;
 };
 
 } // namespace GUI

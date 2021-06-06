@@ -65,10 +65,10 @@ void Area::beginRender()
         window->DC.CursorPos.y = window->DC.CursorStartPos.y + yM;
         
         if (pFontM) ImGui::PushFont(pFontM);
-
+        SaveCurrentStyle();
         SetStyleFgColor(ImGuiCol_Text);
         InputText();
-        RestoreStyleFgColor(ImGuiCol_Text);
+        RestoreStyle();
     }
 }
 

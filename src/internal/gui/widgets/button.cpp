@@ -34,11 +34,11 @@ void Button::beginRender()
         );
         
         if (pFontM) ImGui::PushFont(pFontM);
-        SetStyleFramePadding();
+        SaveCurrentStyle();
+        SetStyleFramePadding(ImVec2(0.0f, 0.0f));
         SetStyleBgColor(ImGuiCol_Button);
         ImGui::Button(textM.c_str(), ImVec2(widthM, heightM), &attrib);
-        RestoreStyleBgColor(ImGuiCol_Button);
-        RestoreStyleFramePadding();
+        RestoreStyle();
     }
 }
 
