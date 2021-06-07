@@ -12,6 +12,7 @@ Checkbox::Checkbox(const char* textP, ImFont* pFontP, Color* pMarkColorP)
     : Base{pFontP}
     , textM{textP}
     , pressedM{true}
+    , checkStatusM{false}
     , checkMarkColorM{pMarkColorP ? *pMarkColorP : GetStyleColor(ImGuiCol_CheckMark)}
 {
     // TODO: replacement must be done on rebol side
@@ -39,8 +40,7 @@ void Checkbox::beginRender()
         SaveCurrentStyle();
         SetStyleColor(ImGuiCol_CheckMark, checkMarkColorM);
         SetStyleFgColor(ImGuiCol_Text);
-        static bool checked{false};
-        pressedM = ImGui::Checkbox(textM.c_str(), &checked);
+        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM);
         RestoreStyle();
     }
 }

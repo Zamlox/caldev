@@ -36,6 +36,7 @@ public:
 private:
     std::string textM;
     bool pressedM;
+    bool checkStatusM;
     Color checkMarkColorM;
 };
 
