@@ -2,21 +2,24 @@
  * Copyright 2021 Iosif Haidu - All rights reserved.
  */
 
-#include "internal/gui/widgets/button.h"
+#include "internal/gui/widgets/checkbox.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
 namespace Widget {
 
-Button::Button(const char* textP, ImFont* pFontP)
+Checkbox::Checkbox(const char* textP, ImFont* pFontP, Color* pMarkColorP)
     : Base{pFontP}
     , textM{textP}
+    , pressedM{true}
+    , checkStatusM{false}
+    , checkMarkColorM{pMarkColorP ? *pMarkColorP : GetStyleColor(ImGuiCol_CheckMark)}
 {
     // TODO: replacement must be done on rebol side
     replace(textM, "^/", "\n");
 }
 
-void Button::beginRender()
+void Checkbox::beginRender()
 {
     ImGuiID id;
     if (visibleM)
@@ -35,14 +38,14 @@ void Button::beginRender()
         
         if (pFontM) ImGui::PushFont(pFontM);
         SaveCurrentStyle();
-        SetStyleFramePadding(ImVec2(0.0f, 0.0f));
-        SetStyleBgColor(ImGuiCol_Button);
-        ImGui::Button(textM.c_str(), ImVec2(widthM, heightM), &attrib);
+        SetStyleColor(ImGuiCol_CheckMark, checkMarkColorM);
+        SetStyleFgColor(ImGuiCol_Text);
+        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM);
         RestoreStyle();
     }
 }
 
-void Button::endRender()
+void Checkbox::endRender()
 {
     if (visibleM)
     {
@@ -50,7 +53,7 @@ void Button::endRender()
     }
 }
 
-void Button::update(GlueFace const& rFaceP)
+void Checkbox::update(GlueFace const& rFaceP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)

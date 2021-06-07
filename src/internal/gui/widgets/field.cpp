@@ -37,6 +37,7 @@ bool Field::InputText()
     attrib.externId = idM;
     attrib.parentExternId = ImGui::GetCurrentWindow()->ExternID;
     ImGui::SetNextItemWidth((float)widthM);
+    SaveCurrentStyle();
     SetStyleBgColor(ImGuiCol_FrameBg);
     bool bres{false};
     if (pHintM)
@@ -47,7 +48,7 @@ bool Field::InputText()
     {
         bres = ImGui::InputText("", (char*)textBufferM.c_str(), textBufferM.capacity() + 1, styleM, InputTextCallback, this, &attrib);
     }
-    RestoreStyleBgColor(ImGuiCol_FrameBg);
+    RestoreStyle();
     return bres;
 }
 

@@ -15,6 +15,7 @@ extern "C" {
 
 extern "C" FaceFont gDefaultFont;
 
+
 namespace GUI {
 
 Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
@@ -124,6 +125,19 @@ bool Renderer::parseFaceDescription(const char* faceDescriptionP, GlueFace& rFac
     return false;
 }
 
+bool Renderer::getOptionValue(int optionTypeP, ElemsManager* pElemsP, OptionsValue& rOptionValueP)
+{
+    for (int i = 0; i < pElemsP->count; i++)
+    {
+        if (pElemsP->block.pOptions[i].type == optionTypeP)
+        {
+            rOptionValueP = pElemsP->block.pOptions[i].value;
+            return true;
+        }
+    }
+    return false;
+}
+
 Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP)
 {
     if (!rFaceP.type.none)
@@ -140,6 +154,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
             return createField(rFaceP);
         case TYPE_BUTTON:
             return createButton(rFaceP);
+        case TYPE_CHECKBOX:
+            return createCheckbox(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -314,6 +330,22 @@ Id Renderer::createButton(GlueFace const& rFaceP)
             return WidgetFactory::instance().createButton(
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+            );
+        }
+    );
+}
+
+Id Renderer::createCheckbox(GlueFace const& rFaceP)
+{
+    return createStub<IWidget>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            OptionsValue optCheckMarkColor;
+            bool isCheckMark = NOT_NONE(rFaceP.options) && getOptionValue(OPTIONS_TYPE_CHECKBOX_MARK, rFaceP.options.value, optCheckMarkColor);
+            return WidgetFactory::instance().createCheckbox(
+                (rFaceP.text.none) ? "" : rFaceP.text.value
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+                , isCheckMark ? &optCheckMarkColor.colorValue : (::Color*)nullptr
             );
         }
     );

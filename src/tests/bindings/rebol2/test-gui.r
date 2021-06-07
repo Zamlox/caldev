@@ -162,6 +162,19 @@ context [
                 options: none
                 parent: id-win
             ]
+            build-widget [
+                type: 'checkbox        ;'
+                offset: 230x350
+                size: 100x30
+                color: 100.138.100.170
+                text: "Checkbox"
+                font: make fontD [
+                    align: 'right
+                    valign: 'middle
+                ]
+                options: [ checkmark 255.0.0.100 ]
+                parent: id-win
+            ]
 
 
             print "Wait for 100 seconds..."
