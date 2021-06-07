@@ -88,6 +88,14 @@ public:
      * @return {IWIdget*}       : widget instance
      */
     IWidget* createButton(const char* textP, ImFont* pFontP);
+    /**
+     * Create checkbox widget.
+     * 
+     * @param  {char*} textP    : text of checkbox
+     * @param  {ImFont*} pFontP : font for text
+     * @return {IWIdget*}       : widget instance
+     */
+    IWidget* createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP);
 
 private:
     WidgetFactory();

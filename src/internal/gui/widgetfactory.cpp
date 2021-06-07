@@ -6,6 +6,7 @@
 #include "internal/gui/widgetfactory.h"
 #include "internal/gui/widgets/area.h"
 #include "internal/gui/widgets/button.h"
+#include "internal/gui/widgets/checkbox.h"
 #include "internal/gui/widgets/field.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/window.h"
@@ -75,6 +76,21 @@ IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int style
 IWidget* WidgetFactory::createButton(const char* textP, ImFont* pFontP)
 {
     return setupWidget(new Widget::Button(textP, pFontP));
+}
+
+IWidget* WidgetFactory::createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP)
+{
+    Color markColor;
+    Color* pMarkColor{nullptr};
+    if (pCheckMarkColorP)
+    {
+        markColor = GUI::Base<IWidget>::NormalizeColor(*pCheckMarkColorP);
+        pMarkColor = &markColor;
+    }
+    return setupWidget(new Widget::Checkbox(
+        textP, 
+        pFontP, 
+        pMarkColor));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)

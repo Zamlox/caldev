@@ -178,6 +178,27 @@ public:
         styleCacheM.pop_back();
     }
 
+    static Color NormalizeColor(::Color const& rColorP)
+    {
+        return Color(
+            rColorP.a / 255.0f,
+            rColorP.b / 255.0f,
+            rColorP.c / 255.0f,
+            rColorP.d / 255.0f
+        );
+    }
+
+    Color GetStyleColor(int colorIndexP)
+    {
+        ImGuiStyle& style = ImGui::GetStyle();
+        return style.Colors[colorIndexP];
+        
+    }
+    void SetStyleColor(int colorIndexP, Color const& rColorP)
+    {
+        pCurrentStyleM->Colors[colorIndexP] = rColorP;
+        pCurrentStyleM->Alpha = 1.0;
+    }
     void SetStyleFgColor(int colorIndexP)
     {
         pCurrentStyleM->Colors[colorIndexP] = frColorM;

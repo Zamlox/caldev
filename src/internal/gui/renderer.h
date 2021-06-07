@@ -90,6 +90,16 @@ private:
      */
     bool parseFaceDescription(const char* faceDescriptionP, GlueFace& rFaceP, FaceCounters& rCountersP);
     /**
+     * Get an option value from options block
+     * 
+     * @param  {int} optionTypeP            : type of option
+     * @param  {ElemsManager*} pElemsP      : options values
+     * @param  {OptionsValue} rOptionValueP : identified value
+     * @return {bool}                       : true if found, false otherwise
+     */
+    bool getOptionValue(int optionTypeP, ElemsManager* pElemsP, OptionsValue& rOptionValueP);
+
+    /**
      * Create widget
      * @param  {GlueFace} const : face object
      * @return {Id}             : id of widget
@@ -167,6 +177,13 @@ private:
      * @return {Id}             : id of field
      */
     Id  createButton(GlueFace const& rFaceP);
+    /**
+     * Create checkbox.
+     * 
+     * @param  {GlueFace} const : checkbox face
+     * @return {Id}             : id of field
+     */
+    Id  createCheckbox(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;
