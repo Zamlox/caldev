@@ -91,11 +91,22 @@ public:
     /**
      * Create checkbox widget.
      * 
-     * @param  {char*} textP    : text of checkbox
-     * @param  {ImFont*} pFontP : font for text
-     * @return {IWIdget*}       : widget instance
+     * @param  {char*} textP                : text of checkbox
+     * @param  {ImFont*} pFontP             : font for text
+     * @param  {::Color*} pCheckMarkColorP  : color for check mark
+     * @return {IWIdget*}                   : widget instance
      */
     IWidget* createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP);
+    /**
+     * Create radio button widget.
+     * 
+     * @param  {char*} textP               : text of radio button
+     * @param  {ImFont*} pFontP            : font for text
+     * @param  {::Color*} pCheckMarkColorP : color for check mark
+     * @param  {int} groupIdP              : group id
+     * @return {IWidget*}                  : widget instance
+     */
+    IWidget* createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP);
 
 private:
     WidgetFactory();

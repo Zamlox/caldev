@@ -184,6 +184,13 @@ private:
      * @return {Id}             : id of field
      */
     Id  createCheckbox(GlueFace const& rFaceP);
+    /**
+     * Create radio button.
+     * 
+     * @param  {GlueFace} const : radio button face
+     * @return {Id}             : id of radio button
+     */
+    Id  createRadioButton(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;

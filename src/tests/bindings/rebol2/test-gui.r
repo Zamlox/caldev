@@ -175,6 +175,32 @@ context [
                 options: [ checkmark 255.0.0.100 ]
                 parent: id-win
             ]
+            build-widget [
+                type: 'radio        ;'
+                offset: 350x350
+                size: 100x30
+                color: 100.138.100.170
+                text: "Radio 1"
+                font: make fontD [
+                    align: 'right
+                    valign: 'middle
+                ]
+                options: [ group 1 selected ]
+                parent: id-win
+            ]
+            build-widget [
+                type: 'radio        ;'
+                offset: 490x350
+                size: 100x150
+                color: 0.0.0.255
+                text: "Radio 2"
+                font: make fontD [
+                    align: 'right
+                    valign: 'middle
+                ]
+                options: [ group 1 ]
+                parent: id-win
+            ]
 
 
             print "Wait for 100 seconds..."

@@ -156,6 +156,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
             return createButton(rFaceP);
         case TYPE_CHECKBOX:
             return createCheckbox(rFaceP);
+        case TYPE_RADIOBUTTON:
+            return createRadioButton(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -346,6 +348,34 @@ Id Renderer::createCheckbox(GlueFace const& rFaceP)
                 (rFaceP.text.none) ? "" : rFaceP.text.value
                 , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
                 , isCheckMark ? &optCheckMarkColor.colorValue : (::Color*)nullptr
+            );
+        }
+    );
+}
+
+Id  Renderer::createRadioButton(GlueFace const& rFaceP)
+{
+    return createStub<IWidget>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            OptionsValue optCheckMarkColor;
+            OptionsValue optRadioGroupId;
+            OptionsValue optRadioSelected;
+            bool isCheckMark{false};
+            bool isGroupId{false};
+            if (NOT_NONE(rFaceP.options))
+            {
+                isCheckMark = getOptionValue(OPTIONS_TYPE_CHECKBOX_MARK, rFaceP.options.value, optCheckMarkColor);
+                isGroupId = getOptionValue(OPTIONS_TYPE_RADIO_GROUP, rFaceP.options.value, optRadioGroupId);
+                optRadioSelected.iValue = 0;
+                getOptionValue(OPTIONS_TYPE_RADIO_SELECTED, rFaceP.options.value, optRadioSelected);
+            }
+            return WidgetFactory::instance().createRadioButton(
+                (rFaceP.text.none) ? "" : rFaceP.text.value
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
+                , isCheckMark ? &optCheckMarkColor.colorValue : (::Color*)nullptr
+                , isGroupId ? optRadioGroupId.iValue : 1
+                , optRadioSelected.iValue
             );
         }
     );

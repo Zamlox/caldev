@@ -9,6 +9,7 @@
 #include "internal/gui/widgets/checkbox.h"
 #include "internal/gui/widgets/field.h"
 #include "internal/gui/widgets/label.h"
+#include "internal/gui/widgets/radio.h"
 #include "internal/gui/window.h"
 #include <string>
 
@@ -91,6 +92,23 @@ IWidget* WidgetFactory::createCheckbox(const char* textP, ImFont* pFontP, ::Colo
         textP, 
         pFontP, 
         pMarkColor));
+}
+
+IWidget* WidgetFactory::createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP)
+{
+    Color markColor;
+    Color* pMarkColor{nullptr};
+    if (pCheckMarkColorP)
+    {
+        markColor = GUI::Base<IWidget>::NormalizeColor(*pCheckMarkColorP);
+        pMarkColor = &markColor;
+    }
+    return setupWidget(new Widget::RadioButton(
+        textP, 
+        pFontP, 
+        pMarkColor,
+        groupIdP,
+        selectedP));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)
