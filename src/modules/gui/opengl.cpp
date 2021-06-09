@@ -146,7 +146,7 @@ void OpenGL::showMainWindow()
 
 Id OpenGL::createWidget(const char* pFaceDescriptionP)
 {
-    return rendererM.createWidget(pFaceDescriptionP);
+    return rendererM.createWidget(pFaceDescriptionP, Api::GuiType::GUI_OPENGL2);
 }
 
 void* OpenGL::initGuiEngine(void* pParamP)

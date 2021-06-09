@@ -34,8 +34,9 @@ void Renderer::addMainWindow(IWindow* pMainWindowP)
         pMainWindowP);    
 }
 
-Id Renderer::createWidget(const char* pFaceDescriptionP)
+Id Renderer::createWidget(const char* pFaceDescriptionP, Api::GuiType guiTypeP)
 {
+    guiTypeM = guiTypeP;
     return widgetStub(pFaceDescriptionP, [=](GlueFace const& rFaceP, FaceCounters const& rCountersP)->Id{
         return createWidget(rFaceP, rCountersP);
     });
@@ -158,6 +159,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
             return createCheckbox(rFaceP);
         case TYPE_RADIOBUTTON:
             return createRadioButton(rFaceP);
+        case TYPE_IMAGE:
+            return createImage(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -376,6 +379,22 @@ Id  Renderer::createRadioButton(GlueFace const& rFaceP)
                 , isCheckMark ? &optCheckMarkColor.colorValue : (::Color*)nullptr
                 , isGroupId ? optRadioGroupId.iValue : 1
                 , optRadioSelected.iValue
+            );
+        }
+    );
+}
+
+Id  Renderer::createImage(GlueFace const& rFaceP)
+{
+    return createStub<IWidget>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            return WidgetFactory::instance().createImage(
+                guiTypeM
+                , rFaceP.image.value.data
+                , rFaceP.image.value.width
+                , rFaceP.image.value.height
+                , rFaceP.image.value.channels
             );
         }
     );

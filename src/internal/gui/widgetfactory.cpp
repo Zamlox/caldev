@@ -8,6 +8,7 @@
 #include "internal/gui/widgets/button.h"
 #include "internal/gui/widgets/checkbox.h"
 #include "internal/gui/widgets/field.h"
+#include "internal/gui/widgets/image.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/widgets/radio.h"
 #include "internal/gui/window.h"
@@ -109,6 +110,11 @@ IWidget* WidgetFactory::createRadioButton(const char* textP, ImFont* pFontP, ::C
         pMarkColor,
         groupIdP,
         selectedP));
+}
+
+IWidget* WidgetFactory::createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP)
+{
+    return setupWidget(new Widget::Image(guiTypeP, pDataP, widthP, heightP, nChannelsP));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "api/imp/apiconst.h"
 #include "bindings/rebol2/cpp/font.h"
 #include "internal/gui/widgets/queue/storage.h"
 #include "internal/gui/widgets/queue/command.h"
@@ -36,7 +37,7 @@ public:
      * @param  {char*} pFaceDescriptionP : text description of widget
      * @return {Id}                      : widget id
      */
-    Id createWidget(const char* pFaceDescriptionP);
+    Id createWidget(const char* pFaceDescriptionP, Api::GuiType guiTypeP);
     /**
      * Update widget.
      * 
@@ -191,6 +192,13 @@ private:
      * @return {Id}             : id of radio button
      */
     Id  createRadioButton(GlueFace const& rFaceP);
+    /**
+     * Create image.
+     * 
+     * @param  {GlueFace} const : image face
+     * @return {Id}             : id of image
+     */
+    Id  createImage(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;
@@ -206,6 +214,8 @@ private:
     bool newFontAddedM;
     /** Synchronization object for operating on widgets fromother threads and renderer thread */
     Os::Mutex syncWidgetsM;
+    /** Gui type. Some widgets may need this info (ex.: image) */
+    Api::GuiType guiTypeM;
 };
 
 inline Os::Mutex& Renderer::getWidgetsSync()
