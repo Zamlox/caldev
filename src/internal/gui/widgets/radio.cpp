@@ -2,24 +2,49 @@
  * Copyright 2021 Iosif Haidu - All rights reserved.
  */
 
-#include "internal/gui/widgets/checkbox.h"
+#include "internal/gui/widgets/radio.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
 namespace Widget {
 
-Checkbox::Checkbox(const char* textP, ImFont* pFontP, Color* pMarkColorP)
+namespace {
+
+constexpr int INVALID_SELECTION{-1};
+
+} // anonymous namespace
+
+RadioButton::Group RadioButton::groupsM;
+int RadioButton::optionValueCrtIndexM{0};
+
+void RadioButton::Group::setSelection(int groupIdP, int valueP)
+{
+    groupSelectionCollectionM.set(groupIdP, valueP);
+}
+
+int RadioButton::Group::getSelection(int groupIdP) const
+{
+    int selection{INVALID_SELECTION};
+    return groupSelectionCollectionM.get(groupIdP, selection) ? selection : INVALID_SELECTION;
+}
+
+RadioButton::RadioButton(const char* textP, ImFont* pFontP, Color* pMarkColorP, int groupIdP, int selectedP)
     : Base{pFontP}
     , textM{textP}
-    , pressedM{true}
-    , checkStatusM{false}
+    , groupIdM{groupIdP}
     , checkMarkColorM{pMarkColorP ? *pMarkColorP : GetStyleColor(ImGuiCol_CheckMark)}
 {
     // TODO: replacement must be done on rebol side
     replace(textM, "^/", "\n");
+    optionValueCrtIndexM++;
+    optionValueM = optionValueCrtIndexM;
+    if (selectedP)
+    {
+        groupsM.setSelection(groupIdM, optionValueM);
+    }
 }
 
-void Checkbox::beginRender()
+void RadioButton::beginRender()
 {
     ImGuiID id;
     if (visibleM)
@@ -40,12 +65,15 @@ void Checkbox::beginRender()
         SaveCurrentStyle();
         SetStyleColor(ImGuiCol_CheckMark, checkMarkColorM);
         SetStyleFgColor(ImGuiCol_Text);
-        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM, &attrib);
+        if (ImGui::RadioButton(textM.c_str(), groupsM.getSelection(groupIdM) == optionValueM, nullptr))
+        { 
+            groupsM.setSelection(groupIdM, optionValueM);
+        }
         RestoreStyle();
     }
 }
 
-void Checkbox::endRender()
+void RadioButton::endRender()
 {
     if (visibleM)
     {
@@ -53,7 +81,7 @@ void Checkbox::endRender()
     }
 }
 
-void Checkbox::update(GlueFace const& rFaceP)
+void RadioButton::update(GlueFace const& rFaceP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)
