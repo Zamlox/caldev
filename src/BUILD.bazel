@@ -31,6 +31,15 @@ COPTS_IMGUI = [
     "-Iextern/GSL/include",
 ]
 
+SRCS_STB = [
+    "extern/stb/stb_image.h",
+    "extern/stb/stb_image_write.h",
+]
+COPTS_STB = [
+    "-Iextern/stb",
+    "-DSTB_IMAGE_IMPLEMENTATION",
+]
+
 # caldev
 COPTS_WINDOWS = [
     "-DOS_WINDOWS",
@@ -62,7 +71,7 @@ SRCS = glob([
         "extern/GSL/include/gsl/span.h",
         "extern/GSL/include/gsl/byte.h",
         "extern/GSL/include/gsl/util.h",
-    ] + SRCS_IMGUI
+    ] + SRCS_IMGUI + SRCS_STB
 COPTS = [
         "-I.",
         "-Iextern/glfw/include",
@@ -82,7 +91,7 @@ COPTS = [
             "-DOS_LINUX",
             "-std=c++17",
         ]
-    }) + COPTS_IMGUI
+    }) + COPTS_IMGUI + COPTS_STB
 LIBS_WINDOWS = [
     "user32.lib", "gdi32.lib", "shell32.lib", "opengl32.lib",
 ]

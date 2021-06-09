@@ -15,3 +15,6 @@
 [submodule "src/extern/rebsdev"]
 	path = src/extern/rebsdev
 	url = https://github.com/Zamlox/rebsdev.git
+[submodule "src/extern/stb"]
+	path = src/extern/stb
+	url = https://github.com/Zamlox/stb.git
