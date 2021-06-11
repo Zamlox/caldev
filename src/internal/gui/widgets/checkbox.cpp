@@ -41,7 +41,7 @@ void Checkbox::beginRender()
         SaveCurrentStyle();
         SetStyleColor(ImGuiCol_CheckMark, checkMarkColorM);
         SetStyleFgColor(ImGuiCol_Text);
-        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM, &attrib);
+        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM, nullptr);
         RestoreStyle();
     }
 }
