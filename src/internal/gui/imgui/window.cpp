@@ -5,6 +5,8 @@
 #include "internal/gui/imgui/window.h"
 #include "extern/imgui/imgui.h"
 
+#include "internal/gui/widgets/image.h"
+
 namespace GUI
 {
 namespace ImGui
@@ -138,6 +140,7 @@ void Window::beginRender()
             // create log widget
             float logHeight{200.0};
             ::ImGui::createLogArea(0, heightM - logHeight, widthM, logHeight);
+            //Widget::Image img(Api::GuiType::GUI_OPENGL2, "D:\\Pictures\\test.png", 0);
             // =======================
         }
     }

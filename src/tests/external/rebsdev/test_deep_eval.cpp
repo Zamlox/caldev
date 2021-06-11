@@ -50,7 +50,11 @@ TEST(DoDeepEvaluation, Face)
         pane: none                                  \
         text: \"Window_1\"                          \
         color: 1.2.3                                \
-        image: make image! 2x2                      \
+        image: make image! [                        \
+            size: 1x1                               \
+            channels: 4                             \
+            data: #{FFFFFFFF}                       \
+        ]                                           \
         effect: [                                   \
             merge                                   \
             extend 2x3 4x5                          \
@@ -155,10 +159,10 @@ TEST(DoDeepEvaluation, Face)
     EXPECT_EQ(glueFace.color.value.b, 2);
     EXPECT_EQ(glueFace.color.value.c, 3);
     EXPECT_EQ(glueFace.image.none, 0);
-    EXPECT_EQ(glueFace.image.value.width, 2);
-    EXPECT_EQ(glueFace.image.value.height, 2);
+    EXPECT_EQ(glueFace.image.value.width, 1);
+    EXPECT_EQ(glueFace.image.value.height, 1);
+    EXPECT_EQ(glueFace.image.value.channels, 4);
     //EXPECT_EQ(glueFace.image.value.length, glueFace.image.value.width * glueFace.image.value.height * colorChannels);
-    EXPECT_EQ(glueFace.image.value.length, glueFace.image.value.width * glueFace.image.value.height * 3);
     EXPECT_EQ(faceCounters.effectCount, 3);
     // effect
     EXPECT_EQ(get_face_effect_elem(0, &pEffect), SUCCESS);

@@ -201,7 +201,14 @@ context [
                 options: [ group 1 ]
                 parent: id-win
             ]
-
+            build-widget [
+                type: 'image        ;'
+                offset: 10x400
+                size: 500x80
+                color: 0.0.255.255
+                image: "D:\Pictures\test.png"
+                parent: id-win
+            ]
 
             print "Wait for 100 seconds..."
             wait 100

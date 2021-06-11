@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "api/imp/apiconst.h"
 #include "internal/gui/iwindow.h"
 #include "internal/gui/iwidget.h"
 #include "extern/GSL/include/gsl/string_span.h"
@@ -107,6 +108,17 @@ public:
      * @return {IWidget*}                  : widget instance
      */
     IWidget* createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP);
+    /**
+     * Create image widget.
+     * 
+     * @param  {Api::GuiType} guiTypeP : 
+     * @param  {unsigned*} char        : 
+     * @param  {int} widthP            : 
+     * @param  {int} heightP           : 
+     * @param  {int} nChannelsP        : 
+     * @return {IWIdget*}              : 
+     */
+    IWidget* createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP);
 
 private:
     WidgetFactory();

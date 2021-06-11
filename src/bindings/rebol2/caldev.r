@@ -175,3 +175,9 @@ face!: make object! [
     id: none
     parent: none
 ]
+
+image!: make object! [
+    size: 0x0
+    channels: 3
+    data: none      ; must be binary size.x * size.y * channels : #{000000}
+]

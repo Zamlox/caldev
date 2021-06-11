@@ -34,6 +34,7 @@ void Checkbox::beginRender()
             , alignM
             , ImRect(xM, yM, xM + widthM, yM + heightM)
             , (isWrapM) ? widthM : 0.0
+            , ImRect{0, 0, 0, 0}
         );
         
         if (pFontM) ImGui::PushFont(pFontM);
