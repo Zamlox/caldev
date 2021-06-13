@@ -119,6 +119,16 @@ public:
      * @return {IWIdget*}              : 
      */
     IWidget* createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP);
+    /**
+     * Create combo button widget.
+     * 
+     * @param  {char**} pItems  : text items to display
+     * @param  {int} countP     : count of text items
+     * @param  {int} selectedP  : index of selected item
+     * @param  {ImFont*} pFontP : font of text items
+     * @return {IWidget*}       : widget instance
+     */
+    IWidget* createComboButton(const char** pItems, int countP, int selectedP, ImFont* pFontP);
 
 private:
     WidgetFactory();

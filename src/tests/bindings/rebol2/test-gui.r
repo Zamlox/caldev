@@ -92,7 +92,7 @@ context [
                 ]
                 parent: id-win
             ]
-
+{
             label: build-widget [
                 type: 'label        ;'
                 offset: 10x10
@@ -207,6 +207,20 @@ context [
                 size: 500x80
                 color: 0.0.255.255
                 image: "D:\Pictures\test.png"
+                parent: id-win
+            ]
+}
+            build-widget [
+                type: 'combo        ;'
+                offset: 600x350
+                size: 100x150
+                color: 0.0.0.255
+                font: make fontD [
+                    align: 'right
+                    valign: 'middle
+                ]
+                options: [ select "Option" ]
+                data: ["Option 1" "Option 2" "Option 3"]
                 parent: id-win
             ]
 
