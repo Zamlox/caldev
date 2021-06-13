@@ -57,7 +57,7 @@ void Image::endRender()
 {
 }
 
-void Image::update(GlueFace const& rFaceP)
+void Image::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.image.none)
