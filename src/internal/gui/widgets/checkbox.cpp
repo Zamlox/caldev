@@ -54,7 +54,7 @@ void Checkbox::endRender()
     }
 }
 
-void Checkbox::update(GlueFace const& rFaceP)
+void Checkbox::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)
