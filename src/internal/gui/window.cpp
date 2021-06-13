@@ -157,9 +157,9 @@ void Window::setId(Id idP)
     implM.setId(idP);
 }
 
-void Window::update(GlueFace const& rFaceP)
+void Window::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
-    implM.update(rFaceP);
+    implM.update(rFaceP, partOfCreationP);
 }
 
 } // namespace GUI

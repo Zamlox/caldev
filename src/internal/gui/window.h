@@ -99,7 +99,7 @@ public:
 
     Id getId() const override;
     void setId(Id idP) override;
-    void update(GlueFace const& rFaceP) override;
+    void update(GlueFace const& rFaceP, bool partOfCreationP = false) override;
 
 private:
     /** Window implementation for ImGui */
