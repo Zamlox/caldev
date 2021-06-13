@@ -82,7 +82,7 @@ void RadioButton::endRender()
     }
 }
 
-void RadioButton::update(GlueFace const& rFaceP)
+void RadioButton::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)
