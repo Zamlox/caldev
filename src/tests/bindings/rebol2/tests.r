@@ -6,9 +6,6 @@ REBOL [
     email:      [iosif.haidu@gmail.com]
     date:       3-01-2021
     version:    0.0.1
-    needs:      [
-        %lib.r
-    ]
     History: [
         0.0.1 [3-01-2021 "Started"]
     ]

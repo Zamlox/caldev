@@ -6,7 +6,6 @@ REBOL [
     email:      [iosif.haidu@gmail.com]
     date:       30-12-2020
     version:    0.0.1
-    needs:      []
     History: [
         0.0.1 [31-12-2020 "Started"]
     ]

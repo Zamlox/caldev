@@ -6,9 +6,6 @@ REBOL [
     email:      [iosif.haidu@gmail.com]
     date:       30-12-2020
     version:    0.0.1
-    needs:      [
-        %caldev.r
-    ]
     History: [
         0.0.1 [31-12-2020 "Started"]
     ]
@@ -92,7 +89,7 @@ context [
                 ]
                 parent: id-win
             ]
-{
+
             label: build-widget [
                 type: 'label        ;'
                 offset: 10x10
@@ -209,7 +206,6 @@ context [
                 image: "D:\Pictures\test.png"
                 parent: id-win
             ]
-}
             build-widget [
                 type: 'combo        ;'
                 offset: 600x350
