@@ -6,9 +6,6 @@ REBOL [
     email:      [iosif.haidu@gmail.com]
     date:       30-12-2020
     version:    0.0.1
-    needs:      [
-        %caldev.r
-    ]
     History: [
         0.0.1 [31-12-2020 "Started"]
     ]
@@ -207,6 +204,19 @@ context [
                 size: 500x80
                 color: 0.0.255.255
                 image: "D:\Pictures\test.png"
+                parent: id-win
+            ]
+            build-widget [
+                type: 'combo        ;'
+                offset: 600x350
+                size: 100x150
+                color: 0.0.0.255
+                font: make fontD [
+                    align: 'right
+                    valign: 'middle
+                ]
+                options: [ select "Option" ]
+                data: ["Option 1" "Option 2" "Option 3"]
                 parent: id-win
             ]
 

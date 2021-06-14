@@ -37,7 +37,7 @@ public:
     Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
 
     /** see IWidget::update() */
-    void update(GlueFace const& rFaceP) override;
+    void update(GlueFace const& rFaceP, bool partOfCreationP = false) override;
 
     friend int InputTextCallback(ImGuiInputTextCallbackData* data);
 

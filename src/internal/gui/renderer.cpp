@@ -161,6 +161,8 @@ Id Renderer::createWidget(GlueFace const& rFaceP, FaceCounters const& rCountersP
             return createRadioButton(rFaceP);
         case TYPE_IMAGE:
             return createImage(rFaceP);
+        case TYPE_COMBOBUTTON:
+            return createCombo(rFaceP);
         }
     }
     // TODO: draw effect by extracting effect elements using rCountersP.effectCount
@@ -216,7 +218,7 @@ Id Renderer::createStub(
         {
             beforeUpdateP();
         }
-        pT->update(rFaceP);
+        pT->update(rFaceP, true);
         commandsM.set(
             Widget::WidgetCommand::Create, 
             (rFaceP.parent.none) ? PARENT_NONE : rFaceP.parent.value, 
@@ -395,6 +397,48 @@ Id  Renderer::createImage(GlueFace const& rFaceP)
                 , rFaceP.image.value.width
                 , rFaceP.image.value.height
                 , rFaceP.image.value.channels
+            );
+        }
+    );
+}
+
+Id  Renderer::createCombo(GlueFace const& rFaceP)
+{
+    return createStub<IWidget>(
+        rFaceP,
+        [=](GlueFace const& rFaceP){
+            int selectIndex{-1};
+            const char* selectValue{nullptr};
+            if (!rFaceP.options.none)
+            {
+                for (int i = 0; i < rFaceP.options.value->count; i++)
+                {
+                    if (rFaceP.options.value->block.pOptions[i].type == OPTIONS_TYPE_COMBO_SEL_INDEX)
+                    {
+                        selectIndex = rFaceP.options.value->block.pOptions[i].value.iValue;
+                    }
+                    else if (rFaceP.options.value->block.pOptions[i].type == OPTIONS_TYPE_COMBO_SEL_VALUE)
+                    {
+                        selectValue = rFaceP.options.value->block.pOptions[i].value.sValue;
+                        if (!rFaceP.data.none)
+                        {
+                            for (int j = 0; j < rFaceP.data.value.value.textItems.size; j++)
+                            {
+                                if (!strcmp(selectValue, rFaceP.data.value.value.textItems.elems[j]))
+                                {
+                                    selectIndex = j;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return WidgetFactory::instance().createComboButton(
+                rFaceP.data.value.value.textItems.elems
+                , rFaceP.data.value.value.textItems.size
+                , selectIndex
+                , createFont((rFaceP.font.none) ? gDefaultFont : rFaceP.font.value)
             );
         }
     );

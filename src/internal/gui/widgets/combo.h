@@ -1,6 +1,6 @@
 /**
  * Author: 		Iosif Haidu
- * Description: Label widget
+ * Description: Combo button widget
  *
  * Copyright 2021 Iosif Haidu - All rights reserved.
  */
@@ -10,21 +10,24 @@
 #include "internal/gui/iwidget.h"
 #include "internal/gui/basewidget.h"
 #include <string>
+#include <vector>
 
 namespace GUI {
 namespace Widget {
 
-class Checkbox : public Base<IWidget>
+class Combo : public Base<IWidget>
 {
 public:
     /**
-     * Checkbox 
+     * Combo 
      * 
-     * @param  {char*} textP        : text of checkbox
-     * @param  {ImFont*} pFontP     : font for text§
-     * @param  {Color*} pMarkColorP : color for check mark
+     * @param  {char*} pItemsP      : list of text items
+     * @param  {int} countP         : count of text items
+     * @param  {int} selectedP      : selected item
+     * @param  {ImFont*} pFontP     : font for text
      */
-    Checkbox(const char* textP, ImFont* pFontP, Color* pMarkColorP);
+    Combo(const char** pItemsP, int countP, int selectedP, ImFont* pFontP);
+    ~Combo();
 
     /** see IRender::beginRender() */
     void beginRender() override;
@@ -34,10 +37,9 @@ public:
     void update(GlueFace const& rFaceP, bool partOfCreationP = false) override;
 
 private:
-    std::string textM;
-    bool pressedM;
-    bool checkStatusM;
-    Color checkMarkColorM;
+    const char** pItemsM;
+    int countM;
+    int selectedM;
 };
 
 } // namespace Widget

@@ -24,7 +24,7 @@ public:
     /** see IRender::endRender() */
     void endRender() override;
     /** see IWidget::update() */
-    void update(GlueFace const& rFaceP) override;
+    void update(GlueFace const& rFaceP, bool partOfCreationP = false) override;
 
 private:
     std::string textM;

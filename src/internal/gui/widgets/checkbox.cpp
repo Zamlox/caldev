@@ -41,7 +41,7 @@ void Checkbox::beginRender()
         SaveCurrentStyle();
         SetStyleColor(ImGuiCol_CheckMark, checkMarkColorM);
         SetStyleFgColor(ImGuiCol_Text);
-        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM, &attrib);
+        pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM, nullptr);
         RestoreStyle();
     }
 }
@@ -54,7 +54,7 @@ void Checkbox::endRender()
     }
 }
 
-void Checkbox::update(GlueFace const& rFaceP)
+void Checkbox::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)

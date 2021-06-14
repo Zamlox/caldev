@@ -51,7 +51,7 @@ void Button::endRender()
     }
 }
 
-void Button::update(GlueFace const& rFaceP)
+void Button::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)

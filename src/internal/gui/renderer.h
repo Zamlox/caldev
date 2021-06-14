@@ -199,6 +199,13 @@ private:
      * @return {Id}             : id of image
      */
     Id  createImage(GlueFace const& rFaceP);
+    /**
+     * Create combo.
+     * 
+     * @param  {GlueFace} const : combo face
+     * @return {Id}             : id of combo
+     */
+    Id  createCombo(GlueFace const& rFaceP);
 
     /** Storage for widgets */
     Widget::Storage widgetsM;

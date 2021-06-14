@@ -48,7 +48,7 @@ void Label::endRender()
     }
 }
 
-void Label::update(GlueFace const& rFaceP)
+void Label::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)

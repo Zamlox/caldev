@@ -79,7 +79,7 @@ public:
     }
 
     /** see IWidget::update() */
-    void update(GlueFace const& rFaceP) override
+    void update(GlueFace const& rFaceP, bool createingP = false) override
     {
         // color
         if (!rFaceP.color.none)

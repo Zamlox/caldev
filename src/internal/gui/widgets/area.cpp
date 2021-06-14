@@ -80,7 +80,7 @@ void Area::endRender()
     }
 }
 
-void Area::update(GlueFace const& rFaceP)
+void Area::update(GlueFace const& rFaceP, bool partOfCreationP)
 {
     Base<IWidget>::update(rFaceP);
     if (!rFaceP.text.none)

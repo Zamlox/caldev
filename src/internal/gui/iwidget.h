@@ -48,7 +48,7 @@ public:
      * 
      * @param  {GlueFace} const : face to update
      */
-    virtual void update(GlueFace const& rFaceP) = 0;
+    virtual void update(GlueFace const& rFaceP, bool partOfCreationP = false) = 0;
 };
 
 } // namespace GUI
