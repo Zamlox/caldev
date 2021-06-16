@@ -21,7 +21,9 @@ enum class WidgetCommand {
     None,
     Create,
     Update,
-    Remove
+    Remove,
+    Stash,
+    Unstash
 };
 
 /** Gui element type */

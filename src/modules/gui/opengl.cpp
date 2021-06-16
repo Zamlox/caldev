@@ -149,6 +149,16 @@ Id OpenGL::createWidget(const char* pFaceDescriptionP)
     return rendererM.createWidget(pFaceDescriptionP, Api::GuiType::GUI_OPENGL2);
 }
 
+void OpenGL::stash()
+{
+    rendererM.stash();
+}
+
+void OpenGL::unstash()
+{
+    rendererM.unstash();
+}
+
 void* OpenGL::initGuiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);
@@ -170,7 +180,7 @@ void* OpenGL::initGuiEngine(void* pParamP)
         exit(1);
     }
     glfwMakeContextCurrent(pOpenGL->pOsWindowM);
-    glfwSwapInterval(1);
+    glfwSwapInterval(0);
 
     ImGuiContext* pImGuiContext = ::ImGui::CreateContext();
     // TODO: pImGuiContext->Extension.fontsUsed = &self->fontsM;    - is it needed ???
@@ -241,9 +251,9 @@ void OpenGL::draw()
     ::ImGui::NewFrame();
 
     // Uncomment below to display FPS in title bar.
-    //std::stringstream ss;
-    //ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
-    //glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
+    std::stringstream ss;
+    ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
+    glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
 
     // Display main window
     if (pMainWidgetWindowM)

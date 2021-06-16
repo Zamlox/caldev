@@ -75,3 +75,13 @@ int createWidget(const char* faceP)
 {
     return pAPI->createWidget(faceP);
 }
+
+void stash()
+{
+    pAPI->stash();
+}
+
+void unstash()
+{
+    pAPI->unstash();
+}
