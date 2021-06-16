@@ -84,9 +84,11 @@ void Renderer::render()
             break;
         case Widget::WidgetCommand::Stash:
             stashedM = true;
+            glfwSwapInterval(0);
             break;
         case Widget::WidgetCommand::Unstash:
             stashedM = false;
+            glfwSwapInterval(1);
             break;
         }
         // TODO: execute command
