@@ -109,11 +109,7 @@ int  ApiImp::createMainWindow(
             widthP,
             heightP,
             bgColorP,
-            false);
-        if (visibleP != 0) 
-        {   
-            showMainWindow();
-        }
+            visibleP);
         return res;
     }
     return ERR_GUI_ENGINE_NOT_INIT;

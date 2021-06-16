@@ -19,10 +19,11 @@ extern "C" FaceFont gDefaultFont;
 
 namespace GUI {
 
-Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
+Renderer::Renderer(IGui* pGuiP, Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
     , stashedM{true}
+    , pGuiM{pGuiP}
 {
 
 }
@@ -100,6 +101,12 @@ void Renderer::render()
         for (auto itElem : rootWidgetsM)
         {
             renderino(*itElem);
+        }
+        // make main window visible on init
+        static bool isInit{true};
+        if (isInit && pGuiM->isMainWindowVisible())
+        {
+            pGuiM->showMainWindow();
         }
     }
 }

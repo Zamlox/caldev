@@ -13,6 +13,7 @@
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/os/mutex.h"
+#include "modules/gui/igui.h"
 #include <functional>
 
 namespace GUI {
@@ -23,7 +24,7 @@ namespace GUI {
 class Renderer
 {
 public:
-    Renderer(Os::Mutex& rFrameSynchronizerP);
+    Renderer(IGui* pGuiP, Os::Mutex& rFrameSynchronizerP);
     /**
      * Add main window to stirage.
      * 
@@ -233,6 +234,8 @@ private:
     Api::GuiType guiTypeM;
     /** Flag indicating stash/unstash status */
     bool stashedM;
+    /** Instance of GUI engine */
+    IGui* pGuiM;
 };
 
 inline Os::Mutex& Renderer::getWidgetsSync()
