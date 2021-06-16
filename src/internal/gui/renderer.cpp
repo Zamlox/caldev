@@ -21,7 +21,6 @@ namespace GUI {
 Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
-    , fontsM{&rFrameSynchronizerM}
 {
 
 }
@@ -234,7 +233,7 @@ Font* Renderer::createFont(FaceFont const& rFontP)
     assert(pImGuiContext);
     Bind::Rebol2::FontInfo fontInfo;
     Bind::Rebol2::Text fontName = (rFontP.path.none) ? gDefaultFont.path.value : rFontP.path.value;
-    if (auto found = fontsM.get(fontName, fontInfo); !found || (found && (fontInfo.faceFontM != rFontP)))
+    if (auto found = fontsM.get(fontName, fontInfo); !found)
     {
         static ImFontConfig fntConfig;
         rFrameSynchronizerM.lock();
