@@ -149,6 +149,16 @@ Id OpenGL::createWidget(const char* pFaceDescriptionP)
     return rendererM.createWidget(pFaceDescriptionP, Api::GuiType::GUI_OPENGL2);
 }
 
+void OpenGL::stash()
+{
+    rendererM.stash();
+}
+
+void OpenGL::unstash()
+{
+    rendererM.unstash();
+}
+
 void* OpenGL::initGuiEngine(void* pParamP)
 {
     OpenGL* pOpenGL = static_cast<OpenGL*>(pParamP);

@@ -106,6 +106,16 @@ public:
      */
     int createWidget(const char* pFaceDescriptionP);
 
+    /**
+     * Start stashing data to be rendered.
+     */
+    void stash();
+
+    /**
+     * Unstash rendering data and allow to be rendered.
+     */
+    void unstash();
+
 private:
     /**
      * Engine instance.

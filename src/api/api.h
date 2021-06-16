@@ -100,3 +100,14 @@ CALDEV_API void showMainWindow();
  * @return {int}                : id of created widget on success, ERR_GUI_INVALID_WIDGET otherwise
  */
 CALDEV_API int createWidget(const char* faceP);
+
+/**
+ * Start stashing data to be rendered.
+ */
+CALDEV_API void stash();
+
+/**
+ * Unstash rendering data and allow to be rendered.
+ */
+CALDEV_API void unstash();
+

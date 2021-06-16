@@ -144,4 +144,14 @@ int ApiImp::createWidget(const char* pFaceDescriptionP)
     return 0;
 }
 
+void ApiImp::stash()
+{
+    pGuiEngineM->stash();
+}
+
+void ApiImp::unstash()
+{
+    pGuiEngineM->unstash();
+}
+
 } // namespace Api
