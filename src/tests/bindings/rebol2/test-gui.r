@@ -220,6 +220,8 @@ context [
                 parent: id-win
             ]
 
+            unstash
+
             print "Wait for 100 seconds..."
             wait 100
         ][ alert "Something wrong happened while creating main window !" quit/return -1 ]

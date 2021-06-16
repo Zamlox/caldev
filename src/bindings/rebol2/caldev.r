@@ -108,6 +108,14 @@ caldev-funcs: [
         molded-face [ string! ]
         return:     [ integer! ]
     ] "createWidget"
+
+    stash [
+        "Stash rendering data defering them at a later stage (when unstash is called)"
+    ] "stash"
+
+    unstash [
+        "Unstash rendering data allowing them to be rendered"
+    ] "unstash"
 ]
 
 
