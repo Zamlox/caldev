@@ -241,9 +241,9 @@ void OpenGL::draw()
     ::ImGui::NewFrame();
 
     // Uncomment below to display FPS in title bar.
-    //std::stringstream ss;
-    //ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
-    //glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
+    std::stringstream ss;
+    ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
+    glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
 
     // Display main window
     if (pMainWidgetWindowM)

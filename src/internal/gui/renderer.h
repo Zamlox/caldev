@@ -70,6 +70,14 @@ public:
      * @return {bool}  : value of flag
      */
     bool getNewFontAdded() const;
+    /**
+     * Start stashing rendering. 
+     */
+    void stash();
+    /**
+     * Stop stashing and render stashed content.
+     */
+    void unstash();
 
     Os::Mutex& getWidgetsSync();
     IWidget* getWidget(Id idP);
@@ -223,6 +231,8 @@ private:
     Os::Mutex syncWidgetsM;
     /** Gui type. Some widgets may need this info (ex.: image) */
     Api::GuiType guiTypeM;
+    /** Flag indicating stash/unstash status */
+    bool stashedM;
 };
 
 inline Os::Mutex& Renderer::getWidgetsSync()

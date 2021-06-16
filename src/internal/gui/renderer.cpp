@@ -5,6 +5,7 @@
 #include "internal/gui/renderer.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/widgetfactory.h"
+#include "internal/os/util.h"
 #include "internal/os/lock_guard.h"
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
@@ -21,6 +22,7 @@ namespace GUI {
 Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
+    , stashedM{true}
 {
 
 }
@@ -80,14 +82,23 @@ void Renderer::render()
                 Os::lock_guard guard{syncWidgetsM};
             }
             break;
+        case Widget::WidgetCommand::Stash:
+            stashedM = true;
+            break;
+        case Widget::WidgetCommand::Unstash:
+            stashedM = false;
+            break;
         }
         // TODO: execute command
         // ...
     }
-    // Render elements
-    for (auto itElem : rootWidgetsM)
+    // Render elements if not stashed
+    if (!stashedM)
     {
-        renderino(*itElem);
+        for (auto itElem : rootWidgetsM)
+        {
+            renderino(*itElem);
+        }
     }
 }
 
@@ -99,6 +110,22 @@ void Renderer::setNewFontAdded(bool valueP)
 bool Renderer::getNewFontAdded() const
 {
     return newFontAddedM;
+}
+
+void Renderer::stash()
+{
+    commandsM.set(
+        Widget::WidgetCommand::Stash, 
+        INVALID_WIDGET_ID, 
+        (IWidget*)nullptr);
+}
+
+void Renderer::unstash()
+{
+    commandsM.set(
+        Widget::WidgetCommand::Unstash, 
+        INVALID_WIDGET_ID, 
+        (IWidget*)nullptr);
 }
 
 void Renderer::renderino(Widget::StorageElem const& rElemP)

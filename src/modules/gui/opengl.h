@@ -50,6 +50,11 @@ public:
     /** see IGui::createWidget() */
     Id createWidget(const char* pFaceDescriptionP) override;
 
+    /** see IGui::stash() */
+    void stash() override;
+    /** see IGui::unstash() */
+    void unstash() override;
+
 private:
     /**
      * Code to run before returning back to caller after thread starts

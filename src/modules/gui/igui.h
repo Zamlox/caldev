@@ -84,6 +84,16 @@ public:
      * @return {Id}                      : id of widget
      */
     virtual Id createWidget(const char* pFaceDescriptionP) = 0;
+
+    /**
+     * Tell renderer to stash rendering data until 'unstash()' is called.
+     */
+    virtual void stash() = 0;
+    
+    /**
+     * Tell renderer to unstash data to allow rendering.
+     */
+    virtual void unstash() = 0;
 };
 
 } // namespace GUI
