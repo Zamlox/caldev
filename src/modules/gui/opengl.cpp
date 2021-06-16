@@ -38,8 +38,9 @@ OpenGL::OpenGL()
     , pMainWidgetWindowM{nullptr}
     , stopEngineM{false}
     , isRuningInBkgThreadM{true}
-    , rendererM{this, syncBeforeFrameStartsM}
+    , rendererM{syncBeforeFrameStartsM}
     , mainWindowVisibilityM{false}
+    , isFirstTimeRenderM{true}
 {
     ::ImGui::createLog();
 }
@@ -144,15 +145,6 @@ void OpenGL::showMainWindow()
     {
         glfwShowWindow(pOsWindowM);
     }
-}
-
-bool OpenGL::isMainWindowVisible()
-{
-    if (pOsWindowM)
-    {
-        return mainWindowVisibilityM;
-    }
-    return false;
 }
 
 Id OpenGL::createWidget(const char* pFaceDescriptionP)
@@ -292,6 +284,13 @@ void OpenGL::draw()
     glfwSwapBuffers(pOsWindowM);
 
     syncBeforeFrameStartsM.unlock();
+
+    if (rendererM.isInitialUnstash() && isFirstTimeRenderM)
+    {
+        isFirstTimeRenderM = false;
+        if (mainWindowVisibilityM)
+            showMainWindow();
+    }
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)

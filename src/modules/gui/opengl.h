@@ -46,8 +46,6 @@ public:
     void hideMainWindow() override;
     /** see IGui::showMainWindow() */
     void showMainWindow() override;
-    /** see IGui::isMainWindowVisible() */
-    bool isMainWindowVisible() override;
 
     /** see IGui::createWidget() */
     Id createWidget(const char* pFaceDescriptionP) override;
@@ -95,6 +93,8 @@ private:
 
     /** Visibility status for main window. */
     bool mainWindowVisibilityM;
+    /** Flag indicating intialization phase */
+    bool isFirstTimeRenderM;
 };
 
 } // namespace GUI

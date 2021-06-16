@@ -78,13 +78,6 @@ public:
     virtual void showMainWindow() = 0;
 
     /**
-     * Get visibility status for main window.
-     * 
-     * @return {bool}  : true if main window is visible, false otherwise
-     */
-    virtual bool isMainWindowVisible() = 0;
-
-    /**
      * Create widget based on a face description.
      * 
      * @param  {char*} pFaceDescriptionP : face description.

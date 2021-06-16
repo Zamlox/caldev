@@ -19,11 +19,11 @@ extern "C" FaceFont gDefaultFont;
 
 namespace GUI {
 
-Renderer::Renderer(IGui* pGuiP, Os::Mutex& rFrameSynchronizerP)
+Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
     , stashedM{true}
-    , pGuiM{pGuiP}
+    , isInitialUnstashM{false}
 {
 
 }
@@ -88,7 +88,12 @@ void Renderer::render()
             glfwSwapInterval(0);
             break;
         case Widget::WidgetCommand::Unstash:
-            stashedM = false;
+            if (!isInitialUnstashM)
+            {
+                isInitialUnstashM = true;
+            }
+            else
+                stashedM = false;
             glfwSwapInterval(1);
             break;
         }
@@ -96,17 +101,11 @@ void Renderer::render()
         // ...
     }
     // Render elements if not stashed
-    if (!stashedM)
+    if (isInitialUnstashM)
     {
         for (auto itElem : rootWidgetsM)
         {
             renderino(*itElem);
-        }
-        // make main window visible on init
-        static bool isInit{true};
-        if (isInit && pGuiM->isMainWindowVisible())
-        {
-            pGuiM->showMainWindow();
         }
     }
 }
@@ -135,6 +134,11 @@ void Renderer::unstash()
         Widget::WidgetCommand::Unstash, 
         INVALID_WIDGET_ID, 
         (IWidget*)nullptr);
+}
+
+bool Renderer::isInitialUnstash() const
+{
+    return isInitialUnstashM;
 }
 
 void Renderer::renderino(Widget::StorageElem const& rElemP)
