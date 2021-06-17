@@ -13,6 +13,7 @@
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/os/mutex.h"
+#include "modules/gui/igui.h"
 #include <functional>
 
 namespace GUI {
@@ -78,6 +79,12 @@ public:
      * Stop stashing and render stashed content.
      */
     void unstash();
+    /**
+     * Check if initial unstash was called.
+     * 
+     * @return {bool}  : true if initial unstash was called, false otherwise
+     */
+    bool isInitialUnstash() const;
 
     Os::Mutex& getWidgetsSync();
     IWidget* getWidget(Id idP);
@@ -233,6 +240,8 @@ private:
     Api::GuiType guiTypeM;
     /** Flag indicating stash/unstash status */
     bool stashedM;
+    /** Flag indicating when first time unstash is done. */
+    bool isInitialUnstashM;
 };
 
 inline Os::Mutex& Renderer::getWidgetsSync()

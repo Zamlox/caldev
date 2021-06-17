@@ -90,6 +90,11 @@ private:
 
     /** Widgets renderer */
     Renderer rendererM;
+
+    /** Visibility status for main window. */
+    bool mainWindowVisibilityM;
+    /** Flag indicating intialization phase */
+    bool isFirstTimeRenderM;
 };
 
 } // namespace GUI

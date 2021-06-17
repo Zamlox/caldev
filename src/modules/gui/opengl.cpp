@@ -7,6 +7,7 @@
 #include "internal/errors/errors.h"
 #include "internal/gui/imgui/common.h"
 #include "internal/gui/widgetfactory.h"
+#include "internal/os/util.h"
 #include "extern/imgui/imgui.h"
 #include "extern/imgui/imgui_internal.h"
 #include "extern/imgui/examples/imgui_impl_opengl2.h"
@@ -38,6 +39,8 @@ OpenGL::OpenGL()
     , stopEngineM{false}
     , isRuningInBkgThreadM{true}
     , rendererM{syncBeforeFrameStartsM}
+    , mainWindowVisibilityM{false}
+    , isFirstTimeRenderM{true}
 {
     ::ImGui::createLog();
 }
@@ -89,11 +92,11 @@ int OpenGL::createMainWindow(
 {
     if (pOsWindowM)
     {
+        mainWindowVisibilityM = visibleP;
         glfwSetWindowPos(pOsWindowM, xP, yP);
         glfwSetWindowSize(pOsWindowM, widthP, heightP);
         glfwSetWindowTitle(pOsWindowM, titleP);
         glfwSetWindowSizeLimits(pOsWindowM, MIN_SIZE_X, MIN_SIZE_X, GLFW_DONT_CARE, GLFW_DONT_CARE);
-        (visibleP) ? glfwShowWindow(pOsWindowM) : glfwHideWindow(pOsWindowM);
         if (pMainWidgetWindowM == nullptr)
         {
             pMainWidgetWindowM = WidgetFactory::instance().createWindow(
@@ -251,9 +254,9 @@ void OpenGL::draw()
     ::ImGui::NewFrame();
 
     // Uncomment below to display FPS in title bar.
-    std::stringstream ss;
-    ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
-    glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
+    //std::stringstream ss;
+    //ss << "Application average " << 1000.0f / ImGui::GetIO().Framerate << " ms/frame (" << ImGui::GetIO().Framerate << " FPS)";
+    //glfwSetWindowTitle(pOsWindowM, ss.str().c_str());
 
     // Display main window
     if (pMainWidgetWindowM)
@@ -281,6 +284,13 @@ void OpenGL::draw()
     glfwSwapBuffers(pOsWindowM);
 
     syncBeforeFrameStartsM.unlock();
+
+    if (rendererM.isInitialUnstash() && isFirstTimeRenderM)
+    {
+        isFirstTimeRenderM = false;
+        if (mainWindowVisibilityM)
+            showMainWindow();
+    }
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)

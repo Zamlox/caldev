@@ -23,6 +23,7 @@ Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
     , stashedM{true}
+    , isInitialUnstashM{false}
 {
 
 }
@@ -87,7 +88,12 @@ void Renderer::render()
             glfwSwapInterval(0);
             break;
         case Widget::WidgetCommand::Unstash:
-            stashedM = false;
+            if (!isInitialUnstashM)
+            {
+                isInitialUnstashM = true;
+            }
+            else
+                stashedM = false;
             glfwSwapInterval(1);
             break;
         }
@@ -95,7 +101,7 @@ void Renderer::render()
         // ...
     }
     // Render elements if not stashed
-    if (!stashedM)
+    if (isInitialUnstashM)
     {
         for (auto itElem : rootWidgetsM)
         {
@@ -128,6 +134,11 @@ void Renderer::unstash()
         Widget::WidgetCommand::Unstash, 
         INVALID_WIDGET_ID, 
         (IWidget*)nullptr);
+}
+
+bool Renderer::isInitialUnstash() const
+{
+    return isInitialUnstashM;
 }
 
 void Renderer::renderino(Widget::StorageElem const& rElemP)
