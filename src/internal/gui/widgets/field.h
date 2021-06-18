@@ -36,6 +36,10 @@ public:
      */
     Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Field& operator=(const Field& rOpP);
+
     /** see IWidget::update() */
     void update(GlueFace const& rFaceP, bool partOfCreationP = false) override;
 
