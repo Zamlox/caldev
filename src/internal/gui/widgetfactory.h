@@ -33,9 +33,10 @@ public:
      * @param  {czstring<>} titleP : title of window
      * @param  {int} flags         : flags for window creation
      * @param  {Font*} pFontP      : font for window
+     * @param  {bool} isCloning    : flag indicating if creation used for cloning
      * @return {owner<IWindow>*}   : instance of created window
      */
-    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP = PARENT_NONE);
+    owner<IWindow*> createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP = PARENT_NONE, bool isCloningP = false);
     /**
      * Destroy window.
      * 
@@ -52,7 +53,7 @@ public:
      * @param  {ImFont*} pFontP : font of text
      * @return {IWidget*}       : widget instance
      */
-    IWidget* createLabel(const char* textP, ImFont* pFontP);
+    IWidget* createLabel(const char* textP, ImFont* pFontP, bool isCloningP = false);
     /**
      * Create area widget.
      * 
@@ -61,7 +62,7 @@ public:
      * @param  {int} styleP     : style of widget
      * @return {IWidget*}       : widget instance
      */
-    IWidget* createArea(const char* textP, ImFont* pFontP, int styleP);
+    IWidget* createArea(const char* textP, ImFont* pFontP, int styleP, bool isCloningP = false);
     
     /**
      * Create field widget.
@@ -70,7 +71,7 @@ public:
      * @param  {ImFont*} pFontP : font of text
      * @param  {int} styleP     : style of widget
      */
-    IWidget* createField(const char* textP, ImFont* pFontP, int styleP);
+    IWidget* createField(const char* textP, ImFont* pFontP, int styleP, bool isCloningP = false);
     /**
      * Create field widget with text hint.
      * 
@@ -80,7 +81,7 @@ public:
      * @param  {char*} pHintP   : hint text
      * @return {IWidget*}       : widget instance
      */
-    IWidget* createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP);
+    IWidget* createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP, bool isCloningP = false);
     /**
      * Create button widget.
      * 
@@ -88,7 +89,7 @@ public:
      * @param  {ImFont*} pFontP : font for text
      * @return {IWIdget*}       : widget instance
      */
-    IWidget* createButton(const char* textP, ImFont* pFontP);
+    IWidget* createButton(const char* textP, ImFont* pFontP, bool isCloningP = false);
     /**
      * Create checkbox widget.
      * 
@@ -97,7 +98,7 @@ public:
      * @param  {::Color*} pCheckMarkColorP  : color for check mark
      * @return {IWIdget*}                   : widget instance
      */
-    IWidget* createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP);
+    IWidget* createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, bool isCloningP = false);
     /**
      * Create radio button widget.
      * 
@@ -107,7 +108,7 @@ public:
      * @param  {int} groupIdP              : group id
      * @return {IWidget*}                  : widget instance
      */
-    IWidget* createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP);
+    IWidget* createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP, bool isCloningP = false);
     /**
      * Create image widget.
      * 
@@ -118,7 +119,7 @@ public:
      * @param  {int} nChannelsP        : 
      * @return {IWIdget*}              : 
      */
-    IWidget* createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP);
+    IWidget* createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP, bool isCloningP = false);
     /**
      * Create combo button widget.
      * 
@@ -128,7 +129,7 @@ public:
      * @param  {ImFont*} pFontP : font of text items
      * @return {IWidget*}       : widget instance
      */
-    IWidget* createComboButton(const char** pItems, int countP, int selectedP, ImFont* pFontP);
+    IWidget* createComboButton(const char** pItems, int countP, int selectedP, ImFont* pFontP, bool isCloningP = false);
 
 private:
     WidgetFactory();
