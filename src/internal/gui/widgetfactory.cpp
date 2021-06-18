@@ -79,7 +79,7 @@ IWidget* WidgetFactory::createArea(const char* textP, ImFont* pFontP, int styleP
 
 IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP, bool isCloningP)
 {
-    return (isCloningP) ? new Widget::Field(textP, pFontP, styleP, nullptr);
+    return (isCloningP) ? new Widget::Field(textP, pFontP, styleP, nullptr)
                         : (pHintP) ? setupWidget(new Widget::Field(textP, pFontP, styleP, pHintP))
                                    : setupWidget(new Widget::Field(textP, pFontP, styleP));
 }

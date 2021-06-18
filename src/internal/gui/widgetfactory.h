@@ -65,14 +65,6 @@ public:
     IWidget* createArea(const char* textP, ImFont* pFontP, int styleP, bool isCloningP = false);
     
     /**
-     * Create field widget.
-     * 
-     * @param  {char*} textP    : text to display
-     * @param  {ImFont*} pFontP : font of text
-     * @param  {int} styleP     : style of widget
-     */
-    IWidget* createField(const char* textP, ImFont* pFontP, int styleP, bool isCloningP = false);
-    /**
      * Create field widget with text hint.
      * 
      * @param  {char*} textP    : text to display
