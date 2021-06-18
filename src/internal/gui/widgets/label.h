@@ -19,6 +19,10 @@ class Label : public Base<IWidget>
 public:
     Label(const char* textP, ImFont* pFontP);
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Label& operator=(const Label& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */

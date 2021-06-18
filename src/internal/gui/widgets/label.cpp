@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/label.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -14,6 +15,24 @@ Label::Label(const char* textP, ImFont* pFontP)
 {
     // TODO: replacement must be done on rebol side
     replace(textM, "^/", "\n");
+}
+
+IWidget* Label::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createLabel("", nullptr, true);
+    Label* pLabel = static_cast<Label*>(pWidget);
+    *pLabel = *this;
+    return pLabel;
+}
+
+Label& Label::operator=(const Label& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        textM = rOpP.textM;
+    }
+    return *this;
 }
 
 void Label::beginRender()
