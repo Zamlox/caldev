@@ -22,6 +22,10 @@ class Area : public Base<IWidget>
 public:
     Area(const char* textP, ImFont* pFontP, int styleP);
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Area& operator=(const Area& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */
