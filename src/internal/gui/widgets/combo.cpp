@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/combo.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -19,6 +20,26 @@ Combo::Combo(const char** pItemsP, int countP, int selectedP, ImFont* pFontP)
 Combo::~Combo()
 {
     destroyData(&pItemsM);
+}
+
+IWidget* Combo::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createComboButton(nullptr, 0, 0, nullptr, true);
+    Combo* pCombo = static_cast<Combo*>(pWidget);
+    *pCombo = *this;
+    return pCombo;
+}
+
+Combo& Combo::operator=(const Combo& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        pItemsM     = rOpP.pItemsM;
+        countM      = rOpP.countM;
+        selectedM   = rOpP.selectedM;
+    }
+    return *this;
 }
 
 void Combo::beginRender()
