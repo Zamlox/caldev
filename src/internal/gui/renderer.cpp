@@ -104,6 +104,12 @@ void Renderer::render()
     }
 }
 
+void Renderer::postRender()
+{
+    // TODO: equalize render buffers after it has been rendered
+    // ...
+}
+
 void Renderer::setNewFontAdded(bool valueP)
 {
     newFontAddedM = valueP;
