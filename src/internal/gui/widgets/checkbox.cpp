@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/checkbox.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -17,6 +18,27 @@ Checkbox::Checkbox(const char* textP, ImFont* pFontP, Color* pMarkColorP)
 {
     // TODO: replacement must be done on rebol side
     replace(textM, "^/", "\n");
+}
+
+IWidget* Checkbox::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createCheckbox("", nullptr, nullptr, true);
+    Checkbox* pCheckbox = static_cast<Checkbox*>(pWidget);
+    *pCheckbox = *this;
+    return pCheckbox;
+}
+
+Checkbox& Checkbox::operator=(const Checkbox& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        textM           = rOpP.textM;
+        pressedM        = rOpP.pressedM;
+        checkStatusM    = rOpP.checkStatusM;
+        checkMarkColorM = rOpP.checkMarkColorM;
+    }
+    return *this;
 }
 
 void Checkbox::beginRender()

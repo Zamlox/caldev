@@ -26,6 +26,10 @@ public:
      */
     Checkbox(const char* textP, ImFont* pFontP, Color* pMarkColorP);
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Checkbox& operator=(const Checkbox& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */
