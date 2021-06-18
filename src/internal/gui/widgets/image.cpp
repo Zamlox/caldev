@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/image.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 #include "extern/stb/stb_image.h"
 
@@ -29,6 +30,29 @@ Image::~Image()
 {
     stbi_image_free(pDataM);
     pDataM = nullptr;
+}
+
+IWidget* Image::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createImage(Api::GuiType::INVALID_TYPE, nullptr, 0, 0, 0, true);
+    Image* pImage = static_cast<Image*>(pWidget);
+    *pImage = *this;
+    return pImage;
+}
+
+Image& Image::operator=(const Image& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        guiTypeM    = rOpP.guiTypeM;
+        pDataM      = rOpP.pDataM;
+        nChannelsM  = rOpP.nChannelsM;
+        textureIdM  = rOpP.textureIdM;
+        imgWidthM   = rOpP.imgWidthM;
+        imgHeightM  = rOpP.imgHeightM;
+    }
+    return *this;
 }
 
 void Image::beginRender()
