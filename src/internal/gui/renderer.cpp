@@ -74,14 +74,8 @@ void Renderer::render()
             }
             break;
         case Widget::WidgetCommand::Update:
-            {
-                Os::lock_guard guard{syncWidgetsM};
-            }
             break;
         case Widget::WidgetCommand::Remove:
-            {
-                Os::lock_guard guard{syncWidgetsM};
-            }
             break;
         case Widget::WidgetCommand::Stash:
             stashedM = true;

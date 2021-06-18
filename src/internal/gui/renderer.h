@@ -234,8 +234,6 @@ private:
     Bind::Rebol2::FontsMap fontsM;
     /** Flag indicating new font has been added */
     bool newFontAddedM;
-    /** Synchronization object for operating on widgets fromother threads and renderer thread */
-    Os::Mutex syncWidgetsM;
     /** Gui type. Some widgets may need this info (ex.: image) */
     Api::GuiType guiTypeM;
     /** Flag indicating stash/unstash status */
