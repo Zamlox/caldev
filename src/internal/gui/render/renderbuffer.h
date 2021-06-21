@@ -19,12 +19,14 @@ public:
     using RootWidgets = std::list<Widget::Storage::Index>;
 
     void add(const Widget::CommandElem& rCommandP);
-    void remove();
-    void update();
+    void remove(const Widget::CommandElem& rCommandP);
+    void update(const Widget::CommandElem& rCommandP);
 
     RootWidgets const& getRenderable() const;
 
-    RenderBuffer& operator=(const RenderBuffer& rOpP);
+    IWidget* getWidget(Id idP);
+    IWindow* getWindow(Id idP);
+    Widget::Storage::Container const& getElements();
 
 private:
     /** Storage for widgets */
@@ -32,5 +34,20 @@ private:
     /** Root widgets, without parents */
     RootWidgets rootWidgetsM;
 };
+
+inline IWidget* RenderBuffer::getWidget(Id idP)
+{
+    return widgetsM.getElement(idP);
+}
+
+inline IWindow* RenderBuffer::getWindow(Id idP)
+{
+    return static_cast<IWindow*>(widgetsM.getElement(idP));
+}
+
+inline Widget::Storage::Container const& RenderBuffer::getElements()
+{
+    return widgetsM.getElements();
+}
 
 } // namespace GUI

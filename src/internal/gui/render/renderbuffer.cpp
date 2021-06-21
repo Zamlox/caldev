@@ -20,12 +20,12 @@ void RenderBuffer::add(const Widget::CommandElem& rCommandP)
     }
 }
 
-void RenderBuffer::remove()
+void RenderBuffer::remove(const Widget::CommandElem& rCommandP)
 {
 
 }
 
-void RenderBuffer::update()
+void RenderBuffer::update(const Widget::CommandElem& rCommandP)
 {
 
 }
@@ -33,11 +33,6 @@ void RenderBuffer::update()
 RenderBuffer::RootWidgets const& RenderBuffer::getRenderable() const
 {
     return rootWidgetsM;
-}
-
-RenderBuffer& RenderBuffer::operator=(const RenderBuffer& rOpP)
-{
-    return *this;
 }
 
 } // namespace GUI

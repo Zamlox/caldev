@@ -64,30 +64,20 @@ void Renderer::render()
         switch(command.getType())
         {
         case Widget::WidgetCommand::Create:
-            if (command.getGuiType() == Widget::GuiElemType::Widget)
-                itElem = widgetsM.add(command.getWidget(), command.getParentId());
-            else
-                itElem = widgetsM.add(command.getWindow(), command.getParentId());            
-            if (command.getParentId() == PARENT_NONE)
-            {
-                rootWidgetsM.push_back(itElem);
-            }
+            stageM.add(command);
             break;
         case Widget::WidgetCommand::Update:
+            stageM.update(command);
             break;
         case Widget::WidgetCommand::Remove:
+            stageM.remove(command);
             break;
         case Widget::WidgetCommand::Stash:
-            stashedM = true;
             glfwSwapInterval(0);
             break;
         case Widget::WidgetCommand::Unstash:
-            if (!isInitialUnstashM)
-            {
-                isInitialUnstashM = true;
-            }
-            else
-                stashedM = false;
+            isInitialUnstashM = true;
+            stageM.swapBuffers();
             glfwSwapInterval(1);
             break;
         }
@@ -95,19 +85,15 @@ void Renderer::render()
         // ...
     }
     // Render elements if not stashed
-    if (isInitialUnstashM)
+    for (auto itElem : stageM.getContentActiveBuffer())
     {
-        for (auto itElem : rootWidgetsM)
-        {
-            renderino(*itElem);
-        }
+        renderino(*itElem);
     }
 }
 
 void Renderer::postRender()
 {
-    // TODO: equalize render buffers after it has been rendered
-    // ...
+    stageM.normalizeBuffers();
 }
 
 void Renderer::setNewFontAdded(bool valueP)
@@ -145,7 +131,7 @@ void Renderer::renderino(Widget::StorageElem const& rElemP)
 {
     rElemP.widget.pWidget->beginRender();
     Widget::Storage::Index itEnd{rElemP.childLast};
-    if (itEnd != widgetsM.getElements().end())
+    if (itEnd != stageM.getElements().end())
     {
         ++itEnd;
     }

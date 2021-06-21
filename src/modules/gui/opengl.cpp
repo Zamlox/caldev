@@ -291,9 +291,10 @@ void OpenGL::draw()
         isFirstTimeRenderM = false;
         if (mainWindowVisibilityM)
             showMainWindow();
+
+        // executes post render operations
+        rendererM.postRender();
     }
-    // executes post render operations
-    rendererM.postRender();
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)
