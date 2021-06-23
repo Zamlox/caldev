@@ -28,6 +28,9 @@ public:
      */
     Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP);
 
+    /** see IWindow::clone() */
+    IWindow* clone() override;
+
     /** see IWindow::getPosX() */
     int getPosX() const override;
     /** see IWindow::getPosY() */

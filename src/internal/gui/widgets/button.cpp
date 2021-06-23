@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/button.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -14,6 +15,24 @@ Button::Button(const char* textP, ImFont* pFontP)
 {
     // TODO: replacement must be done on rebol side
     replace(textM, "^/", "\n");
+}
+
+IWidget* Button::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createButton("", nullptr, true);
+    Button* pButton = static_cast<Button*>(pWidget);
+    *pButton = *this;
+    return pButton;
+}
+
+Button& Button::operator=(const Button& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        textM = rOpP.textM;
+    }
+    return *this;
 }
 
 void Button::beginRender()

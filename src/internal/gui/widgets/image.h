@@ -22,6 +22,10 @@ public:
     Image(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP);
     ~Image();
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Image& operator=(const Image& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */

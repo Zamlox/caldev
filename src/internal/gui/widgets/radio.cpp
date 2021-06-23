@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/radio.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -42,6 +43,27 @@ RadioButton::RadioButton(const char* textP, ImFont* pFontP, Color* pMarkColorP, 
     {
         groupsM.setSelection(groupIdM, optionValueM);
     }
+}
+
+IWidget* RadioButton::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createRadioButton("", nullptr, nullptr, 0, 0, true);
+    RadioButton* pRadio = static_cast<RadioButton*>(pWidget);
+    *pRadio = *this;
+    return pRadio;
+}
+
+RadioButton& RadioButton::operator=(const RadioButton& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        textM           = rOpP.textM;
+        groupIdM        = rOpP.groupIdM;
+        optionValueM    = rOpP.optionValueM;
+        checkMarkColorM = rOpP.checkMarkColorM;
+    }
+    return *this;
 }
 
 void RadioButton::beginRender()

@@ -29,6 +29,10 @@ public:
     Combo(const char** pItemsP, int countP, int selectedP, ImFont* pFontP);
     ~Combo();
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Combo& operator=(const Combo& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */

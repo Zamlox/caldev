@@ -285,12 +285,15 @@ void OpenGL::draw()
 
     syncBeforeFrameStartsM.unlock();
 
+    // optimize first display
     if (rendererM.isInitialUnstash() && isFirstTimeRenderM)
     {
         isFirstTimeRenderM = false;
         if (mainWindowVisibilityM)
             showMainWindow();
     }
+    // executes post render operations
+    rendererM.postRender();
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)

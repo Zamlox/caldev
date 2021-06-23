@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/field.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -19,6 +20,24 @@ Field::Field(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
     : Field(textP, pFontP, styleP)
 {
     pHintM = pHintP;
+}
+
+IWidget* Field::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createField("", nullptr, 0, nullptr, true);
+    Field* pField = static_cast<Field*>(pWidget);
+    *pField = *this;
+    return pField;
+}
+
+Field& Field::operator=(const Field& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Area::operator=(rOpP);
+        pHintM  = rOpP.pHintM;
+    }
+    return *this;
 }
 
 void Field::update(GlueFace const& rFaceP, bool partOfCreationP)

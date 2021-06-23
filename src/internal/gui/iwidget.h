@@ -49,6 +49,13 @@ public:
      * @param  {GlueFace} const : face to update
      */
     virtual void update(GlueFace const& rFaceP, bool partOfCreationP = false) = 0;
+
+    /**
+     *  Clone widget.
+     * 
+     * @return {IWidget*}  : new widget instance
+     */
+    virtual IWidget* clone() = 0;
 };
 
 } // namespace GUI

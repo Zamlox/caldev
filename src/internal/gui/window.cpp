@@ -12,6 +12,11 @@ Window::Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentId
 {
 }
 
+IWindow* Window::clone()
+{
+    return implM.clone();
+}
+
 int Window::getPosX() const
 {
     return implM.getPosX();

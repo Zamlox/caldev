@@ -38,6 +38,10 @@ public:
      */
     RadioButton(const char* textP, ImFont* pFontP, Color* pMarkColorP, int groupIdP, int selectedP);
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    RadioButton& operator=(const RadioButton& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */

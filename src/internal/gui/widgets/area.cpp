@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/widgets/area.h"
+#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI {
@@ -53,6 +54,25 @@ Area::Area(const char* textP, ImFont* pFontP, int styleP)
 {
     // TODO: replacement must be done on rebol side
     replace(textBufferM, "^/", "\n");
+}
+
+IWidget* Area::clone()
+{
+    IWidget* pWidget = WidgetFactory::instance().createArea("", nullptr, true);
+    Area* pArea = static_cast<Area*>(pWidget);
+    *pArea = *this;
+    return pArea;
+}
+
+Area& Area::operator=(const Area& rOpP)
+{
+    if (&rOpP != this)
+    {
+        Base<IWidget>::operator=(rOpP);
+        textBufferM = rOpP.textBufferM;
+        styleM      = rOpP.styleM;
+    }
+    return *this;
 }
 
 void Area::beginRender()

@@ -25,6 +25,10 @@ public:
      */
     Button(const char* textP, ImFont* pFontP);
 
+    /** see IWidget::clone() */
+    IWidget* clone() override;
+    Button& operator=(const Button& rOpP);
+
     /** see IRender::beginRender() */
     void beginRender() override;
     /** see IRender::endRender() */

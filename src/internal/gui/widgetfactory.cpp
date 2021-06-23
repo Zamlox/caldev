@@ -35,17 +35,22 @@ WidgetFactory& WidgetFactory::instance()
     return *pInstanceM;
 }
 
-owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP)
+owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* pFontP, Id parentIdP, bool isCloningP)
 {
     StringBuffer buffer;
     owner<IWindow*> pWindow{nullptr};
-    if (indexM != MAX_ID)
+    if (!isCloningP)
     {
-        buffer.appendf("%s###%d", titleP, ++indexM);
-        pWindow = new Window(buffer.c_str(), flags, pFontP, indexM, parentIdP);
-        assert(pWindow);
-        //pWindow->setId(indexM);
+        if (indexM != MAX_ID)
+        {
+            buffer.appendf("%s###%d", titleP, ++indexM);
+            pWindow = new Window(buffer.c_str(), flags, pFontP, indexM, parentIdP);
+            assert(pWindow);
+            //pWindow->setId(indexM);
+        }
     }
+    else
+        pWindow = new Window("", flags, pFontP, indexM, parentIdP);
     return pWindow;
 }
 
@@ -61,27 +66,31 @@ void WidgetFactory::destroyWidget(owner<IWidget*>& pWidgetP)
     pWidgetP = nullptr;
 }
 
-IWidget* WidgetFactory::createLabel(const char* textP, ImFont* pFontP)
+IWidget* WidgetFactory::createLabel(const char* textP, ImFont* pFontP, bool isCloningP)
 {
-    return setupWidget(new Widget::Label(textP, pFontP));
+    return (isCloningP) ? new Widget::Label(textP, pFontP)
+                        : setupWidget(new Widget::Label(textP, pFontP));
 }
-IWidget* WidgetFactory::createArea(const char* textP, ImFont* pFontP, int styleP)
+IWidget* WidgetFactory::createArea(const char* textP, ImFont* pFontP, int styleP, bool isCloningP)
 {
-    return setupWidget(new Widget::Area(textP, pFontP, styleP));
-}
-
-IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP)
-{
-    return (pHintP) ? setupWidget(new Widget::Field(textP, pFontP, styleP, pHintP))
-                    : setupWidget(new Widget::Field(textP, pFontP, styleP));
+    return (isCloningP) ? new Widget::Area(textP, pFontP, styleP)
+                        : setupWidget(new Widget::Area(textP, pFontP, styleP));
 }
 
-IWidget* WidgetFactory::createButton(const char* textP, ImFont* pFontP)
+IWidget* WidgetFactory::createField(const char* textP, ImFont* pFontP, int styleP, const char* pHintP, bool isCloningP)
 {
-    return setupWidget(new Widget::Button(textP, pFontP));
+    return (isCloningP) ? new Widget::Field(textP, pFontP, styleP, nullptr)
+                        : (pHintP) ? setupWidget(new Widget::Field(textP, pFontP, styleP, pHintP))
+                                   : setupWidget(new Widget::Field(textP, pFontP, styleP));
 }
 
-IWidget* WidgetFactory::createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP)
+IWidget* WidgetFactory::createButton(const char* textP, ImFont* pFontP, bool isCloningP)
+{
+    return (isCloningP) ? new Widget::Button(textP, pFontP)
+                        : setupWidget(new Widget::Button(textP, pFontP));
+}
+
+IWidget* WidgetFactory::createCheckbox(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, bool isCloningP)
 {
     Color markColor;
     Color* pMarkColor{nullptr};
@@ -90,13 +99,11 @@ IWidget* WidgetFactory::createCheckbox(const char* textP, ImFont* pFontP, ::Colo
         markColor = GUI::Base<IWidget>::NormalizeColor(*pCheckMarkColorP);
         pMarkColor = &markColor;
     }
-    return setupWidget(new Widget::Checkbox(
-        textP, 
-        pFontP, 
-        pMarkColor));
+    return (isCloningP) ? new Widget::Checkbox(textP, pFontP, pMarkColor)
+                        : setupWidget(new Widget::Checkbox(textP, pFontP, pMarkColor));
 }
 
-IWidget* WidgetFactory::createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP)
+IWidget* WidgetFactory::createRadioButton(const char* textP, ImFont* pFontP, ::Color* pCheckMarkColorP, int groupIdP, int selectedP, bool isCloningP)
 {
     Color markColor;
     Color* pMarkColor{nullptr};
@@ -105,22 +112,20 @@ IWidget* WidgetFactory::createRadioButton(const char* textP, ImFont* pFontP, ::C
         markColor = GUI::Base<IWidget>::NormalizeColor(*pCheckMarkColorP);
         pMarkColor = &markColor;
     }
-    return setupWidget(new Widget::RadioButton(
-        textP, 
-        pFontP, 
-        pMarkColor,
-        groupIdP,
-        selectedP));
+    return (isCloningP) ? new Widget::RadioButton(textP, pFontP, pMarkColor, groupIdP, selectedP)
+                        : setupWidget(new Widget::RadioButton(textP, pFontP, pMarkColor, groupIdP, selectedP));
 }
 
-IWidget* WidgetFactory::createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP)
+IWidget* WidgetFactory::createImage(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP, bool isCloningP)
 {
-    return setupWidget(new Widget::Image(guiTypeP, pDataP, widthP, heightP, nChannelsP));
+    return (isCloningP) ? new Widget::Image(guiTypeP, pDataP, widthP, heightP, nChannelsP)
+                        : setupWidget(new Widget::Image(guiTypeP, pDataP, widthP, heightP, nChannelsP));
 }
 
-IWidget* WidgetFactory::createComboButton(const char** pItems, int countP, int selectedP, ImFont* pFontP)
+IWidget* WidgetFactory::createComboButton(const char** pItems, int countP, int selectedP, ImFont* pFontP, bool isCloningP)
 {
-    return setupWidget(new Widget::Combo(pItems, countP, selectedP, pFontP));
+    return (isCloningP) ? new Widget::Combo(pItems, countP, selectedP, pFontP)
+                        : setupWidget(new Widget::Combo(pItems, countP, selectedP, pFontP));
 }
 
 IWidget* WidgetFactory::setupWidget(IWidget* pWidgetP)

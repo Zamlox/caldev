@@ -21,6 +21,14 @@ class IWindow : public IWidget
 {
 public:
     virtual ~IWindow() = default;
+
+    /**
+     *  Clone window.
+     * 
+     * @return {IWindow*}  : new window instance
+     */
+    virtual IWindow* clone() = 0;
+
     /**
      * Get x position of left-top corner.
      * @return {int}  : x value of left-top corner

@@ -214,6 +214,30 @@ public:
         pCurrentStyleM->FramePadding = rPadP;
     }
 
+    Base& operator=(Base const& rOpP)
+    {
+        if (&rOpP != this)
+        {
+            visibleM    = rOpP.visibleM;
+            idM         = rOpP.idM;
+            parentIdM   = rOpP.parentIdM;
+            pFontM      = rOpP.pFontM;
+            xM          = rOpP.xM;
+            yM          = rOpP.yM;
+            widthM      = rOpP.widthM;
+            heightM     = rOpP.heightM;
+            bgColorM    = rOpP.bgColorM;
+            bgColorRGBM = rOpP.bgColorRGBM;
+            alphaM      = rOpP.alphaM;
+            frColorM    = rOpP.frColorM;
+            alignM      = rOpP.alignM;
+            isWrapM     = rOpP.isWrapM;
+            styleCacheM = rOpP.styleCacheM;
+            pCurrentStyleM  = rOpP.pCurrentStyleM;
+        }
+        return *this;
+    }
+
 protected:
     std::string& replace(std::string& s, const std::string& from, const std::string& to)
     {

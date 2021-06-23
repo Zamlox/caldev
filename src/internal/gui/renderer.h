@@ -59,6 +59,12 @@ public:
     void render();
 
     /**
+     * Executes diverse post render operations, after 
+     * current frame has been rendered.
+     */
+    void postRender();
+
+    /**
      * Set flag when new font is added.
      * 
      * @param  {bool} valueP : value for flag to be set
@@ -86,7 +92,6 @@ public:
      */
     bool isInitialUnstash() const;
 
-    Os::Mutex& getWidgetsSync();
     IWidget* getWidget(Id idP);
     IWindow* getWindow(Id idP);
 
@@ -234,8 +239,6 @@ private:
     Bind::Rebol2::FontsMap fontsM;
     /** Flag indicating new font has been added */
     bool newFontAddedM;
-    /** Synchronization object for operating on widgets fromother threads and renderer thread */
-    Os::Mutex syncWidgetsM;
     /** Gui type. Some widgets may need this info (ex.: image) */
     Api::GuiType guiTypeM;
     /** Flag indicating stash/unstash status */
@@ -243,11 +246,6 @@ private:
     /** Flag indicating when first time unstash is done. */
     bool isInitialUnstashM;
 };
-
-inline Os::Mutex& Renderer::getWidgetsSync()
-{
-    return syncWidgetsM;
-}
 
 inline IWidget* Renderer::getWidget(Id idP)
 {
