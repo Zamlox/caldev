@@ -13,7 +13,7 @@
 #endif
 #include <iostream>
 
-#define GTEST_COUT std::cerr << "[          ] [ INFO ]"
+#define GTEST_COUT std::cerr << "[ INFO     ] "
 
 namespace
 {
@@ -33,34 +33,52 @@ protected:
 
     static void* onLoad(void* pParamP)
     {
+        GTEST_COUT << "STEP21" << std::endl;
         GUI::OpenGL* pOpenGL = static_cast<GUI::OpenGL*>(pParamP);
+        GTEST_COUT << "STEP22" << std::endl;
         if (pOpenGL)
         {
+            GTEST_COUT << "STEP23" << std::endl;
             pOpenGL->createMainWindow("Main thread window", 50, 50, 800, 600, 0xFF0000, true);
+            GTEST_COUT << "STEP24" << std::endl;
         }
+        GTEST_COUT << "STEP25" << std::endl;
         threadM.start();
+        GTEST_COUT << "STEP26" << std::endl;
         return nullptr;
     }
 
     static void* onLoad1(void* pParamP)
     {
+        GTEST_COUT << "STEP41" << std::endl;
         GUI::OpenGL* pOpenGL = static_cast<GUI::OpenGL*>(pParamP);
+        GTEST_COUT << "STEP42" << std::endl;
         if (pOpenGL)
         {
+            GTEST_COUT << "STEP43" << std::endl;
             pOpenGL->createMainWindow("Another main thread window", 10, 40, 600, 400, 0xFFFF00, true);
+            GTEST_COUT << "STEP44" << std::endl;
         }
+        GTEST_COUT << "STEP45" << std::endl;
         threadM.start();
+        GTEST_COUT << "STEP46" << std::endl;
         return nullptr;
     }
 
     static void* stopMainThread(void* pParamP)
     {
+        GTEST_COUT << "STEP81" << std::endl;
         GUI::OpenGL* pOpenGL = static_cast<GUI::OpenGL*>(pParamP);
+        GTEST_COUT << "STEP82" << std::endl;
         if (pOpenGL)
         {
+            GTEST_COUT << "STEP83" << std::endl;
             Os::Util::instance().msleep(1000);
+            GTEST_COUT << "STEP84" << std::endl;
             pOpenGL->stop();
+            GTEST_COUT << "STEP85" << std::endl;
         }
+        GTEST_COUT << "STEP86" << std::endl;
         return nullptr;
     }
 
@@ -73,12 +91,19 @@ Os::Thread TestsOpenGL::threadM{"TestsOpenGL", nullptr, &TestsOpenGL::stopMainTh
 
 
 TEST_F(TestsOpenGL, StartMainThread) {
+    GTEST_COUT << "STEP1" << std::endl;
     opengl.init(false);
+    GTEST_COUT << "STEP2" << std::endl;
     onLoad(&opengl);
+    GTEST_COUT << "STEP3" << std::endl;
     ASSERT_TRUE(opengl.startOnMainThread());
+    GTEST_COUT << "STEP4" << std::endl;
     opengl.init(false);
+    GTEST_COUT << "STEP5" << std::endl;
     onLoad1(&opengl);
+    GTEST_COUT << "STEP6" << std::endl;
     ASSERT_TRUE(opengl.startOnMainThread());
+    GTEST_COUT << "STEP7" << std::endl;
 }
 
 #ifndef OS_MACOS    // OSX does not support handling glfw main loop in different thread
