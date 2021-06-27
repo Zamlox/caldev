@@ -107,14 +107,14 @@ public:
     int createWidget(const char* pFaceDescriptionP);
 
     /**
-     * Start stashing data to be rendered.
+     * Start buffering.
      */
-    void stash();
+    void bufferingBegin();
 
     /**
-     * Unstash rendering data and allow to be rendered.
+     * Commit buffer content.
      */
-    void unstash();
+    void bufferingCommit();
 
 private:
     /**

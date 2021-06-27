@@ -140,14 +140,14 @@ int ApiImp::createWidget(const char* pFaceDescriptionP)
     return 0;
 }
 
-void ApiImp::stash()
+void ApiImp::bufferingBegin()
 {
-    pGuiEngineM->stash();
+    pGuiEngineM->bufferingBegin();
 }
 
-void ApiImp::unstash()
+void ApiImp::bufferingCommit()
 {
-    pGuiEngineM->unstash();
+    pGuiEngineM->bufferingCommit();
 }
 
 } // namespace Api

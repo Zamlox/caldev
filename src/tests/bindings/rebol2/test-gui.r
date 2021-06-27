@@ -48,6 +48,9 @@ context [
         main-y: 100
         main-width: 1400
         main-height: 700
+
+        bufferingBegin
+        
         either (id-win: create-main-window "Rebol2 Main Window" main-x main-y main-width main-height -2147483646 1) > 0 [
 
             fontD: make face!/font [
@@ -220,7 +223,7 @@ context [
                 parent: id-win
             ]
 
-            unstash
+            bufferingCommit
 
             print "Wait for 100 seconds..."
             wait 100

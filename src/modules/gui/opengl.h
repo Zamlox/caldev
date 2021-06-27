@@ -50,10 +50,10 @@ public:
     /** see IGui::createWidget() */
     Id createWidget(const char* pFaceDescriptionP) override;
 
-    /** see IGui::stash() */
-    void stash() override;
-    /** see IGui::unstash() */
-    void unstash() override;
+    /** see IGui::bufferingBegin() */
+    void bufferingBegin() override;
+    /** see IGui::bufferingCommit() */
+    void bufferingCommit() override;
 
 private:
     /**

@@ -76,12 +76,12 @@ int createWidget(const char* faceP)
     return pAPI->createWidget(faceP);
 }
 
-void stash()
+void bufferingBegin()
 {
-    pAPI->stash();
+    pAPI->bufferingBegin();
 }
 
-void unstash()
+void bufferingCommit()
 {
-    pAPI->unstash();
+    pAPI->bufferingCommit();
 }

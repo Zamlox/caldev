@@ -79,19 +79,23 @@ public:
      */
     bool getNewFontAdded() const;
     /**
-     * Start stashing rendering. 
+     * Start buffering graphic commands. 
      */
-    void stash();
+    void bufferingBegin();
     /**
-     * Stop stashing and render stashed content.
+     * Apply buffered graphic commands..
      */
-    void unstash();
+    void bufferingCommit();
     /**
-     * Check if initial unstash was called.
+     * Check if post render operation can be called.
      * 
-     * @return {bool}  : true if initial unstash was called, false otherwise
+     * @return {bool}  : true if post render operation can be called, false otherwise
      */
-    bool isInitialUnstash() const;
+    bool canCallPostRender() const;
+    /**
+     * Reset flag for post render operation.
+     */
+    void resetPostRender();
 
     IWidget* getWidget(Id idP);
     IWindow* getWindow(Id idP);
@@ -244,10 +248,8 @@ private:
     bool newFontAddedM;
     /** Gui type. Some widgets may need this info (ex.: image) */
     Api::GuiType guiTypeM;
-    /** Flag indicating stash/unstash status */
-    bool stashedM;
-    /** Flag indicating when first time unstash is done. */
-    bool isInitialUnstashM;
+    /** Flag indicating that post render operation can be called. */
+    bool canCallPostRenderM;
 };
 
 inline IWidget* Renderer::getWidget(Id idP)
@@ -258,6 +260,11 @@ inline IWidget* Renderer::getWidget(Id idP)
 inline IWindow* Renderer::getWindow(Id idP)
 {
     return static_cast<IWindow*>(stageM.getWindow(idP));
+}
+
+inline void Renderer::resetPostRender()
+{
+    canCallPostRenderM = false;
 }
 
 } // namespace GUI

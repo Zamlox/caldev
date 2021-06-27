@@ -22,8 +22,7 @@ namespace GUI {
 Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
-    , stashedM{true}
-    , isInitialUnstashM{false}
+    , canCallPostRenderM{false}
 {
 
 }
@@ -72,11 +71,11 @@ void Renderer::render()
         case Widget::WidgetCommand::Remove:
             stageM.remove(command);
             break;
-        case Widget::WidgetCommand::Stash:
+        case Widget::WidgetCommand::BufferingBegin:
             glfwSwapInterval(0);
             break;
-        case Widget::WidgetCommand::Unstash:
-            isInitialUnstashM = true;
+        case Widget::WidgetCommand::BufferingCommit:
+            canCallPostRenderM = true;
             stageM.swapBuffers();
             glfwSwapInterval(1);
             break;
@@ -106,25 +105,25 @@ bool Renderer::getNewFontAdded() const
     return newFontAddedM;
 }
 
-void Renderer::stash()
+void Renderer::bufferingBegin()
 {
     commandsM.set(
-        Widget::WidgetCommand::Stash, 
+        Widget::WidgetCommand::BufferingBegin, 
         INVALID_WIDGET_ID, 
         (IWidget*)nullptr);
 }
 
-void Renderer::unstash()
+void Renderer::bufferingCommit()
 {
     commandsM.set(
-        Widget::WidgetCommand::Unstash, 
+        Widget::WidgetCommand::BufferingCommit, 
         INVALID_WIDGET_ID, 
         (IWidget*)nullptr);
 }
 
-bool Renderer::isInitialUnstash() const
+bool Renderer::canCallPostRender() const
 {
-    return isInitialUnstashM;
+    return canCallPostRenderM;
 }
 
 void Renderer::renderino(Widget::StorageElem const& rElemP)
