@@ -7,10 +7,17 @@
 namespace GUI {
 
 RenderStage::RenderStage()
-    : pBufferActiveM{&buffer1M}
+    : buffer1M{false}
+    , buffer2M{true}
+    , pBufferActiveM{&buffer1M}
     , pBufferNonActiveM{&buffer2M}
 {
+}
 
+RenderStage::~RenderStage()
+{
+    pBufferActiveM = nullptr;
+    pBufferNonActiveM = nullptr;
 }
 
 void RenderStage::swapBuffers()

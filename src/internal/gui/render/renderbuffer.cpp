@@ -7,6 +7,11 @@
 
 namespace GUI {
 
+RenderBuffer::RenderBuffer(bool hasSharedElemsP)
+    : widgetsM{hasSharedElemsP}
+{
+}
+
 void RenderBuffer::add(const Widget::CommandElem& rCommandP)
 {
     Widget::Storage::Index itElem;

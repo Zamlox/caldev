@@ -15,6 +15,7 @@ class RenderStage
 {
 public:
     RenderStage();
+    ~RenderStage();
     /**
      * Swap buffers.
      */

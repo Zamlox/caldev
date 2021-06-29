@@ -18,6 +18,8 @@ class RenderBuffer
 public:
     using RootWidgets = std::list<Widget::Storage::Index>;
 
+    RenderBuffer(bool hasSharedElemsP);
+
     void add(const Widget::CommandElem& rCommandP);
     void remove(const Widget::CommandElem& rCommandP);
     void update(const Widget::CommandElem& rCommandP);
