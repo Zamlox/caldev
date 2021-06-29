@@ -109,13 +109,13 @@ caldev-funcs: [
         return:     [ integer! ]
     ] "createWidget"
 
-    stash [
-        "Stash rendering data defering them at a later stage (when unstash is called)"
-    ] "stash"
+    bufferingBegin [
+        "Buffer graphic data"
+    ] "bufferingBegin"
 
-    unstash [
-        "Unstash rendering data allowing them to be rendered"
-    ] "unstash"
+    bufferingCommit [
+        "Commit buffered data"
+    ] "bufferingCommit"
 ]
 
 

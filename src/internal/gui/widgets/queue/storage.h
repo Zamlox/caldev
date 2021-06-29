@@ -46,6 +46,8 @@ public:
     /** Widget id, index */
     using Lookup = std::map<Id, StorageElem::StorageIndex>;
 
+    Storage(bool hasSharedElemsP);
+
     ~Storage();
 
     /**
@@ -108,6 +110,7 @@ private:
     Container widgetsM;
     /** Lookup in widgetsM based on widget id */
     Lookup lookupM;
+    bool hasSharedElemsM;
 };
 
 } // namespace Widget

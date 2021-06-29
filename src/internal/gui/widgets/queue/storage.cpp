@@ -8,19 +8,29 @@
 namespace GUI {
 namespace Widget {
 
+Storage::Storage(bool hasSharedElemsP)
+    : hasSharedElemsM{hasSharedElemsP}
+{
+}
+
 Storage::~Storage()
 {
-    for (auto& rElem : widgetsM)
+    if (!hasSharedElemsM)
     {
-        if (rElem.type == GuiElemType::Widget)
+        for (auto& rElem : widgetsM)
         {
-            WidgetFactory::instance().destroyWidget(rElem.widget.pWidget);
-        }
-        else
-        {
-            WidgetFactory::instance().destroyWindow(rElem.widget.pWindow);
+            if (rElem.type == GuiElemType::Widget)
+            {
+                WidgetFactory::instance().destroyWidget(rElem.widget.pWidget);
+            }
+            else
+            {
+                WidgetFactory::instance().destroyWindow(rElem.widget.pWindow);
+            }
         }
     }
+    widgetsM.clear();
+    lookupM.clear();
 }
 
 Storage::Index Storage::add(IWidget* pWidgetP, Id parentIdP)

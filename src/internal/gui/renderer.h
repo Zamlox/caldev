@@ -9,6 +9,7 @@
 
 #include "api/imp/apiconst.h"
 #include "bindings/rebol2/cpp/font.h"
+#include "internal/gui/render/renderstage.h"
 #include "internal/gui/widgets/queue/storage.h"
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
@@ -78,19 +79,23 @@ public:
      */
     bool getNewFontAdded() const;
     /**
-     * Start stashing rendering. 
+     * Start buffering graphic commands. 
      */
-    void stash();
+    void bufferingBegin();
     /**
-     * Stop stashing and render stashed content.
+     * Apply buffered graphic commands..
      */
-    void unstash();
+    void bufferingCommit();
     /**
-     * Check if initial unstash was called.
+     * Check if post render operation can be called.
      * 
-     * @return {bool}  : true if initial unstash was called, false otherwise
+     * @return {bool}  : true if post render operation can be called, false otherwise
      */
-    bool isInitialUnstash() const;
+    bool canCallPostRender() const;
+    /**
+     * Reset flag for post render operation.
+     */
+    void resetPostRender();
 
     IWidget* getWidget(Id idP);
     IWindow* getWindow(Id idP);
@@ -228,9 +233,11 @@ private:
     Id  createCombo(GlueFace const& rFaceP);
 
     /** Storage for widgets */
-    Widget::Storage widgetsM;
+    //Widget::Storage widgetsM;
     /** Root widgets, without parents */
-    std::list<Widget::Storage::Index> rootWidgetsM;
+    //std::list<Widget::Storage::Index> rootWidgetsM;
+    /** Stage for buffers to be rendered */
+    RenderStage stageM;
     /** Commands queue */
     Widget::Command commandsM;
     /** Mutex used to synchrnize operations with frames */
@@ -241,20 +248,23 @@ private:
     bool newFontAddedM;
     /** Gui type. Some widgets may need this info (ex.: image) */
     Api::GuiType guiTypeM;
-    /** Flag indicating stash/unstash status */
-    bool stashedM;
-    /** Flag indicating when first time unstash is done. */
-    bool isInitialUnstashM;
+    /** Flag indicating that post render operation can be called. */
+    bool canCallPostRenderM;
 };
 
 inline IWidget* Renderer::getWidget(Id idP)
 {
-    return widgetsM.getElement(idP);
+    return stageM.getWidget(idP);
 }
 
 inline IWindow* Renderer::getWindow(Id idP)
 {
-    return static_cast<IWindow*>(widgetsM.getElement(idP));
+    return static_cast<IWindow*>(stageM.getWindow(idP));
+}
+
+inline void Renderer::resetPostRender()
+{
+    canCallPostRenderM = false;
 }
 
 } // namespace GUI

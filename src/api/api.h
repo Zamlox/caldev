@@ -102,12 +102,12 @@ CALDEV_API void showMainWindow();
 CALDEV_API int createWidget(const char* faceP);
 
 /**
- * Start stashing data to be rendered.
+ * Start buffering data to be rendered.
  */
-CALDEV_API void stash();
+CALDEV_API void bufferingBegin();
 
 /**
- * Unstash rendering data and allow to be rendered.
+ * Commit buffered data to be rendered.
  */
-CALDEV_API void unstash();
+CALDEV_API void bufferingCommit();
 

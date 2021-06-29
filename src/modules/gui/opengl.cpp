@@ -152,14 +152,14 @@ Id OpenGL::createWidget(const char* pFaceDescriptionP)
     return rendererM.createWidget(pFaceDescriptionP, Api::GuiType::GUI_OPENGL2);
 }
 
-void OpenGL::stash()
+void OpenGL::bufferingBegin()
 {
-    rendererM.stash();
+    rendererM.bufferingBegin();
 }
 
-void OpenGL::unstash()
+void OpenGL::bufferingCommit()
 {
-    rendererM.unstash();
+    rendererM.bufferingCommit();
 }
 
 void* OpenGL::initGuiEngine(void* pParamP)
@@ -285,15 +285,20 @@ void OpenGL::draw()
 
     syncBeforeFrameStartsM.unlock();
 
-    // optimize first display
-    if (rendererM.isInitialUnstash() && isFirstTimeRenderM)
+    // perform post render operation
+    if (rendererM.canCallPostRender())
     {
-        isFirstTimeRenderM = false;
-        if (mainWindowVisibilityM)
-            showMainWindow();
+        // optimize first display
+        if (isFirstTimeRenderM)
+        {
+            isFirstTimeRenderM = false;
+            if (mainWindowVisibilityM)
+                showMainWindow();
+        }
+        // executes post render operations
+        rendererM.postRender();
+        rendererM.resetPostRender();
     }
-    // executes post render operations
-    rendererM.postRender();
 }
 
 void OpenGL::size_callback(GLFWwindow* window, int width, int height)

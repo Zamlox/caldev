@@ -86,14 +86,14 @@ public:
     virtual Id createWidget(const char* pFaceDescriptionP) = 0;
 
     /**
-     * Tell renderer to stash rendering data until 'unstash()' is called.
+     * Tell renderer to start buffering graphic commands.
      */
-    virtual void stash() = 0;
+    virtual void bufferingBegin() = 0;
     
     /**
-     * Tell renderer to unstash data to allow rendering.
+     * Tell renderer to commit buffered graphic commands.
      */
-    virtual void unstash() = 0;
+    virtual void bufferingCommit() = 0;
 };
 
 } // namespace GUI

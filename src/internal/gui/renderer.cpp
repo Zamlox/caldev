@@ -22,8 +22,7 @@ namespace GUI {
 Renderer::Renderer(Os::Mutex& rFrameSynchronizerP)
     : rFrameSynchronizerM{rFrameSynchronizerP}
     , newFontAddedM{false}
-    , stashedM{true}
-    , isInitialUnstashM{false}
+    , canCallPostRenderM{false}
 {
 
 }
@@ -64,30 +63,20 @@ void Renderer::render()
         switch(command.getType())
         {
         case Widget::WidgetCommand::Create:
-            if (command.getGuiType() == Widget::GuiElemType::Widget)
-                itElem = widgetsM.add(command.getWidget(), command.getParentId());
-            else
-                itElem = widgetsM.add(command.getWindow(), command.getParentId());            
-            if (command.getParentId() == PARENT_NONE)
-            {
-                rootWidgetsM.push_back(itElem);
-            }
+            stageM.add(command);
             break;
         case Widget::WidgetCommand::Update:
+            stageM.update(command);
             break;
         case Widget::WidgetCommand::Remove:
+            stageM.remove(command);
             break;
-        case Widget::WidgetCommand::Stash:
-            stashedM = true;
+        case Widget::WidgetCommand::BufferingBegin:
             glfwSwapInterval(0);
             break;
-        case Widget::WidgetCommand::Unstash:
-            if (!isInitialUnstashM)
-            {
-                isInitialUnstashM = true;
-            }
-            else
-                stashedM = false;
+        case Widget::WidgetCommand::BufferingCommit:
+            canCallPostRenderM = true;
+            stageM.swapBuffers();
             glfwSwapInterval(1);
             break;
         }
@@ -95,19 +84,15 @@ void Renderer::render()
         // ...
     }
     // Render elements if not stashed
-    if (isInitialUnstashM)
+    for (auto itElem : stageM.getContentActiveBuffer())
     {
-        for (auto itElem : rootWidgetsM)
-        {
-            renderino(*itElem);
-        }
+        renderino(*itElem);
     }
 }
 
 void Renderer::postRender()
 {
-    // TODO: equalize render buffers after it has been rendered
-    // ...
+    stageM.normalizeBuffers();
 }
 
 void Renderer::setNewFontAdded(bool valueP)
@@ -120,32 +105,32 @@ bool Renderer::getNewFontAdded() const
     return newFontAddedM;
 }
 
-void Renderer::stash()
+void Renderer::bufferingBegin()
 {
     commandsM.set(
-        Widget::WidgetCommand::Stash, 
+        Widget::WidgetCommand::BufferingBegin, 
         INVALID_WIDGET_ID, 
         (IWidget*)nullptr);
 }
 
-void Renderer::unstash()
+void Renderer::bufferingCommit()
 {
     commandsM.set(
-        Widget::WidgetCommand::Unstash, 
+        Widget::WidgetCommand::BufferingCommit, 
         INVALID_WIDGET_ID, 
         (IWidget*)nullptr);
 }
 
-bool Renderer::isInitialUnstash() const
+bool Renderer::canCallPostRender() const
 {
-    return isInitialUnstashM;
+    return canCallPostRenderM;
 }
 
 void Renderer::renderino(Widget::StorageElem const& rElemP)
 {
     rElemP.widget.pWidget->beginRender();
     Widget::Storage::Index itEnd{rElemP.childLast};
-    if (itEnd != widgetsM.getElements().end())
+    if (itEnd != stageM.getElements().end())
     {
         ++itEnd;
     }
