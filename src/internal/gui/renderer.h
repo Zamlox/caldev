@@ -9,7 +9,7 @@
 
 #include "api/imp/apiconst.h"
 #include "bindings/rebol2/cpp/font.h"
-#include "internal/gui/render/RenderBuffering.h"
+#include "internal/gui/render/renderbuffering.h"
 #include "internal/gui/widgets/queue/storage.h"
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
