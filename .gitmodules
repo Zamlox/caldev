@@ -1,20 +1,20 @@
 
 [submodule "src/extern/glfw"]
 	path = src/extern/glfw
-	url = https://github.com/Zamlox/glfw.git
+	url = git@github.com:Zamlox/glfw.git
 [submodule "src/extern/imgui"]
 	path = src/extern/imgui
-	url = https://github.com/Zamlox/imgui.git
+	url = git@github.com:Zamlox/imgui.git
 [submodule "src/extern/googletest"]
 	path = src/extern/googletest
-	url = https://github.com/Zamlox/googletest.git
+	url = git@github.com:Zamlox/googletest.git
 [submodule "src/extern/GSL"]
 	path = src/extern/GSL
-	url = https://github.com/Zamlox/GSL.git
+	url = git@github.com:Zamlox/GSL.git
 
 [submodule "src/extern/rebsdev"]
 	path = src/extern/rebsdev
-	url = https://github.com/Zamlox/rebsdev.git
+	url = git@github.com:Zamlox/rebsdev.git
 [submodule "src/extern/stb"]
 	path = src/extern/stb
-	url = https://github.com/Zamlox/stb.git
+	url = git@github.com:Zamlox/stb.git
