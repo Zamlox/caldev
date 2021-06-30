@@ -1,6 +1,6 @@
 /**
  * Author: 		Iosif Haidu
- * Description: Render stage
+ * Description: Render buffering
  *
  * Copyright 2021 Iosif Haidu - All rights reserved.
  */
@@ -11,11 +11,11 @@
 
 namespace GUI {
 
-class RenderStage
+class RenderBuffering
 {
 public:
-    RenderStage();
-    ~RenderStage();
+    RenderBuffering();
+    ~RenderBuffering();
     /**
      * Swap buffers.
      */
@@ -67,17 +67,17 @@ private:
     ListCommands commandsM;
 };
 
-inline IWidget* RenderStage::getWidget(Id idP)
+inline IWidget* RenderBuffering::getWidget(Id idP)
 {
     return pBufferNonActiveM->getWidget(idP);
 }
 
-inline IWindow* RenderStage::getWindow(Id idP)
+inline IWindow* RenderBuffering::getWindow(Id idP)
 {
     return static_cast<IWindow*>(pBufferNonActiveM->getWindow(idP));
 }
 
-inline Widget::Storage::Container const& RenderStage::getElements()
+inline Widget::Storage::Container const& RenderBuffering::getElements()
 {
     return pBufferActiveM->getElements();
 }

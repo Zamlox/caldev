@@ -14,12 +14,14 @@ Combo::Combo(const char** pItemsP, int countP, int selectedP, ImFont* pFontP)
     , pItemsM{pItemsP}
     , countM{countP}
     , selectedM{selectedP}
+    , sharedM{false}
 {
 }
 
 Combo::~Combo()
 {
-    destroyData(&pItemsM);
+    if (!sharedM)
+        destroyData(&pItemsM);
 }
 
 IWidget* Combo::clone()
@@ -35,9 +37,10 @@ Combo& Combo::operator=(const Combo& rOpP)
     if (&rOpP != this)
     {
         Base<IWidget>::operator=(rOpP);
-        pItemsM     = rOpP.pItemsM;
         countM      = rOpP.countM;
         selectedM   = rOpP.selectedM;
+        pItemsM     = rOpP.pItemsM;
+        sharedM     = true;
     }
     return *this;
 }

@@ -3,6 +3,7 @@
  */
 
 #include "internal/gui/window.h"
+#include "internal/gui/widgetfactory.h"
 
 namespace GUI
 {
@@ -14,7 +15,19 @@ Window::Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentId
 
 IWindow* Window::clone()
 {
-    return implM.clone();
+    IWindow* pNew = WidgetFactory::instance().createWindow("", 0, nullptr, 0, true);
+    Window* pWindow = static_cast<Window*>(pNew);
+    *pWindow = *this;
+    return pWindow;
+}
+
+Window& Window::operator=(const Window& rOpP)
+{
+    if (&rOpP != this)
+    {
+        this->implM = rOpP.implM;
+    }
+    return *this;
 }
 
 int Window::getPosX() const

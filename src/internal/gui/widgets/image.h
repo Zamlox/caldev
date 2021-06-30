@@ -39,6 +39,7 @@ private:
     Api::GuiType guiTypeM;
     unsigned char* pDataM;
     int nChannelsM;
+    int desiredChannelsM;
     unsigned int textureIdM;
     int imgWidthM;
     int imgHeightM;

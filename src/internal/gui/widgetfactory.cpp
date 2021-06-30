@@ -50,7 +50,10 @@ owner<IWindow*> WidgetFactory::createWindow(czstring<> titleP, int flags, Font* 
         }
     }
     else
-        pWindow = new Window("", flags, pFontP, indexM, parentIdP);
+    {
+        buffer.appendf(" ");
+        pWindow = new Window(buffer.c_str(), flags, pFontP, indexM, parentIdP);
+    }
     return pWindow;
 }
 

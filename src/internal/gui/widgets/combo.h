@@ -44,6 +44,8 @@ private:
     const char** pItemsM;
     int countM;
     int selectedM;
+    /** Flag used to avoid destroying pItemsM twice if instance was cloned */
+    bool sharedM;
 };
 
 } // namespace Widget
