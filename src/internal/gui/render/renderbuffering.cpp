@@ -2,7 +2,7 @@
  * Copyright 2021 Iosif Haidu - All rights reserved.
  */
 
-#include "internal/gui/render/RenderBuffering.h"
+#include "internal/gui/render/renderbuffering.h"
 
 namespace GUI {
 
