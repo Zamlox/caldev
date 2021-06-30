@@ -54,8 +54,11 @@ Image& Image::operator=(const Image& rOpP)
         textureIdM  = rOpP.textureIdM;
         imgWidthM   = rOpP.imgWidthM;
         imgHeightM  = rOpP.imgHeightM;
-        pDataM      = (unsigned char*)malloc(length);
-        memcpy(pDataM, rOpP.pDataM, length);
+        if (rOpP.pDataM)
+        {
+            pDataM      = (unsigned char*)malloc(length);
+            memcpy(pDataM, rOpP.pDataM, length);
+        }
     }
     return *this;
 }
