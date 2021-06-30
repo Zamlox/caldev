@@ -14,6 +14,11 @@ namespace GUI {
 class RenderBuffering
 {
 public:
+    using BufferType = enum {
+        ACTIVE_BUFFER,
+        INACTIVE_BUFFER
+    };
+
     RenderBuffering();
     ~RenderBuffering();
     /**
@@ -54,8 +59,8 @@ public:
      */
     RenderBuffer::RootWidgets const& getContentActiveBuffer() const;
 
-    IWidget* getWidget(Id idP);
-    IWindow* getWindow(Id idP);
+    IWidget* getWidget(Id idP, BufferType bufferTypeP);
+    IWindow* getWindow(Id idP, BufferType bufferTypeP);
     Widget::Storage::Container const& getElements();
 
 private:
@@ -67,14 +72,16 @@ private:
     ListCommands commandsM;
 };
 
-inline IWidget* RenderBuffering::getWidget(Id idP)
+inline IWidget* RenderBuffering::getWidget(Id idP, BufferType bufferTypeP)
 {
-    return pBufferNonActiveM->getWidget(idP);
+    return (bufferTypeP == ACTIVE_BUFFER) ? pBufferActiveM->getWidget(idP) 
+                                          : pBufferNonActiveM->getWidget(idP);
 }
 
-inline IWindow* RenderBuffering::getWindow(Id idP)
+inline IWindow* RenderBuffering::getWindow(Id idP, BufferType bufferTypeP)
 {
-    return static_cast<IWindow*>(pBufferNonActiveM->getWindow(idP));
+    return (bufferTypeP == ACTIVE_BUFFER) ? pBufferActiveM->getWindow(idP)
+                                          : pBufferNonActiveM->getWindow(idP);
 }
 
 inline Widget::Storage::Container const& RenderBuffering::getElements()

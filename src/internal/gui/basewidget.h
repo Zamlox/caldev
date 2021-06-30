@@ -41,6 +41,7 @@ public:
         , alignM{0.5, 0.5}
         , isWrapM{false}
         , pCurrentStyleM{nullptr}
+        , isDirtyM{false}
     {
     }
     Base(Font* pFontP)
@@ -238,6 +239,11 @@ public:
         return *this;
     }
 
+    bool isDirty() const override
+    {
+        return isDirtyM;
+    }
+
 protected:
     std::string& replace(std::string& s, const std::string& from, const std::string& to)
     {
@@ -279,6 +285,8 @@ protected:
     ImVector<Style> styleCacheM;
     /** Current style */
     Style* pCurrentStyleM;
+    /** Flag indicating if instance is dirty */
+    bool isDirtyM;
 };
 
 } // namespace GUI

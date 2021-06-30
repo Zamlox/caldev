@@ -97,8 +97,8 @@ public:
      */
     void resetPostRender();
 
-    IWidget* getWidget(Id idP);
-    IWindow* getWindow(Id idP);
+    IWidget* getWidget(Id idP, RenderBuffering::BufferType bufferTypeP);
+    IWindow* getWindow(Id idP, RenderBuffering::BufferType bufferTypeP);
 
 private:
     /**
@@ -252,14 +252,14 @@ private:
     bool canCallPostRenderM;
 };
 
-inline IWidget* Renderer::getWidget(Id idP)
+inline IWidget* Renderer::getWidget(Id idP, RenderBuffering::BufferType bufferTypeP)
 {
-    return bufferingM.getWidget(idP);
+    return bufferingM.getWidget(idP, bufferTypeP);
 }
 
-inline IWindow* Renderer::getWindow(Id idP)
+inline IWindow* Renderer::getWindow(Id idP, RenderBuffering::BufferType bufferTypeP)
 {
-    return static_cast<IWindow*>(bufferingM.getWindow(idP));
+    return static_cast<IWindow*>(bufferingM.getWindow(idP, bufferTypeP));
 }
 
 inline void Renderer::resetPostRender()

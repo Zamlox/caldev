@@ -112,8 +112,7 @@ private:
     Title titleM;
     /** Window flags */
     int flagsM;
-    /** Window font */
-    Font *pFontM;
+    /** Flag indicating if font was pushed. */
     bool fontPushedM;
     /** Reference to OS window if this is main window, nullptr otherwise */
     GLFWwindow* osWindowM;

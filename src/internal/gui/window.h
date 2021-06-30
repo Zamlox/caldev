@@ -54,6 +54,8 @@ public:
     void setBgColor(Color const& rColorP) override;
     /** see IWindow::makeMainWindow() */
     void makeMainWindow(not_null<void*> osWindowP) override;
+    /** see IWidget::isDirty() */
+    bool isDirty() const override;
 
     /** see IRender::beginRender() */
     void beginRender() override;
