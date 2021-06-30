@@ -63,20 +63,20 @@ void Renderer::render()
         switch(command.getType())
         {
         case Widget::WidgetCommand::Create:
-            stageM.add(command);
+            bufferingM.add(command);
             break;
         case Widget::WidgetCommand::Update:
-            stageM.update(command);
+            bufferingM.update(command);
             break;
         case Widget::WidgetCommand::Remove:
-            stageM.remove(command);
+            bufferingM.remove(command);
             break;
         case Widget::WidgetCommand::BufferingBegin:
             glfwSwapInterval(0);
             break;
         case Widget::WidgetCommand::BufferingCommit:
             canCallPostRenderM = true;
-            stageM.swapBuffers();
+            bufferingM.swapBuffers();
             glfwSwapInterval(1);
             break;
         }
@@ -84,7 +84,7 @@ void Renderer::render()
         // ...
     }
     // Render elements if not stashed
-    for (auto itElem : stageM.getContentActiveBuffer())
+    for (auto itElem : bufferingM.getContentActiveBuffer())
     {
         renderino(*itElem);
     }
@@ -92,7 +92,7 @@ void Renderer::render()
 
 void Renderer::postRender()
 {
-    stageM.normalizeBuffers();
+    bufferingM.normalizeBuffers();
 }
 
 void Renderer::setNewFontAdded(bool valueP)
@@ -130,7 +130,7 @@ void Renderer::renderino(Widget::StorageElem const& rElemP)
 {
     rElemP.widget.pWidget->beginRender();
     Widget::Storage::Index itEnd{rElemP.childLast};
-    if (itEnd != stageM.getElements().end())
+    if (itEnd != bufferingM.getElements().end())
     {
         ++itEnd;
     }

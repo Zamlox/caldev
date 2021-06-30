@@ -12,13 +12,19 @@ RenderBuffer::RenderBuffer(bool hasSharedElemsP)
 {
 }
 
-void RenderBuffer::add(const Widget::CommandElem& rCommandP)
+void RenderBuffer::add(const Widget::CommandElem& rCommandP, bool cloneWidgetP)
 {
     Widget::Storage::Index itElem;
     if (rCommandP.getGuiType() == Widget::GuiElemType::Widget)
-        itElem = widgetsM.add(rCommandP.getWidget(), rCommandP.getParentId());
+    {
+        IWidget* pWidget = (cloneWidgetP) ? rCommandP.getWidget()->clone() : rCommandP.getWidget();
+        itElem = widgetsM.add(pWidget, rCommandP.getParentId());
+    }
     else
-        itElem = widgetsM.add(rCommandP.getWindow(), rCommandP.getParentId());            
+    {
+        IWindow* pWindow =  (cloneWidgetP) ? rCommandP.getWindow()->clone() : rCommandP.getWindow();
+        itElem = widgetsM.add(pWindow, rCommandP.getParentId());            
+    }
     if (rCommandP.getParentId() == PARENT_NONE)
     {
         rootWidgetsM.push_back(itElem);

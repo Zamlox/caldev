@@ -30,7 +30,8 @@ public:
 
     /** see IWindow::clone() */
     IWindow* clone() override;
-
+    Window& operator=(const Window& rOpP);
+    
     /** see IWindow::getPosX() */
     int getPosX() const override;
     /** see IWindow::getPosY() */

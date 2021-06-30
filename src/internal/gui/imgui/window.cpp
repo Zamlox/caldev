@@ -4,7 +4,6 @@
 
 #include "internal/gui/imgui/window.h"
 #include "internal/gui/widgets/image.h"
-#include "internal/gui/widgetfactory.h"
 #include "extern/imgui/imgui.h"
 
 namespace GUI
@@ -28,10 +27,7 @@ Window::Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentId
 
 IWindow* Window::clone()
 {
-    IWindow* pNew = WidgetFactory::instance().createWindow("", 0, nullptr, 0, true);
-    Window* pWindow = static_cast<Window*>(pNew);
-    *pWindow = *this;
-    return pWindow;
+    return nullptr;
 }
 
 Window& Window::operator=(const Window& rOpP)

@@ -12,15 +12,17 @@ namespace Widget {
 
 Image::Image(Api::GuiType guiTypeP, const char* pFileNameP, int desiredChannelsP)
     : guiTypeM{guiTypeP}
+    , desiredChannelsM{desiredChannelsP}
     , textureIdM{0}
 {
-    pDataM = stbi_load(pFileNameP, &imgWidthM, &imgHeightM, &nChannelsM, desiredChannelsP);
+    pDataM = stbi_load(pFileNameP, &imgWidthM, &imgHeightM, &nChannelsM, desiredChannelsM);
 }
 
 Image::Image(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heightP, int nChannelsP)
     : guiTypeM{guiTypeP}
     , pDataM{pDataP}
     , nChannelsM{nChannelsP}
+    , desiredChannelsM{nChannelsP}
     , imgWidthM{widthP}
     , imgHeightM{heightP}
 {
@@ -44,13 +46,16 @@ Image& Image::operator=(const Image& rOpP)
 {
     if (&rOpP != this)
     {
+        int length = rOpP.imgWidthM * rOpP.imgHeightM * rOpP.nChannelsM;
         Base<IWidget>::operator=(rOpP);
         guiTypeM    = rOpP.guiTypeM;
-        pDataM      = rOpP.pDataM;
+        desiredChannelsM = rOpP.desiredChannelsM;
         nChannelsM  = rOpP.nChannelsM;
         textureIdM  = rOpP.textureIdM;
         imgWidthM   = rOpP.imgWidthM;
         imgHeightM  = rOpP.imgHeightM;
+        pDataM      = (unsigned char*)malloc(length);
+        memcpy(pDataM, rOpP.pDataM, length);
     }
     return *this;
 }

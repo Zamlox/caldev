@@ -20,7 +20,7 @@ public:
 
     RenderBuffer(bool hasSharedElemsP);
 
-    void add(const Widget::CommandElem& rCommandP);
+    void add(const Widget::CommandElem& rCommandP, bool cloneWidgetP = false);
     void remove(const Widget::CommandElem& rCommandP);
     void update(const Widget::CommandElem& rCommandP);
 

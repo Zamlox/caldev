@@ -9,7 +9,7 @@
 
 #include "api/imp/apiconst.h"
 #include "bindings/rebol2/cpp/font.h"
-#include "internal/gui/render/renderstage.h"
+#include "internal/gui/render/RenderBuffering.h"
 #include "internal/gui/widgets/queue/storage.h"
 #include "internal/gui/widgets/queue/command.h"
 #include "internal/gui/imgui/common.h"
@@ -236,8 +236,8 @@ private:
     //Widget::Storage widgetsM;
     /** Root widgets, without parents */
     //std::list<Widget::Storage::Index> rootWidgetsM;
-    /** Stage for buffers to be rendered */
-    RenderStage stageM;
+    /** Buffering for renderer */
+    RenderBuffering bufferingM;
     /** Commands queue */
     Widget::Command commandsM;
     /** Mutex used to synchrnize operations with frames */
@@ -254,12 +254,12 @@ private:
 
 inline IWidget* Renderer::getWidget(Id idP)
 {
-    return stageM.getWidget(idP);
+    return bufferingM.getWidget(idP);
 }
 
 inline IWindow* Renderer::getWindow(Id idP)
 {
-    return static_cast<IWindow*>(stageM.getWindow(idP));
+    return static_cast<IWindow*>(bufferingM.getWindow(idP));
 }
 
 inline void Renderer::resetPostRender()
