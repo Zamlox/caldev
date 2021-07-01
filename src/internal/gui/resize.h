@@ -35,6 +35,8 @@ public:
     /** see IResize::setMouseDelta() */
     void setMouseDelta(ImVec2 const& rMouseDeltaP) override;
 
+    Resize& operator=(const Resize& rOpP);
+
 private:
     /** Resize operation started */
     bool    startedM;

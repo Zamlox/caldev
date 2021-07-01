@@ -56,6 +56,13 @@ public:
      * @return {IWidget*}  : new widget instance
      */
     virtual IWidget* clone() = 0;
+
+    /**
+     * Check if any property has changed.
+     * 
+     * @return {bool}  : true is changed, false otherwise
+     */
+    virtual bool isDirty() const = 0;
 };
 
 } // namespace GUI

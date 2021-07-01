@@ -85,6 +85,11 @@ void Window::makeMainWindow(not_null<void*> osWindowP)
     implM.makeMainWindow(osWindowP);
 }
 
+bool Window::isDirty() const
+{
+    return implM.isDirty();
+}
+
 void Window::beginRender()
 {
     implM.beginRender();

@@ -5,6 +5,7 @@
 #include "internal/gui/renderer.h"
 #include "internal/gui/widgets/label.h"
 #include "internal/gui/widgetfactory.h"
+#include "internal/gui/window.h"
 #include "internal/os/util.h"
 #include "internal/os/lock_guard.h"
 #include "extern/imgui/imgui.h"
@@ -83,10 +84,38 @@ void Renderer::render()
         // TODO: execute command
         // ...
     }
-    // Render elements if not stashed
+    // Render elements from active buffer
     for (auto itElem : bufferingM.getContentActiveBuffer())
     {
         renderino(*itElem);
+    }
+}
+
+void Renderer::renderino(Widget::StorageElem const& rElemP)
+{
+    rElemP.widget.pWidget->beginRender();
+    Widget::Storage::Index itEnd{rElemP.childLast};
+    if (itEnd != bufferingM.getElements().end())
+    {
+        ++itEnd;
+    }
+    for (Widget::Storage::Index it = rElemP.childFirst; it != itEnd; ++it)
+    {
+        renderino(*it);
+    }
+    rElemP.widget.pWidget->endRender();
+
+    // synchronize active buffer window with non-active if dirty
+    // TODO: extend it also to widgets if needed
+    if (rElemP.type == Widget::GuiElemType::Window)
+    {
+        if (rElemP.widget.pWindow->isDirty())
+        {
+            Window* pActiveWindow = static_cast<Window*>(rElemP.widget.pWindow);
+            Window* pNonActive = static_cast<Window*>(getWindow(rElemP.widget.pWindow->getId(), RenderBuffering::BufferType::INACTIVE_BUFFER));
+            if (pActiveWindow && pNonActive)
+                *pNonActive = *pActiveWindow;
+        }
     }
 }
 
@@ -124,21 +153,6 @@ void Renderer::bufferingCommit()
 bool Renderer::canCallPostRender() const
 {
     return canCallPostRenderM;
-}
-
-void Renderer::renderino(Widget::StorageElem const& rElemP)
-{
-    rElemP.widget.pWidget->beginRender();
-    Widget::Storage::Index itEnd{rElemP.childLast};
-    if (itEnd != bufferingM.getElements().end())
-    {
-        ++itEnd;
-    }
-    for (Widget::Storage::Index it = rElemP.childFirst; it != itEnd; ++it)
-    {
-        renderino(*it);
-    }
-    rElemP.widget.pWidget->endRender();
 }
 
 bool Renderer::parseFaceDescription(const char* faceDescriptionP, GlueFace& rFaceP, FaceCounters& rCountersP)
@@ -254,7 +268,7 @@ Id Renderer::createStub(
 Font* Renderer::createFont(FaceFont const& rFontP)
 {
     Font* pFont{nullptr};
-    ImGuiContext* pImGuiContext = ImGui::GetCurrentContext();
+    ImGuiContext* pImGuiContext = ::ImGui::GetCurrentContext();
     assert(pImGuiContext);
     Bind::Rebol2::FontInfo fontInfo;
     Bind::Rebol2::Text fontName = (rFontP.path.none) ? gDefaultFont.path.value : rFontP.path.value;

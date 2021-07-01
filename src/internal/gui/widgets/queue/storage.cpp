@@ -45,7 +45,7 @@ Storage::Index Storage::add(IWindow* pWindowP, Id parentIdP)
 {
     StorageElem elem;
     elem.widget.pWindow = pWindowP;
-    elem.type = GuiElemType::Widget;
+    elem.type = GuiElemType::Window;
     return add(elem, pWindowP->getId(), parentIdP);
 }
 

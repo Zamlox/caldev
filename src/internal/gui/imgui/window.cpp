@@ -12,9 +12,9 @@ namespace ImGui
 {
 
 Window::Window(const char* titleP, int flagsP, Font* pFontP, Id idP, Id parentIdP)
-    : isOpenM{true}
+    : Base<IWindow>{pFontP}
+    , isOpenM{true}
     , flagsM{flagsP}
-    , pFontM{pFontP}
     , fontPushedM{false}
     , osWindowM{nullptr}
     , firstTimeRenderM{true}
@@ -42,6 +42,14 @@ Window& Window::operator=(const Window& rOpP)
         firstTimeRenderM    = rOpP.firstTimeRenderM;
         pImGuiWindowM       = rOpP.pImGuiWindowM;
         titleM              = rOpP.titleM;
+        for(int i = 0; i < COUNT_BORDERS; i++)
+        {
+            resizeBordersM[i] = rOpP.resizeBordersM[i];
+        }
+        for(int i = 0; i < COUNT_CORNERS; i++)
+        {
+            resizeCornersM[i] = rOpP.resizeCornersM[i];
+        }
     }
     return *this;
 }
@@ -111,20 +119,29 @@ void Window::beginRender()
 {
     if (visibleM && isOpenM)
     {
+        isDirtyM = false;
         // initialize window attributes
         if (firstTimeRenderM)
         {
             // initialize attributes only for first time
             ::ImGui::SetNextWindowPos(ImVec2(xM, yM));
             ::ImGui::SetNextWindowSize(ImVec2{static_cast<float>(widthM), static_cast<float>(heightM)});
+            isDirtyM = true;
         }
         if (pImGuiWindowM)
         {
             // update values which are used inside ImGui::Begin()
-            widthM = pImGuiWindowM->Size.x;
-            heightM = pImGuiWindowM->Size.y;
-            xM = pImGuiWindowM->Pos.x;
-            yM = pImGuiWindowM->Pos.y;
+            if (widthM != pImGuiWindowM->Size.x ||
+                heightM != pImGuiWindowM->Size.y ||
+                xM != pImGuiWindowM->Pos.x ||
+                yM != pImGuiWindowM->Pos.y)
+            {
+                widthM = pImGuiWindowM->Size.x;
+                heightM = pImGuiWindowM->Size.y;
+                xM = pImGuiWindowM->Pos.x;
+                yM = pImGuiWindowM->Pos.y;
+                isDirtyM = true;
+            }
         }
         // set color and alpha
         unsigned int bgColor = ::ImGui::ColorConvertFloat4ToU32(bgColorM);
@@ -153,6 +170,13 @@ void Window::beginRender()
         {
             ImGuiContext* pContext = ::ImGui::GetCurrentContext();
             pContext->Extension.pImguiMainWindow = ::ImGui::GetCurrentWindow();
+            if (pContext->Extension.pImguiMainWindow->Pos.x != xM ||
+                pContext->Extension.pImguiMainWindow->Pos.y != yM ||
+                pContext->Extension.pImguiMainWindow->Size.x != pContext->Extension.mainSize.x ||
+                pContext->Extension.pImguiMainWindow->Size.y != pContext->Extension.mainSize.y)
+            {
+                isDirtyM = true;
+            }
             ::ImGui::SetWindowPos(titleM.c_str(), ImVec2(xM, yM));
             ::ImGui::SetWindowSize(titleM.c_str(), pContext->Extension.mainSize);    
             // =======================

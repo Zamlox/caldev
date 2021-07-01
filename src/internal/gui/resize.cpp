@@ -43,4 +43,15 @@ void Resize::setMouseDelta(ImVec2 const& rMouseDeltaP)
     mouseDeltaM = rMouseDeltaP;
 }
 
+Resize& Resize::operator=(const Resize& rOpP)
+{
+    if (this != &rOpP)
+    {
+        startedM                = rOpP.startedM;
+        mouseHoveredTimestampM  = rOpP.mouseHoveredTimestampM;
+        mouseDeltaM             = rOpP.mouseDeltaM;
+    }
+    return *this;
+}
+
 } // namespace GUI
