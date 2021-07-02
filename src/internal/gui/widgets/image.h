@@ -34,7 +34,7 @@ public:
     void update(GlueFace const& rFaceP, bool partOfCreationP = false) override;
 
 private:
-    void renderForOpenGl2();
+    void renderForOpenGl2(bool forceP = false);
 
     Api::GuiType guiTypeM;
     unsigned char* pDataM;
@@ -43,6 +43,7 @@ private:
     unsigned int textureIdM;
     int imgWidthM;
     int imgHeightM;
+    bool canBeDeletedM;
 };
 
 } // namespace Widget

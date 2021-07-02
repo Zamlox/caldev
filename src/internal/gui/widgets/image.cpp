@@ -14,6 +14,7 @@ Image::Image(Api::GuiType guiTypeP, const char* pFileNameP, int desiredChannelsP
     : guiTypeM{guiTypeP}
     , desiredChannelsM{desiredChannelsP}
     , textureIdM{0}
+    , canBeDeletedM{true}
 {
     pDataM = stbi_load(pFileNameP, &imgWidthM, &imgHeightM, &nChannelsM, desiredChannelsM);
 }
@@ -23,15 +24,20 @@ Image::Image(Api::GuiType guiTypeP, unsigned char* pDataP, int widthP, int heigh
     , pDataM{pDataP}
     , nChannelsM{nChannelsP}
     , desiredChannelsM{nChannelsP}
+    , textureIdM{0}
     , imgWidthM{widthP}
     , imgHeightM{heightP}
+    , canBeDeletedM{true}
 {
 }
 
 Image::~Image()
 {
-    stbi_image_free(pDataM);
+    if (canBeDeletedM)
+        stbi_image_free(pDataM);
     pDataM = nullptr;
+    if (textureIdM)
+        glDeleteTextures(1, &textureIdM);
 }
 
 IWidget* Image::clone()
@@ -96,7 +102,9 @@ void Image::update(GlueFace const& rFaceP, bool partOfCreationP)
     {
         if (pDataM != rFaceP.image.value.data)
         {
-            stbi_image_free(pDataM);
+            canBeDeletedM = rFaceP.image.value.canBeDeleted;
+            if (rFaceP.image.value.canBeDeleted)
+                stbi_image_free(pDataM);
             pDataM = rFaceP.image.value.data;
             glDeleteTextures(1, &textureIdM);
         }
@@ -110,24 +118,27 @@ void Image::update(GlueFace const& rFaceP, bool partOfCreationP)
         }
         nChannelsM = rFaceP.image.value.channels;
 
-        renderForOpenGl2();
+        renderForOpenGl2(true);
     }
 }
 
-void Image::renderForOpenGl2()
+void Image::renderForOpenGl2(bool forceP)
 {
     int rgbType = (nChannelsM == 4) ? GL_RGBA : GL_RGB;
-    glGenTextures(1, &textureIdM);
-    glBindTexture(GL_TEXTURE_2D, textureIdM);
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load and generate the texture
-    if (pDataM)
+    if (textureIdM == 0 || forceP)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, rgbType, imgWidthM, imgHeightM, 0, rgbType, GL_UNSIGNED_BYTE, pDataM);
+        glGenTextures(1, &textureIdM);
+        glBindTexture(GL_TEXTURE_2D, textureIdM);
+        // set the texture wrapping/filtering options (on the currently bound texture object)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // load and generate the texture
+        if (pDataM)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, rgbType, imgWidthM, imgHeightM, 0, rgbType, GL_UNSIGNED_BYTE, pDataM);
+        }
     }
 }
 
