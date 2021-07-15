@@ -215,10 +215,11 @@ context [
                 type: 'combo        ;'
                 offset: 600x350
                 size: 100x150
-                color: 0.0.0.255
+                color: 255.255.255.100
                 font: make fontD [
                     align: 'right
                     valign: 'middle
+                    color: 255.0.0.100
                 ]
                 options: [ select "Option 3" ]
                 data: ["Option 1" "Option 2" "Option 3"]

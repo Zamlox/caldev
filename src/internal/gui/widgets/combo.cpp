@@ -55,8 +55,56 @@ void Combo::beginRender()
         window->DC.CursorPos.y = window->DC.CursorStartPos.y + yM;
         
         if (pFontM) ImGui::PushFont(pFontM);
+
+        SaveCurrentStyle();
+
+        SetStyleColor(ImGuiCol_FrameBg, bgColorM);
+
+        Color hoveredColor = GetStyleColor(ImGuiCol_FrameBgHovered);
+        hoveredColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_FrameBgHovered, hoveredColor);
+
+        Color activeColor = GetStyleColor(ImGuiCol_FrameBgActive);
+        activeColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_FrameBgActive, activeColor);
+
+        Color buttonHoveredColor = GetStyleColor(ImGuiCol_ButtonHovered);
+        buttonHoveredColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_ButtonHovered, buttonHoveredColor);
+
+        Color buttonColor = GetStyleColor(ImGuiCol_Button);
+        buttonColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_Button, buttonColor);
+
+        //Color textColor = GetStyleColor(ImGuiCol_Text);
+        //textColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_Text, frColorM);                     // Currently this sets also arrow color. Check ImGui::BeginCombo()
+
+        Color borderColor = GetStyleColor(ImGuiCol_Border);
+        borderColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_Border, borderColor);                     
+
+        Color headerColor = GetStyleColor(ImGuiCol_Header);
+        headerColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_Header, headerColor);                     
+
+        Color headerHoveredColor = GetStyleColor(ImGuiCol_HeaderHovered);
+        headerHoveredColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_HeaderHovered, headerHoveredColor);                     
+
+        Color headerActiveColor = GetStyleColor(ImGuiCol_HeaderActive);
+        headerActiveColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_HeaderActive, headerActiveColor);                     
+
+        // a popup will be opened
+        unsigned int bgColor = ::ImGui::ColorConvertFloat4ToU32(bgColorM);
+        ::ImGui::SetNextWindowBgColor(bgColor);
+        ::ImGui::SetNextWindowBgAlpha(bgColorM.w);
+
         ImGui::SetNextItemWidth(widthM);
         ImGui::Combo("", &selectedM, pItemsM, countM);
+
+        RestoreStyle();
     }
 }
 
