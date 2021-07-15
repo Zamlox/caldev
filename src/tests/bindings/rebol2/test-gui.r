@@ -166,7 +166,7 @@ context [
                 type: 'checkbox        ;'
                 offset: 230x350
                 size: 100x30
-                color: 100.138.100.170
+                color: 0.200.0.255
                 text: "Checkbox"
                 font: make fontD [
                     align: 'right

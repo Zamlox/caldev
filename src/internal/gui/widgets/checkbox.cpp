@@ -61,6 +61,13 @@ void Checkbox::beginRender()
         
         if (pFontM) ImGui::PushFont(pFontM);
         SaveCurrentStyle();
+        Color hoveredColor = GetStyleColor(ImGuiCol_FrameBgHovered);
+        hoveredColor.w = bgColorM.w;
+        Color activeColor = GetStyleColor(ImGuiCol_FrameBgActive);
+        activeColor.w = bgColorM.w;
+        SetStyleColor(ImGuiCol_FrameBg, bgColorM);
+        SetStyleColor(ImGuiCol_FrameBgHovered, hoveredColor);
+        SetStyleColor(ImGuiCol_FrameBgActive, activeColor);
         SetStyleColor(ImGuiCol_CheckMark, checkMarkColorM);
         SetStyleFgColor(ImGuiCol_Text);
         pressedM = ImGui::Checkbox(textM.c_str(), &checkStatusM, nullptr);
