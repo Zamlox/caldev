@@ -171,6 +171,7 @@ context [
                 font: make fontD [
                     align: 'right
                     valign: 'middle
+                    color: 255.255.255.100
                 ]
                 options: [ checkmark 255.0.0.100 ]
                 parent: id-win
@@ -179,31 +180,32 @@ context [
                 type: 'radio        ;'
                 offset: 350x350
                 size: 100x30
-                color: 100.138.100.170
+                color: 0.200.0.255
                 text: "Radio 1"
                 font: make fontD [
                     align: 'right
                     valign: 'middle
+                    color: 255.255.255.100
                 ]
-                options: [ group 1 selected ]
+                options: [ group 1 selected checkmark 255.0.0.255 ]
                 parent: id-win
             ]
             build-widget [
                 type: 'radio        ;'
                 offset: 490x350
                 size: 100x150
-                color: 0.0.0.255
+                color: 0.200.0.255
                 text: "Radio 2"
                 font: make fontD [
                     align: 'right
                     valign: 'middle
                 ]
-                options: [ group 1 ]
+                options: [ group 1 checkmark 255.0.0.255 ]
                 parent: id-win
             ]
             build-widget [
                 type: 'image        ;'
-                offset: 10x400
+                offset: 350x400
                 size: 500x80
                 color: 0.0.255.255
                 image: "D:\Pictures\test.png"
@@ -218,7 +220,7 @@ context [
                     align: 'right
                     valign: 'middle
                 ]
-                options: [ select "Option" ]
+                options: [ select "Option 3" ]
                 data: ["Option 1" "Option 2" "Option 3"]
                 parent: id-win
             ]
