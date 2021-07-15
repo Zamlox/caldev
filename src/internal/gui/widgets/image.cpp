@@ -86,8 +86,9 @@ void Image::beginRender()
         {
             renderForOpenGl2();
         }
-        ImGui::Face(ImVec2(widthM, heightM), bgColorM);
-        ImGui::Image((ImTextureID)textureIdM, ImVec2(imgWidthM, imgHeightM), &attrib);
+        //ImGui::Face(ImVec2(widthM, heightM), bgColorM);
+        ImVec4 tintColor{1,1,1,bgColorM.w};
+        ImGui::Image((ImTextureID)textureIdM, ImVec2(imgWidthM, imgHeightM), &attrib, ImVec2(0,0), ImVec2(1,1), tintColor);
     }
 }
 

@@ -207,7 +207,7 @@ context [
                 type: 'image        ;'
                 offset: 350x400
                 size: 500x80
-                color: 0.0.255.255
+                color: 0.0.255.255                 ; background color do not apply only alpha value
                 image: "D:\Pictures\test.png"
                 parent: id-win
             ]
