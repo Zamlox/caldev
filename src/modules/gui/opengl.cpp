@@ -78,7 +78,10 @@ bool OpenGL::startOnMainThread()
 bool OpenGL::stop()
 {
     stopEngineM = true;
-    threadM.join();
+    if (isRuningInBkgThreadM)
+    {
+        threadM.join();
+    }
     return true;
 }
 
