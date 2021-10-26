@@ -16,6 +16,7 @@ extern "C" {
 #include "extern/rebsdev/src/glue/face/face.h"
 }
 #include <sstream>
+#include <iostream>
 
 extern "C" FaceFont gDefaultFont;
 
@@ -229,6 +230,7 @@ void* OpenGL::guiEngine(void* pParamP)
 
         pOpenGL->draw();
     }
+    
     // Cleanup
     pOpenGL->pOsWindowM = nullptr;
     ImGui_ImplOpenGL2_Shutdown();

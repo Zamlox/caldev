@@ -93,4 +93,18 @@ void InitNewFrame();
 /** Render draw data */
 void RenderDrawData(void* pDataP);
 
+/** Layout content type */
+enum class LayoutContentType {
+    ROWS,
+    COLS,
+    LABEL,
+    AREA,
+    FIELD,
+    BUTTON,
+    CHECKBOX,
+    RADIO,
+    IMAGE,
+    COMBO
+};
+
 } // namespace GUI
