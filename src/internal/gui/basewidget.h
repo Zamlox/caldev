@@ -287,8 +287,6 @@ protected:
     Style* pCurrentStyleM;
     /** Flag indicating if instance is dirty */
     bool isDirtyM;
-    /** Store type of widget */
-    WidgetType widgetTypeM;
 };
 
 } // namespace GUI
