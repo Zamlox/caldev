@@ -8,8 +8,7 @@
 #pragma once
 
 #include "internal/gui/layout/cell/cellcanvas.h"
-#include <vector>
-
+#include "internal/gui/layout/cell/cells.h"
 #include <memory>
 #include <vector>
 
@@ -21,8 +20,8 @@ namespace Layout
 class Cell;
 
 union CellElem {
-    std::vector<Cell*> cellsM;
-    CellCanvas canvasM;
+    std::unique_ptr<Cells> cellsM;
+    std::unique_ptr<CellCanvas> canvasM;
 };
 
 

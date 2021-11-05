@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "internal/gui/layout/cell/icell.h"
 #include "internal/gui/layout/cell/celltype.h"
 #include "internal/gui/layout/cell/cellelem.h"
 #include "internal/gui/layout/format/format.h"
@@ -16,8 +17,6 @@ namespace GUI
 namespace Layout
 {
 
-using CellFormat = Format<int>;
-
 /**
  * Building block for layout.
  * A layout is a collection of cells as rows and/or columns.
@@ -26,18 +25,24 @@ using CellFormat = Format<int>;
  *  insisde the cell.
  * Must be able to allow formatting content (alignment, margin, ...)
  */
-class Cell 
+class Cell : public ICell
+           , public CellFormat
 {
 public:
-    Cell(const CellFormat& rCellFormatP);
+    Cell();
+
+    void setFormat(const CellFormat& rFormatP) override;
 
 private:
     CellType typeM;
-    CellElem cellM;
-
-    /** Format content of cell */
-    CellFormat formatM;
+    CellElem contentM;
 };
+
+inline void Cell::setFormat(const CellFormat& rFormatP)
+{
+    CellFormat* pFormat{static_cast<CellFormat*>(this)};
+    *pFormat = rFormatP;
+}
 
 } // namespace Layout
 } // namesapce GUI

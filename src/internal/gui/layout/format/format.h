@@ -6,6 +6,7 @@
  */
 #pragma once
 
+#include "internal/gui/layout/format/alignment.h"
 #include <tuple>
 
 namespace GUI
@@ -77,6 +78,21 @@ public:
     T getWidth() const 
     {
         return widthM;
+    }
+
+    Format<T>& operator=(const Format<T>& rOpP)
+    {
+        if (this != &rOpP)
+        {
+            padM = rOpP.padM;
+            marginHorizM = rOpP.marginHorizM;
+            marginVertM = rOpP.marginVertM;
+            horizAlignM = rOpP.horizAlignM;
+            vertAlignM = rOpP.vertAlignM;
+            heightM = rOpP.heightM;
+            widthM = rOpP.widthM;
+        }
+        return *this;
     }
 
 private:

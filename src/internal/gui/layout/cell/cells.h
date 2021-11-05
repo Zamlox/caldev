@@ -7,7 +7,8 @@
 
 #pragma once
 
-#include "internal/gui/layout/cell/cell.h"
+#include "internal/gui/layout/cell/icell.h"
+#include <vector>
 
 namespace GUI
 {
@@ -20,11 +21,11 @@ namespace Layout
 class Cells
 {
 public:
-    int addCell(const Cell& rCellP);
-    Cell& getCell(int indexP);
+    int addCell(const ICell& rCellP);
+    ICell& getCell(int indexP);
 
 private:
-    std::vector<Cell> cellsM;
+    std::vector<ICell*> cellsM;
 };
 
 } // namespace Layout
