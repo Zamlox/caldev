@@ -16,6 +16,7 @@ namespace Layout
 
 using CellFormat = Format<int>;
 
+class Cells;
 
 class ICell
 {
@@ -23,6 +24,8 @@ public:
     virtual ~ICell() = default;
 
     virtual void setFormat(const CellFormat& rFormatP) = 0;
+    virtual Cells* getRows() = 0;
+    virtual Cells* getCols() = 0;
 };
 
 } // namespace Layout

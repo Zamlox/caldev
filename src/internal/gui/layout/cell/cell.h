@@ -32,8 +32,12 @@ public:
     Cell();
 
     void setFormat(const CellFormat& rFormatP) override;
+    Cells* getRows() override;
+    Cells* getCols() override;
 
 private:
+    Cells* getCells(CellType typeP);
+
     CellType typeM;
     CellElem contentM;
 };
@@ -42,6 +46,21 @@ inline void Cell::setFormat(const CellFormat& rFormatP)
 {
     CellFormat* pFormat{static_cast<CellFormat*>(this)};
     *pFormat = rFormatP;
+}
+
+inline Cells* Cell::getRows()
+{
+    return getCells(CellType::CELL_ROWS);
+}
+
+inline Cells* Cell::getCols()
+{
+    return getCells(CellType::CELL_COLS);
+}
+
+inline Cells* Cell::getCells(CellType typeP)
+{
+    return (typeM == typeP) ? contentM.cellsM.get() : nullptr;
 }
 
 } // namespace Layout
