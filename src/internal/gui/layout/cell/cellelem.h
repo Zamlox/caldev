@@ -9,8 +9,6 @@
 
 #include "internal/gui/layout/cell/cellcanvas.h"
 #include "internal/gui/layout/cell/cells.h"
-#include <memory>
-#include <vector>
 
 namespace GUI
 {
@@ -20,10 +18,9 @@ namespace Layout
 class Cell;
 
 union CellElem {
-    std::unique_ptr<Cells> cellsM;
-    std::unique_ptr<CellCanvas> canvasM;
+    Cells* pCellsM;
+    CellCanvas* pCanvasM;
 };
-
 
 } // namespace Layout
 } // namesapce GUI

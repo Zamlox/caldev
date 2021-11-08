@@ -24,43 +24,70 @@ namespace Layout
  *  element must be a Canvas type so something is displayed
  *  insisde the cell.
  * Must be able to allow formatting content (alignment, margin, ...)
+ * 
+ * Use this class by creating first all needed cells (rows, cols, canvas)
+ * then apply it on a list of given widgets. All layouts starts with a 
+ * single cell which can contain a canvas or rows/cols of other cells.
+ * Something like:
+ *  void doLayout(Cell* pCellP)
+ *  {
+ *     assert(pCellP);
+ *     for (unsigned int i = 0; i < pCellP->count(); i++)
+ *     {
+ *         if (pCellP->getType() == CellType::CELL_CANVAS)
+ *         {
+ *             pCellP->draw();
+ *         }
+ *         else
+ *         {
+ *             Cells* pCells = pCellP->getCells();
+ *             assert(pCells);
+ *             for (unsigned int j = 0; j < pCells->count(); j++)
+ *             {
+ *                 doLayout(pCells->getCell(j));
+ *             }
+ *         }
+ *     }
+ *  }
+ *  ICell* pCell = layout.getCell(0);
+ *  doLayout(pCell);
  */
 class Cell : public ICell
            , public CellFormat
 {
 public:
     Cell();
+    ~Cell();
 
+    void setType(CellType typeP) override;
+    virtual CellType getType() const override;
     void setFormat(const CellFormat& rFormatP) override;
-    Cells* getRows() override;
-    Cells* getCols() override;
+
+    int count() const override;
+    int addItem() override; 
+    ICell* getCell(unsigned int indexP) const override;
+
+    void draw() override;
 
 private:
-    Cells* getCells(CellType typeP);
-
     CellType typeM;
     CellElem contentM;
 };
+
+inline void Cell::setType(CellType typeP)
+{
+    typeM = typeP;
+}
+
+inline CellType Cell::getType() const
+{
+    return typeM;
+}
 
 inline void Cell::setFormat(const CellFormat& rFormatP)
 {
     CellFormat* pFormat{static_cast<CellFormat*>(this)};
     *pFormat = rFormatP;
-}
-
-inline Cells* Cell::getRows()
-{
-    return getCells(CellType::CELL_ROWS);
-}
-
-inline Cells* Cell::getCols()
-{
-    return getCells(CellType::CELL_COLS);
-}
-
-inline Cells* Cell::getCells(CellType typeP)
-{
-    return (typeM == typeP) ? contentM.cellsM.get() : nullptr;
 }
 
 } // namespace Layout

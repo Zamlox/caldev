@@ -21,12 +21,21 @@ namespace Layout
 class Cells
 {
 public:
-    int addCell(const ICell& rCellP);
-    ICell& getCell(int indexP);
+    ~Cells();
+
+    int count() const;
+    int addCell(ICell* pCellP);
+    ICell* getCell(unsigned int indexP);
+    void clear();
 
 private:
     std::vector<ICell*> cellsM;
 };
+
+inline int Cells::count() const 
+{
+    return cellsM.size();
+}
 
 } // namespace Layout
 } // namesapce GUI

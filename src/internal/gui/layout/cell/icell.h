@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "internal/gui/layout/cell/celltype.h"
 #include "internal/gui/layout/format/format.h"
 
 namespace GUI
@@ -23,9 +24,13 @@ class ICell
 public:
     virtual ~ICell() = default;
 
+    virtual void setType(CellType typeP) = 0;
+    virtual CellType getType() const = 0;
     virtual void setFormat(const CellFormat& rFormatP) = 0;
-    virtual Cells* getRows() = 0;
-    virtual Cells* getCols() = 0;
+    virtual int count() const = 0;
+    virtual int addItem() = 0;
+    virtual ICell* getCell(unsigned int indexP) const = 0;
+    virtual void draw() = 0;
 };
 
 } // namespace Layout
