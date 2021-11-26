@@ -30,17 +30,20 @@ REBOL [
 
 ; adjust library path as needed
 
-lib-path: either System/version/4 = 3 [
-    to-rebol-file "..\..\bazel-bin"         ; windows
-][  to-rebol-file "../../bazel-bin" ]       ; linux, macOS
+base-path: ""
+either system/options/args [
+    base-path: to-rebol-file system/options/args/1
+][
+    base-path: ""
+]
 
+lib-path: rejoin [ base-path %/Debug ]
 
 ; load libray
 
 lib: either System/version/4 = 3 [ %caldev32.dll ][ %libcaldev32.so ]
 
 if not attempt [ caldev-lib: load/library lib-path/:lib ] [ alert rejoin ["Cannot locate library " lib " !"] quit ]
-
 
 ; constants
 
