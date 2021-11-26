@@ -34,7 +34,7 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
     add_custom_target(rebol_demo)
     add_custom_command(
             TARGET rebol_demo
-            COMMAND rebol -sqv ${CMAKE_SOURCE_DIR}\\src\\tests\\bindings\\rebol2\\test-gui.r
+            COMMAND rebol -sqv ${CMAKE_SOURCE_DIR}\\src\\tests\\bindings\\rebol2\\test-gui.r ${CMAKE_BINARY_DIR}
     )
 endif()
 
