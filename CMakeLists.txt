@@ -16,6 +16,7 @@ include_directories(src/extern/imgui/examples)
 include_directories(src/extern/imgui)
 include_directories(src/extern/rebsdev/src/include)
 include_directories(src/extern/rebsdev/src/glue)
+include_directories(src/extern/googletest/googletest/include)
 
 # get build type
 get_build_type(${CMAKE_BINARY_DIR} BUILD_TYPE)
@@ -30,6 +31,7 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
     # 32 bits
     set(CALDEV_STATIC caldev32static)
     set(CALDEV_SHARED caldev32)
+
     # rebol demo for 32 bit
     add_custom_target(rebol_demo)
     add_custom_command(
@@ -37,6 +39,15 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
             COMMAND rebol -sqv ${CMAKE_SOURCE_DIR}\\src\\tests\\bindings\\rebol2\\test-gui.r ${CMAKE_BINARY_DIR}
     )
 endif()
+set(TEST_ALL test_all)
+
+# caldev library target
+add_library(${CALDEV_STATIC} STATIC)
+add_library(${CALDEV_SHARED} SHARED)
+# tests targets
+add_executable(${TEST_ALL})
+
+#target_link_libraries(${CALDEV_SHARED} PUBLIC ${GLFW_LIB_OUTPUT}\\glfw3.lib opengl32.lib)
 
 # defines
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
@@ -49,14 +60,6 @@ endif()
 add_compile_definitions(CALDEV_EXPORT=1)
 add_compile_definitions(STB_IMAGE_IMPLEMENTATION=1)
 
-
-# caldev library target 64bit
-add_library(${CALDEV_STATIC} STATIC)
-add_library(${CALDEV_SHARED} SHARED)
-
-target_link_libraries(${CALDEV_SHARED} PUBLIC ${GLFW_LIB_OUTPUT}\\glfw3.lib opengl32.lib)
-
-
 # subfolders
 add_subdirectory(src/api)
 add_subdirectory(src/internal)
@@ -67,12 +70,31 @@ add_subdirectory(src/extern/GSL)
 add_subdirectory(src/extern/imgui)
 #add_subdirectory(src/extern/stb)
 add_subdirectory(src/extern/rebsdev)
+add_subdirectory(src/tests)
+
 
 # caldev dependencies
-add_dependencies(${CALDEV_SHARED} glfw)
-add_dependencies(${CALDEV_STATIC} glfw)
+add_dependencies(${CALDEV_SHARED} glfw gmock_main)
+add_dependencies(${CALDEV_STATIC} glfw gmock_main)
+add_dependencies(${TEST_ALL} ${CALDEV_STATIC})
 
 # additional compiler options
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${REBSDEV_COMPILE_OPTIONS}")
 target_link_options(${CALDEV_SHARED} PUBLIC ${REBSDEV_LIB_OPTIONS})
-target_link_libraries(${CALDEV_SHARED} PUBLIC ${REBSDEV_LIBS})
+target_link_libraries(${CALDEV_SHARED} PUBLIC
+        ${REBSDEV_LIBS}
+        ${GLFW_LIB_OUTPUT}\\glfw3.lib
+        opengl32.lib
+        )
+
+# all libs for static linking
+set(LIBS_ALL_STATIC
+        ${CALDEV_STATIC}
+        ${REBSDEV_LIBS}
+        glfw
+        opengl32.lib
+        gmock_main
+        )
+
+# test linking libraries
+target_link_libraries(${TEST_ALL} PUBLIC ${LIBS_ALL_STATIC})
