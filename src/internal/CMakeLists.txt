@@ -7,6 +7,13 @@ set(SOURCE_INTERNAL_GUI
         gui/imgui/common.cpp
         gui/imgui/window.h
         gui/imgui/window.cpp
+        gui/layout/cell/icell.h
+        gui/layout/cell/cells.h
+        gui/layout/cell/cells.cpp
+        gui/layout/cell/cellbase.h
+        gui/layout/cell/celltype.h
+        gui/layout/format/alignment.h
+        gui/layout/format/format.h
         gui/render/renderbuffer.h
         gui/render/renderbuffer.cpp
         gui/render/renderbuffering.h
