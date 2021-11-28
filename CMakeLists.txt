@@ -20,13 +20,11 @@ include_directories(src/extern/googletest/googletest/include)
 
 # get build type
 get_build_type(${CMAKE_BINARY_DIR} BUILD_TYPE)
+get_platform_type(${CMAKE_BINARY_DIR} IS_32)
 
 # caldev targets name
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    # 64 bits
-    set(CALDEV_STATIC caldevstatic)
-    set(CALDEV_SHARED caldev)
-elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+set(TEST_ALL test_all)
+if(IS_32 STREQUAL "32")
     # 32 bits
     set(CALDEV_STATIC caldev32static)
     set(CALDEV_SHARED caldev32)
@@ -37,14 +35,28 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
             TARGET rebol_demo
             COMMAND rebol -sqv ${CMAKE_SOURCE_DIR}\\src\\tests\\bindings\\rebol2\\test-gui.r ${CMAKE_BINARY_DIR}
     )
+else()
+    # 64 bits
+    set(CALDEV_STATIC caldevstatic)
+    set(CALDEV_SHARED caldev)
 endif()
-set(TEST_ALL test_all)
 
 # caldev library target
 add_library(${CALDEV_STATIC} STATIC)
 add_library(${CALDEV_SHARED} SHARED)
 # tests targets
 add_executable(${TEST_ALL})
+
+if(IS_32 STREQUAL "32")
+    set_property(
+            TARGET ${CALDEV_SHARED} ${CALDEV_STATIC} ${TEST_ALL}
+            APPEND PROPERTY COMPILE_FLAGS "-m32"
+    )
+    set_property(
+            TARGET ${CALDEV_SHARED} ${CALDEV_STATIC} ${TEST_ALL}
+            APPEND PROPERTY LINK_FLAGS "-m32"
+    )
+endif()
 
 #target_link_libraries(${CALDEV_SHARED} PUBLIC ${GLFW_LIB_OUTPUT}\\glfw3.lib opengl32.lib)
 
