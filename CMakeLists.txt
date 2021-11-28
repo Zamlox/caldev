@@ -4,7 +4,7 @@ project(caldev VERSION 0.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-include(CMake/functions.cmake)
+include(cmake/functions.cmake)
 
 # Configure version number
 configure_file(src/caldev.h.in caldev.h)
@@ -20,7 +20,6 @@ include_directories(src/extern/googletest/googletest/include)
 
 # get build type
 get_build_type(${CMAKE_BINARY_DIR} BUILD_TYPE)
-set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src/${BUILD_TYPE}")
 
 # caldev targets name
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -52,10 +51,19 @@ add_executable(${TEST_ALL})
 # defines
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     add_compile_definitions(OS_WINDOWS=1)
+    set(OPENGL opengl32.lib)
+    set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src/${BUILD_TYPE}")
+    set(GLFW_LIB ${GLFW_LIB_OUTPUT}\\glfw3.lib)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     add_compile_definitions(OS_LINUX=1)
+    set(OPENGL GL)
+    set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src")
+    set(GLFW_LIB ${GLFW_LIB_OUTPUT}/glfw3.lib)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_compile_definitions(OS_MACOS=1)
+    set(OPENGL "")
+    set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src")
+    set(GLFW_LIB ${GLFW_LIB_OUTPUT}/glfw3.lib)
 endif()
 add_compile_definitions(CALDEV_EXPORT=1)
 add_compile_definitions(STB_IMAGE_IMPLEMENTATION=1)
@@ -79,12 +87,11 @@ add_dependencies(${CALDEV_STATIC} glfw gmock_main)
 add_dependencies(${TEST_ALL} ${CALDEV_STATIC})
 
 # additional compiler options
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${REBSDEV_COMPILE_OPTIONS}")
 target_link_options(${CALDEV_SHARED} PUBLIC ${REBSDEV_LIB_OPTIONS})
 target_link_libraries(${CALDEV_SHARED} PUBLIC
         ${REBSDEV_LIBS}
-        ${GLFW_LIB_OUTPUT}\\glfw3.lib
-        opengl32.lib
+        glfw
+        ${OPENGL}
         )
 
 # all libs for static linking
@@ -92,7 +99,7 @@ set(LIBS_ALL_STATIC
         ${CALDEV_STATIC}
         ${REBSDEV_LIBS}
         glfw
-        opengl32.lib
+        ${OPENGL}
         gmock_main
         )
 
