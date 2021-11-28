@@ -58,24 +58,16 @@ if(IS_32 STREQUAL "32")
     )
 endif()
 
-#target_link_libraries(${CALDEV_SHARED} PUBLIC ${GLFW_LIB_OUTPUT}\\glfw3.lib opengl32.lib)
-
 # defines
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     add_compile_definitions(OS_WINDOWS=1)
     set(OPENGL opengl32.lib)
-    set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src/${BUILD_TYPE}")
-    set(GLFW_LIB ${GLFW_LIB_OUTPUT}\\glfw3.lib)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     add_compile_definitions(OS_LINUX=1)
     set(OPENGL GL)
-    set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src")
-    set(GLFW_LIB ${GLFW_LIB_OUTPUT}/glfw3.lib)
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_compile_definitions(OS_MACOS=1)
     set(OPENGL "")
-    set(GLFW_LIB_OUTPUT "${CMAKE_BINARY_DIR}/src/extern/glfw/src")
-    set(GLFW_LIB ${GLFW_LIB_OUTPUT}/glfw3.lib)
 endif()
 add_compile_definitions(CALDEV_EXPORT=1)
 add_compile_definitions(STB_IMAGE_IMPLEMENTATION=1)
@@ -98,22 +90,58 @@ add_dependencies(${CALDEV_SHARED} glfw gmock_main)
 add_dependencies(${CALDEV_STATIC} glfw gmock_main)
 add_dependencies(${TEST_ALL} ${CALDEV_STATIC})
 
+# libs
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+    set(LIBS_SHARED
+            ${REBSDEV_LIBS}
+            glfw
+            opengl32.lib)
+    set(LIBS_ALL_STATIC
+            ${CALDEV_STATIC}
+            ${REBSDEV_LIBS}
+            glfw
+            opengl32.lib
+            gmock_main
+            )
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    set(LIBS_SHARED
+            ${REBSDEV_LIBS}
+            glfw
+            GL
+            )
+    set(LIBS_ALL_STATIC
+            ${CALDEV_STATIC}
+            ${REBSDEV_LIBS}
+            glfw
+            GL
+            gmock_main
+            )
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    set(LIBS_SHARED
+            ${REBSDEV_LIBS}
+            glfw
+            "-framework Foundation"
+            "-framework Cocoa"
+            "-framework OpenGL"
+            "-framework IOKit"
+            "-framework CoreVideo"
+            )
+    set(LIBS_ALL_STATIC
+            ${CALDEV_STATIC}
+            ${REBSDEV_LIBS}
+            glfw
+            "-framework Foundation"
+            "-framework Cocoa"
+            "-framework OpenGL"
+            "-framework IOKit"
+            "-framework CoreVideo"
+            gmock_main
+            )
+endif()
+
 # additional compiler options
 target_link_options(${CALDEV_SHARED} PUBLIC ${REBSDEV_LIB_OPTIONS})
-target_link_libraries(${CALDEV_SHARED} PUBLIC
-        ${REBSDEV_LIBS}
-        glfw
-        ${OPENGL}
-        )
-
-# all libs for static linking
-set(LIBS_ALL_STATIC
-        ${CALDEV_STATIC}
-        ${REBSDEV_LIBS}
-        glfw
-        ${OPENGL}
-        gmock_main
-        )
+target_link_libraries(${CALDEV_SHARED} PUBLIC ${LIBS_SHARED})
 
 # test linking libraries
 target_link_libraries(${TEST_ALL} PUBLIC ${LIBS_ALL_STATIC})
