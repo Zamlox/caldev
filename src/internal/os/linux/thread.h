@@ -11,6 +11,7 @@
 #include "internal/os/linux/barrier.h"
 #include <pthread.h>
 #include <string>
+#include <map>
 
 namespace Os
 {
@@ -48,6 +49,11 @@ private:
      * @param  {void*} pParamP : parameter to pass to thread
      */
     static void* run(void* pParamP);
+
+    /** An integer value of thread id for linux based platform */
+    static unsigned long int threadIdS;
+    using ThreadIdMap = std::map<pthread_t, unsigned long int>;
+    ThreadIdMap mapPThreadT2IntM;
 
     /** Thread name */
     std::string nameM;
