@@ -6,3 +6,5 @@ src/bazel-testlogs
 release
 .vscode/settings.json
 **/*.log
+build
+.idea
