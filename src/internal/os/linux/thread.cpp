@@ -9,6 +9,8 @@ namespace Os
 namespace Linux
 {
 
+unsigned long int Thread::threadIdS{0};
+
 Thread::Thread(const char* nameP, ThreadFunc funcInitP, ThreadFunc funcP, void* pParamP)
     : nameM{nameP}
     , threadIdM{0}
@@ -22,6 +24,8 @@ bool Thread::start()
 {
     if (pthread_create(&threadIdM, NULL, &Thread::run, this) == 0)
     {
+        threadIdS++;
+        mapPThreadT2IntM.insert(std::make_pair(threadIdM, threadIdS));
         barrierM.wait();
         return true;
     }
@@ -36,7 +40,11 @@ void Thread::join()
 unsigned long int Thread::getId() const
 {
 #ifdef OS_LINUX
-    return threadIdM;
+    if (ThreadIdMap::const_iterator it = mapPThreadT2IntM.find(threadIdM); it != mapPThreadT2IntM.end())
+    {
+        return it->second;
+    }
+    return 0;
 #else
     return 0;
 #endif

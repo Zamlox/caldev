@@ -13,14 +13,22 @@ jobs:
       - name: Cleanup (Others)
         if: matrix.os != 'Windows'
         run: |
-          rm -rf src/extern/glfw
-          rm -rf src/extern/imgui
-          rm -rf src/extern/rebsdev
+          [ -d src/extern/glfw ] && rm -rf src/extern/glfw
+          [ -d src/extern/imgui ] && rm -rf src/extern/imgui
+          [ -d src/extern/rebsdev ] && rm -rf src/extern/rebsdev
+          [ ! -d build/Debug32 ] && mkdir -p build/Debug32
+          [ ! -d build/Debug64 ] && mkdir -p build/Debug64
+          [ ! -d build/Release32 ] && mkdir -p build/Release32
+          [ ! -d build/Release64 ] && mkdir -p build/Release64
       - name: Cleanup (Windows)
         if: matrix.os == 'Windows'
         run: |
           if (Test-Path src\extern\glfw) {Remove-Item -Recurse -Force -Confirm:$false src\extern\glfw}
           if (Test-Path src\extern\imgui) {Remove-Item -Recurse -Force -Confirm:$false src\extern\imgui}
+          if (!(Test-Path build\Debug32)) {New-Item build\Debug32 -ItemType directory}
+          if (!(Test-Path build\Debug64)) {New-Item build\Debug64 -ItemType directory}
+          if (!(Test-Path build\Release32)) {New-Item build\Release32 -ItemType directory}
+          if (!(Test-Path build\Release64)) {New-Item build\Release64 -ItemType directory}
       - name: Checkout this repo
         uses: actions/checkout@v2
         with:
@@ -43,22 +51,35 @@ jobs:
           cd ../../..
           echo OS: ${{matrix.os}}
 
-      - name: Build product (64bit)
+      - name: Build product (64bit Linux/MacOS)
+        if: matrix.os != 'Windows'
         run: |
-          cd src
-          bazel build --strip=always :caldev
+          # cd src
+          # bazel build --strip=always :caldev
+          cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - Unix Makefiles" . -B build/Debug64
+          cmake --build build/Debug64 --target caldev --config Debug
+      - name: Build product (64bit Windows)
+        if: matrix.os == 'Windows'
+        run: |
+          # cd src
+          # bazel build --strip=always :caldev
+          cmake -DPython_EXECUTABLE=C:\Users\hioji\AppData\Local\Microsoft\WindowsApps\python3.exe -G "Visual Studio 16 2019" -B build/Debug64
+          cmake --build build/Debug64 --target caldev --config Debug
 
       - name: Build Windows 32bit
         if: matrix.os == 'Windows'
         run: |
-          cd src
-          bazel build --config=i386_windows --strip=always :caldev32
+          # cd src
+          # bazel build --config=i386_windows --strip=always :caldev32
+          cmake -DPython_EXECUTABLE=C:\Users\hioji\AppData\Local\Microsoft\WindowsApps\python3.exe -G "Visual Studio 16 2019" -A Win32 -B build/Debug32
+          cmake --build build/Debug32 --target caldev32 --config Debug
 
       - name: Build Linux 32bit
         if: matrix.os == 'Linux'
         run: |
-          cd src
-          bazel build --config=i386_linux --strip=always :caldev32
+          # cd src
+          # bazel build --config=i386_linux --strip=always :caldev32
+          # cmake --target caldev --config Debug
 
   test:
     needs: build
@@ -67,50 +88,31 @@ jobs:
       matrix:
         os: [ Linux, Windows, macOS ]
     steps:
-      - name: Check gtest existence (windows)
-        id: check_gtest_windows
-        if: matrix.os == 'windows-latest'
-        uses: andstor/file-existence-action@v1.0.1
-        with:
-          files: "src/extern/googletest/bazel-bin/gtest.lib"
-      - name: Build gtest (windows)
-        if: steps.check_gtest_windows.outputs.files_exists == 'false' && matrix.os == 'windows-latest'
+      - name: Test product (64bit Linux/MacOS)
+        if: matrix.os != 'Windows'
         run: |
-          echo Building gtest ...
-          cd src/extern/googletest
-          bazel build :gtest
-          cd ../../..
-          echo "Done !"
-      - name: Check gtest existence (other)
-        id: check_gtest_other
-        if: matrix.os != 'windows-latest'
-        uses: andstor/file-existence-action@v1.0.1
-        with:
-          files: "src/extern/googletest/bazel-bin/libgtest.so"
-      - name: Build gtest (other)
-        if: steps.check_gtest_other.outputs.files_exists == 'false' && matrix.os != 'windows-latest'
+          # cd src
+          # bazel build --strip=always :test_all
+          # ./bazel-bin/test_all
+          cmake --build build/Debug64 --target test_all --config Debug
+      - name: Test product (64bit Windows)
+        if: matrix.os != 'Windows'
         run: |
-          echo Building gtest ...
-          cd src/extern/googletest
-          bazel build :gtest
-          cd ../../..
-          echo "Done !"
-      - name: Test product 64bit
-        run: |
-          cd src
-          bazel build --strip=always :test_all
-          ./bazel-bin/test_all
+          # cd src
+          cmake --build build/Debug64 --target test_all --config Debug
       - name: Test Windows 32bit
         if: matrix.os == 'Windows'
         run: |
-          cd src
-          bazel build --cpu=x64_x86_windows :test_all
-          ./bazel-bin/test_all
-          rebol -sqv tests\bindings\rebol2\tests.r
+          # cd src
+          # bazel build --cpu=x64_x86_windows :test_all
+          # ./bazel-bin/test_all
+          # rebol -sqv tests\bindings\rebol2\tests.r
+          cmake --build build/Debug32 --target caldev32 --config Debug
       - name: Test Linux 32bit
         if: matrix.os == 'Linux'
         run: |
-          cd src
-          bazel build --config=i386_linux --strip=always :test_all
-          ./bazel-bin/test_all
-          rebol -sqv tests/bindings/rebol2/tests.r
+          echo "Not implemented !"
+          # cd src
+          # bazel build --config=i386_linux --strip=always :test_all
+          # ./bazel-bin/test_all
+          # rebol -sqv tests/bindings/rebol2/tests.r
