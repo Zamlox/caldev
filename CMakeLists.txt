@@ -40,12 +40,14 @@ else()
     set(CALDEV_STATIC caldevstatic)
     set(CALDEV_SHARED caldev)
 endif()
+set(IMGUI_DEMO imgui_demo)
 
 # caldev library target
 add_library(${CALDEV_STATIC} STATIC)
 add_library(${CALDEV_SHARED} SHARED)
 # tests targets
 add_executable(${TEST_ALL})
+add_executable(${IMGUI_DEMO})
 
 if(IS_32 STREQUAL "32")
     set_property(
@@ -101,7 +103,6 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
             ${REBSDEV_LIBS}
             glfw
             opengl32.lib
-            gmock_main
             )
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     set(LIBS_SHARED
@@ -114,7 +115,6 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
             ${REBSDEV_LIBS}
             glfw
             GL
-            gmock_main
             )
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     set(LIBS_SHARED
@@ -135,7 +135,6 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
             "-framework OpenGL"
             "-framework IOKit"
             "-framework CoreVideo"
-            gmock_main
             )
 endif()
 
@@ -144,4 +143,5 @@ target_link_options(${CALDEV_SHARED} PUBLIC ${REBSDEV_LIB_OPTIONS})
 target_link_libraries(${CALDEV_SHARED} PUBLIC ${LIBS_SHARED})
 
 # test linking libraries
-target_link_libraries(${TEST_ALL} PUBLIC ${LIBS_ALL_STATIC})
+target_link_libraries(${TEST_ALL} PUBLIC ${LIBS_ALL_STATIC} gmock_main)
+target_link_libraries(${IMGUI_DEMO} PUBLIC ${LIBS_ALL_STATIC})
