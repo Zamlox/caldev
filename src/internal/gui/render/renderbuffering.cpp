@@ -22,9 +22,7 @@ RenderBuffering::~RenderBuffering()
 
 void RenderBuffering::swapBuffers()
 {
-    RenderBuffer* pTemp = pBufferActiveM;
-    pBufferActiveM      = pBufferNonActiveM;
-    pBufferNonActiveM   = pTemp;
+    std::swap(pBufferActiveM, pBufferNonActiveM);
 }
 
 void RenderBuffering::normalizeBuffers()
