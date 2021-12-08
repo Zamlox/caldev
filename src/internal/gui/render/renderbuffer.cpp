@@ -33,11 +33,6 @@ void RenderBuffer::add(const Widget::CommandElem& rCommandP, bool cloneWidgetP)
 
 void RenderBuffer::remove(const Widget::CommandElem& rCommandP)
 {
-
-}
-
-void RenderBuffer::update(const Widget::CommandElem& rCommandP)
-{
     Widget::Storage::Index itElem;
     bool isWidget{rCommandP.getGuiType() == Widget::GuiElemType::Widget};
     if (isWidget)
@@ -47,8 +42,6 @@ void RenderBuffer::update(const Widget::CommandElem& rCommandP)
         {
             widgetsM.remove(pWidgetStored);
         }
-        IWidget* pWidget = rCommandP.getWidget();
-        itElem = widgetsM.add(pWidget, rCommandP.getParentId());
     }
     else
     {
@@ -57,11 +50,9 @@ void RenderBuffer::update(const Widget::CommandElem& rCommandP)
         {
             widgetsM.remove(pWindowStored);
         }
-        IWindow* pWindow = rCommandP.getWindow();
-        itElem = widgetsM.add(pWindow, rCommandP.getParentId());
     }
 
-    // remove from root widgets and then check if we need to add it again
+    // remove from root widgets if exist
     std::remove_if(rootWidgetsM.begin(), rootWidgetsM.end(), [&](Widget::StorageElem::StorageIndex& rItP){
         if (isWidget && (rItP->widget.pWidget->getId() == rCommandP.getWidget()->getId()))
         {
@@ -73,10 +64,12 @@ void RenderBuffer::update(const Widget::CommandElem& rCommandP)
         }
         return false;
     });
-    if (rCommandP.getParentId() == PARENT_NONE)
-    {
-        rootWidgetsM.push_back(itElem);
-    }
+}
+
+void RenderBuffer::update(const Widget::CommandElem& rCommandP)
+{
+    remove(rCommandP);
+    add(rCommandP, false);
 }
 
 RenderBuffer::RootWidgets const& RenderBuffer::getRenderable() const
