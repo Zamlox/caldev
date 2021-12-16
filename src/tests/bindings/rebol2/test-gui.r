@@ -214,15 +214,38 @@ context [
             build-widget [
                 type: 'combo        ;'
                 offset: 600x350
-                size: 100x150
+                size: 300x250
                 color: 255.255.255.100
                 font: make fontD [
                     align: 'right
                     valign: 'middle
-                    color: 255.0.0.100
+                    color: 255.250.0.200
                 ]
                 options: [ select "Option 3" ]
                 data: ["Option 1" "Option 2" "Option 3"]
+                {
+                data: [
+                    layout [
+                        row [ margin 3x0 0x0 align center top pad 4
+                            col [ align left center pad 5
+                                text "BAD"
+                                button "OK"
+                                button "Cancel"
+                            ]
+                            col [
+                                button "Yes"
+                                button "No"
+                            ]
+                            row [ align center center
+                                image %test.png
+                            ]
+                            row [
+                                box red
+                            ]
+                        ]
+                    ]
+                ]
+                }
                 parent: id-win
             ]
 
