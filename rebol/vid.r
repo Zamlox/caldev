@@ -1,7 +1,7 @@
 REBOL [
 ]
 
-face-t!: make object! [
+face!: make object! [
     type: 'face         ;'
     offset: 0x0
     size: 100x100
@@ -63,13 +63,6 @@ feel!: make object! [
     engage: none
 ]
 
-face!: make face-t! [
-    edge: make edge! []
-    font: make font! []
-    para: make para! []
-    feel: make feel! []
-]
-
 context [
 	pairs:  copy []
 	texts:  copy []
@@ -82,6 +75,7 @@ context [
 	decimals:   copy []
 	times:  copy []
 	functions:  copy []
+	face:   none
     styles: copy compose [
         window      (make face! [type: 'window])    ;'
         title       (make face! [type: 'title])     ;'
@@ -110,7 +104,7 @@ context [
         combo       (make face! [type: 'combo])     ;'
     ]
     defaults: [
-        text        ""
+        _text        ""
         size        20x20
         win-size    100x100
         bk-color    200.200.200
@@ -121,48 +115,48 @@ context [
             font [
                 style:   [ bold ]
                 size:    24
-                align:   center
-                valign:  middle
+                align:   'center
+                valign:  'middle
             ]
         ]
         h1 [
             font [
                 style:   [ bold ]
                 size:    20
-                align:   left
-                valign:  top
+                align:   'left
+                valign:  'top
             ]
         ]
         h2 [
             font [
                 style:   [ bold ]
                 size:    16
-                align:   left
-                valign:  top
+                align:   'left
+                valign:  'top
             ]
         ]
         h3 [
             font [
                 style:   [ bold ]
                 size:    14
-                align:   left
-                valign:  top
+                align:   'left
+                valign:  'top
             ]
         ]
         h4 [
             font [
                 style:   [ bold ]
                 size:    12
-                align:   left
-                valign:  top
+                align:   'left
+                valign:  'top
             ]
         ]
         h5 [
             font [
                 style:   [ bold italic ]
                 size:    12
-                align:   left
-                valign:  top
+                align:   'left
+                valign:  'top
             ]
         ]
         banner [
@@ -170,8 +164,8 @@ context [
                 style:  [ bold ]
                 size:   24
                 color:  250.215.0
-                align:  center
-                valign: middle
+                align:  'center
+                valign: 'middle
                 shadow: 3x3
             ]
         ]
@@ -180,8 +174,8 @@ context [
                 style:  [ bold ]
                 size:   20
                 color:  255.255.255
-                align:  center
-                valign: middle
+                align:  'center
+                valign: 'middle
                 shadow: 3x3
             ]
         ]
@@ -190,8 +184,8 @@ context [
                 style:  [ bold ]
                 size:   16
                 color:  255.255.255
-                align:  center
-                valign: middle
+                align:  'center
+                valign: 'middle
                 shadow: 2x2
             ]
         ]
@@ -200,24 +194,24 @@ context [
                 style:  [ bold italic ]
                 size:   16
                 color:  255.255.255
-                align:  center
-                valign: middle
+                align:  'center
+                valign: 'middle
                 shadow: 2x2
             ]
         ]
         text [
             font [
                 size:   12
-                align:  left
-                valign: top
+                align:  'left
+                valign: 'top
             ]
         ]
         tt [
             font [
                 name:   "courier new"
                 size:   12
-                align:  left
-                valign: top
+                align:  'left
+                valign: 'top
             ]
         ]
         code [
@@ -225,24 +219,24 @@ context [
                 name:   "courier new"
                 style:  [ bold ]
                 size:   12
-                align:  left
-                valign: top
+                align:  'left
+                valign: 'top
             ]
         ]
         vtext [
             font [
                 size:   12
                 color:  255.255.255
-                align:  left
-                valign: top
+                align:  'left
+                valign: 'top
                 shadow: 1x1
             ]
         ]
         txt [
             font [
                 size:   12
-                align:  left
-                valign: top
+                align:  'left
+                valign: 'top
             ]
         ]
         label [
@@ -250,8 +244,8 @@ context [
                 style:  [ bold ]
                 size:   12
                 color:  255.255.255
-                align:  left
-                valign: middle
+                align:  'left
+                valign: 'middle
                 shadow: 1x1
             ]
         ]
@@ -259,8 +253,8 @@ context [
             font [
                 style:  [ bold ]
                 size:   12
-                align:  left
-                valign: middle
+                align:  'left
+                valign: 'middle
             ]
         ]
         field [
@@ -297,8 +291,8 @@ context [
             ]
             font [
                 size:   12
-                align:  center
-                valign: middle
+                align:  'center
+                valign: 'middle
                 shadow: 1x1
             ]
         ]
@@ -318,25 +312,25 @@ context [
             effect  [ anti-alias ]
         ]
     ]
-    text-type:  "label"
+    text-type:  styles/label/type
     fill-in: [
-        title   [ make-text-style result defaults/title/font result/type: text-type ]
-        h1      [ make-text-style result defaults/h1/font result/type: text-type ]
-        h2      [ make-text-style result defaults/h2/font result/type: text-type ]
-        h3      [ make-text-style result defaults/h3/font result/type: text-type ]
-        h4      [ make-text-style result defaults/h4/font result/type: text-type ]
-        h5      [ make-text-style result defaults/h5/font result/type: text-type ]
-        banner  [ make-text-style result defaults/banner/font result/type: text-type ]
-        vh1     [ make-text-style result defaults/vh1/font result/type: text-type ]
-        vh2     [ make-text-style result defaults/vh2/font result/type: text-type ]
-        vh3     [ make-text-style result defaults/vh3/font result/type: text-type ]
-        text    [ make-text-style result defaults/text/font result/type: text-type ]
-        tt      [ make-text-style result defaults/tt/font result/type: text-type ]
-        code    [ make-text-style result defaults/code/font result/type: text-type ]
-        vtext   [ make-text-style result defaults/vtext/font result/type: text-type ]
-        txt     [ make-text-style result defaults/txt/font result/type: text-type ]
-        label   [ make-text-style result defaults/label/font result/type: text-type ]
-        lbl     [ make-text-style result defaults/lbl/font result/type: text-type ]
+        title   [ make-text-style defaults/title/font ]
+        h1      [ make-text-style defaults/h1/font ]
+        h2      [ make-text-style defaults/h2/font ]
+        h3      [ make-text-style defaults/h3/font ]
+        h4      [ make-text-style defaults/h4/font ]
+        h5      [ make-text-style defaults/h5/font ]
+        banner  [ make-text-style defaults/banner/font ]
+        vh1     [ make-text-style defaults/vh1/font ]
+        vh2     [ make-text-style defaults/vh2/font ]
+        vh3     [ make-text-style defaults/vh3/font ]
+        text    [ make-text-style defaults/text/font ]
+        tt      [ make-text-style defaults/tt/font ]
+        code    [ make-text-style defaults/code/font ]
+        vtext   [ make-text-style defaults/vtext/font ]
+        txt     [ make-text-style defaults/txt/font ]
+        label   [ make-text-style defaults/label/font ]
+        lbl     [ make-text-style defaults/lbl/font ]
         window [
             result/text:    either empty? texts [ defaults/text ][ texts/1 ]
             result/offset:  either empty? pairs [ defaults/size ][ pairs/1 ]
@@ -392,20 +386,20 @@ context [
     make-para: func [ para [ block! ] ][ make-block-facet para! para ]
     make-feel: func [ feel [ block! ] ][ make-block-facet feel! feel ]
     make-text-style: func [
-        result  [ object! ]
         font    [ block! ]
     ][
         ; fill in block facets if exist
-        result/font: make-font font
-        result/font: make-block-facet result/font blocks/font
-        result/edge: make-edge []
-        result/para: make-para []
-        result/feel: make-feel []
+        face/font: make-font font
+        face/font: make-block-facet face/font blocks/font
+        face/edge: make-edge []
+        face/para: make-para []
+        face/feel: make-feel []
         ; fill in other facets
-        result/text:    either empty? texts [ defaults/text ][ texts/1 ]
-        result/size:    either empty? pairs [ defaults/size ][ pairs/1 ]
-        result/color:   either (length? colors) < 2 [ defaults/bk-color ][ colors/2 ]
-        unless empty? colors [ result/font/color: colors/1 ]
+        face/text:    either empty? texts [ defaults/text ][ texts/1 ]
+        face/size:    either empty? pairs [ defaults/size ][ pairs/1 ]
+        face/color:   either (length? colors) < 2 [ defaults/bk-color ][ colors/2 ]
+        unless empty? colors [ face/font/color: colors/1 ]
+        face/type: text-type
     ]
 
     clear-facets: does [
@@ -452,7 +446,7 @@ context [
                     halt
                 ][ val: first reduce t ]
             ]
-            select/default type?/word val [
+            switch/default type?/word val [
                 pair!       [append pairs val]
                 integer!    [append pairs val]
                 string!     [append texts val]
@@ -479,10 +473,15 @@ context [
         ]
     ]
 
-    next-style: func [ b [ block! ] ][
+    next-style: func [ b [ block! ] /local pos ][
         if empty? b [ return tail b ]
         either b/1 = 'style [ b ][       ;'
-            either find styles first b [ b ][ tail b ]
+            pos: b
+            while [ not tail? pos ][
+                if find styles first pos [ break ]
+                pos: next pos
+            ]
+            pos
         ]
     ]
 
@@ -493,12 +492,11 @@ context [
     create-face: func [
         "Clone 'so' and fill in fields from facets"
         so  [ object! ]
-        /local result
     ][
-        ;result: copy/deep/types so object!
-        result: make face-t! []
+        ;face: copy/deep/types so object!
+        face: make face! []
         ; fill in fields based on style type
-        select/default so/type
+        switch/default so/type
             fill-in
             [
                 ; TODO: take into account custom widget creation
@@ -506,7 +504,7 @@ context [
                 print ["ERROR !!! Unknown style" result/type "!"]
                 halt
             ]
-        result
+        face
     ]
 
     parse-layout: func [
@@ -520,16 +518,20 @@ context [
 
         ss: rule
         se: next-style next rule
-        unless style-o: style-object first ss [
-            print ["ERROR !!!" first ss "not a style !"]
-            halt
-        ]
+        ;unless style-o: style-object first ss [
+        ;    print ["ERROR !!!" first ss "not a style !"]
+        ;    halt
+        ;]
         forever [
             val: first ss
             either val = 'style [       ;'
-                append styles val
                 ss: next ss
-                collect-facets next ss se
+                append styles first ss
+                style-o: style-object first next ss
+                append styles style-o
+                ss: next next ss
+                se: next-style ss
+                collect-facets ss se
                 ; create face object from facets
                 face: create-face style-o
                 ; append face object to styles
@@ -547,7 +549,7 @@ context [
             ; get next style
             ss: se if ss = tail rule [ break ]
             se: next-style next ss
-            style-o: style-object ss
+            style-o: style-object first ss
 
             ; check if an existing style is redefined
             if all [
@@ -560,4 +562,6 @@ context [
         ]
         result
     ]
+
+    probe parse-layout [ style mytext text red green mytext "MyText" 120x40  ]
 ]
