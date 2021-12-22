@@ -63,6 +63,14 @@ feel!: make object! [
     engage: none
 ]
 
+system/error: make system/error [
+    caldev-errors: make object! [
+        code: 2000
+        type: "Caldev error"
+        err-style-def: [ "Expected style name after:" :arg1 ]
+    ]
+]
+
 context [
 	pairs:  copy []
 	texts:  copy []
@@ -649,7 +657,7 @@ context [
 
     parse-layout: func [
         layout-rule    [ block! ]
-        /local result rule val style-o ss se face pos
+        /local result rule val style-o ss se face pos oss
     ][
         result: copy []
         style-o: none
@@ -659,22 +667,27 @@ context [
         ss: rule
         se: next-style next rule
         forever [
+            oss: ss
             val: first ss
             either val = 'style [       ;'
                 is-new-style: true
                 ss: next ss
-                unless pos: find styles first ss [
-                    append styles first ss
+                either not tail? ss [
+                    unless pos: find styles first ss [
+                        append styles first ss
+                    ]
+                    ss: next ss
+                    se: next-style next ss
+                    style-o: style-object first ss
+                    collect-facets next ss se
+                    ; create face object from facets
+                    face: create-face style-o
+                    ; append face object to styles
+                    either pos [ pos/2: face ][ append styles face ]
+                    is-new-style: false
+                ][
+                    make error! compose [ caldev-errors err-style-def (oss) ]
                 ]
-                ss: next ss
-                se: next-style next ss
-                style-o: style-object first ss
-                collect-facets next ss se
-                ; create face object from facets
-                face: create-face style-o
-                ; append face object to styles
-                either pos [ pos/2: face ][ append styles face ]
-                is-new-style: false
             ][
                 collect-facets next ss se
                 style-o: style-object first ss
@@ -693,7 +706,8 @@ context [
         result
     ]
 
-    res: parse-layout [ style mytext text red green mytext "MyText" 120x40 style mytext text white green mytext "AnotherText" ]
+    ;res: parse-layout [ style mytext text red green mytext "MyText" 120x40 style mytext text white green mytext "AnotherText" ]
+    res: parse-layout [ style ]
     probe res
     ;st: now/time/precise loop 10000 [ parse-layout [ button "Hello World" ] ] print now/time/precise - st
 ]
