@@ -42,7 +42,14 @@ TEST(DoDeepEvaluation, SubBlocks)
 
 TEST(DoDeepEvaluation, Face)
 {
-    void* pBlock = parse_block("make object! [      \
+    const char* pError{nullptr};
+    void* pBlock{nullptr};
+    pBlock = parse_block("1 / 0");
+    if (isError())
+    {
+        pError = getError();
+    }
+    pBlock = parse_block("make object! [      \
         type: 'field                                \
         offset: 2x3                                 \
         size: 12x13                                 \
